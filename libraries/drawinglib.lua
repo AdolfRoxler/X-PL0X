@@ -1,7 +1,21 @@
 if syn then warn("bro nigga chill out I didn't make this for other gaysploits yet") else repeat wait() until syn end
+User = game:GetService('Players').LocalPlayer
 game:GetService("RunService").RenderStepped:connect(function() -- Constant updater to ease up resource use
     Camera = workspace.CurrentCamera
-    Resolution = Camera.ViewportSize
+    Mouse = User:GetMouse()
+    Resolution = Vector2.new(Mouse.ViewSizeX,Mouse.ViewSizeY)
+end)
+
+Mouse.Changed:connect(function(prop)
+if MouseMockup then else MouseMockup = Drawing.new("Image") end
+if prop == "X" or prop == "Y" then
+MouseMockup.Position = Vector2.new(Mouse.X,Mouse.Y)
+elseif prop == "Icon" then
+MouseMockup.Data = game:HttpGet(tostring(Mouse.Icon))
+end
+MouseMockup.Size = Vector2.new(17,24)
+MouseMockup.Visible = true
+MouseMockup.Transparency = 1
 end)
 
 local functions = {}
