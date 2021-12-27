@@ -1,5 +1,8 @@
 if syn then warn("bro nigga chill out I didn't make this for other gaysploits yet") else repeat wait() until syn end
 local User = game:GetService('Players').LocalPlayer
+Camera = workspace.CurrentCamera
+Mouse = User:GetMouse()
+Resolution = Vector2.new(Mouse.ViewSizeX,Mouse.ViewSizeY)
 game:GetService("RunService").RenderStepped:connect(function() -- Constant updater to ease up resource use
     Camera = workspace.CurrentCamera
     Mouse = User:GetMouse()
