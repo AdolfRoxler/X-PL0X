@@ -9,7 +9,7 @@ local functions = {}
 function functions:MakeBox(PosX,PosY,SizeX,SizeY,Filled,BorderThickness,Color)
 local Frame = Drawing.new("Quad")
 local PX = tonumber(PosX)
-local PY = tonumber(PosY)
+local PY = tonumber(-PosY)
 local SX = tonumber(SizeX)
 local SY = tonumber(SizeY)
 local BT = tonumber(BorderThickness)
