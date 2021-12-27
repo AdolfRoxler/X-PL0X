@@ -16,10 +16,10 @@ local BT = tonumber(BorderThickness)
 
 if PY ~= nil then PY = -PY end
 
-Frame.PointB.Position = Vector2.new(PX,PY)
-Frame.PointA.Position = Vector2.new(PX+SizeX,PY)
-Frame.PointC.Position = Vector2.new(PX,PY-SY)
-Frame.PointD.Position = Vector2.new(PX+SizeX,PY-SY)
+Frame.PointB = Vector2.new(PX,PY)
+Frame.PointA = Vector2.new(PX+SizeX,PY)
+Frame.PointC = Vector2.new(PX,PY-SY)
+Frame.PointD = Vector2.new(PX+SizeX,PY-SY)
 
 Frame.Filled = Filled
 
