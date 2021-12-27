@@ -7,14 +7,15 @@ end)
 local functions = {}
 
 function functions:MakeBox(PosX,PosY,SizeX,SizeY,Filled,BorderThickness,Color)
-local Frame = Drawing.new("Quad")
 local PX = tonumber(PosX)
 local PY = tonumber(PosY)
 local SX = tonumber(SizeX)
 local SY = tonumber(SizeY)
 local BT = tonumber(BorderThickness)
 
-if PY ~= nil then PY = -PY end
+if PX and PY and SX and SY then else return nil end
+
+local Frame = Drawing.new("Quad")
 
 Frame.PointB = Vector2.new(PX,PY)
 Frame.PointA = Vector2.new(PX+SizeX,PY)
