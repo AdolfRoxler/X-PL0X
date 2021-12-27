@@ -1,5 +1,5 @@
 if syn then warn("bro nigga chill out I didn't make this for other gaysploits yet") else repeat wait() until syn end
-User = game:GetService('Players').LocalPlayer
+local User = game:GetService('Players').LocalPlayer
 game:GetService("RunService").RenderStepped:connect(function() -- Constant updater to ease up resource use
     Camera = workspace.CurrentCamera
     Mouse = User:GetMouse()
@@ -16,6 +16,7 @@ end
 MouseMockup.Size = Vector2.new(17,24)
 MouseMockup.Visible = true
 MouseMockup.Transparency = 1
+MouseMockup.Zindex = 2^31-1
 end)
 
 local functions = {}
@@ -33,8 +34,8 @@ local Frame = Drawing.new("Quad")
 
 Frame.PointB = Vector2.new(PX,PY)
 Frame.PointA = Vector2.new(PX+SizeX,PY)
-Frame.PointC = Vector2.new(PX,PY-SY)
-Frame.PointD = Vector2.new(PX+SizeX,PY-SY)
+Frame.PointC = Vector2.new(PX,PY+SY)
+Frame.PointD = Vector2.new(PX+SizeX,PY+SY)
 
 Frame.Filled = Filled
 
