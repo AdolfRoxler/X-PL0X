@@ -4,8 +4,10 @@ game:GetService("RunService").RenderStepped:connect(function() -- Constant updat
     Camera = workspace.CurrentCamera
     Mouse = User:GetMouse()
     Resolution = Vector2.new(Mouse.ViewSizeX,Mouse.ViewSizeY)
+
 end)
-lownumber = (2^31-1)*-1
+
+GUIFRAMES = {}
 
 local functions = {}
 
@@ -33,10 +35,10 @@ Frame.Color = Color
 
 Frame.Visible = true
 
-warn(Thickness)
+
 Frame.Thickness = tonumber(BorderThickness)
 
-Frame.ZIndex = lownumber
+table.insert(GUIFRAMES,Frame)
 
 return Frame
 end
