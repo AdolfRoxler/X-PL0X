@@ -17,7 +17,7 @@ elseif prop == "Icon" then
 MouseMockup.Data = game:HttpGet(tostring(Mouse.Icon))
 end
 MouseMockup.Size = Vector2.new(17,24)
-MouseMockup.Visible = true
+MouseMockup.Visible = game:GetService("UserInputService").MouseIconEnabled
 MouseMockup.Transparency = 1
 MouseMockup.Zindex = 2^31-1
 end)
