@@ -5,7 +5,7 @@ game:GetService("RunService").RenderStepped:connect(function() -- Constant updat
     Mouse = User:GetMouse()
     Resolution = Vector2.new(Mouse.ViewSizeX,Mouse.ViewSizeY)
 end)
-
+game:GetService("RunService").RenderStepped:Wait()
 Mouse.Changed:connect(function(prop)
 if MouseMockup then else MouseMockup = Drawing.new("Image") end
 if prop == "X" or prop == "Y" then
