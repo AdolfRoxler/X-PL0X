@@ -34,6 +34,7 @@ Frame.Visible = true
 
 Frame.Thickness = tonumber(BorderThickness)
 
+Frame.Zindex = -(2^31-1)
 
 return Frame
 end
