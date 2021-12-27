@@ -33,6 +33,7 @@ Frame.Color = Color
 
 Frame.Visible = true
 
+warn(Thickness)
 Frame.Thickness = tonumber(BorderThickness)
 
 Frame.ZIndex = lownumber
