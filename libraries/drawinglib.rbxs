@@ -6,7 +6,7 @@ end)
 
 local functions = {}
 
-function functions.MakeBox(PosX,PosY,SizeX,SizeY,Filled,BorderThickness,Color)
+function functions:MakeBox(PosX,PosY,SizeX,SizeY,Filled,BorderThickness,Color)
 local Frame = Drawing.new("Quad")
 local PX = tonumber(PosX)
 local PY = tonumber(PosY)
