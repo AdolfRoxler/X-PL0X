@@ -6,7 +6,6 @@ game:GetService("RunService").RenderStepped:connect(function() -- Constant updat
     Resolution = Vector2.new(Mouse.ViewSizeX,Mouse.ViewSizeY)
 end)
 lownumber = (2^31-1)*-1
-warn(lownumber)
 
 local functions = {}
 
@@ -36,7 +35,7 @@ Frame.Visible = true
 
 Frame.Thickness = tonumber(BorderThickness)
 
-Frame.Zindex = lownumber
+Frame.ZIndex = lownumber
 
 return Frame
 end
