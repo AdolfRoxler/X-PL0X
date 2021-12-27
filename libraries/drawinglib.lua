@@ -25,7 +25,8 @@ Frame.PointC = Vector2.new(PX,PY+SY)
 Frame.PointD = Vector2.new(PX+SizeX,PY+SY)
 
 if Filled == true or Filled == false then
-Frame.Filled = Filled else end
+Frame.Filled = Filled 
+else end
 
 Frame.Color = Color
 
