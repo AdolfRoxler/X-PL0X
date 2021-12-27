@@ -4,9 +4,8 @@ game:GetService("RunService").RenderStepped:connect(function() -- Constant updat
     Camera = workspace.CurrentCamera
     Mouse = User:GetMouse()
     Resolution = Vector2.new(Mouse.ViewSizeX,Mouse.ViewSizeY)
-
 end)
-
+------------- DO NOT USE THIS SHIT
 GUIFRAMES = {}
 
 local functions = {}
