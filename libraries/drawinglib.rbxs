@@ -25,6 +25,8 @@ Frame.Filled = Filled
 
 Frame.Color = Color
 
+Frame.Visible = true
+
 Frame.Thickness = tonumber(BorderThickness)
 
 
