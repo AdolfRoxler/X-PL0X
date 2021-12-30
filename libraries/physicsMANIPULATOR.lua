@@ -30,7 +30,7 @@ game:GetService("RunService").Stepped:connect(function()
 		else PhysQueue[Obj]=nil continue end
 
 
-		if _.MoveTo then local vector = _.MoveTo[1].Position-_.Obj _.Obj.AssemblyLinearVelocity = vector*vector.Magnitude*_.MoveTo[2]
+		if _.MoveTo then local vector = _.MoveTo[1]-_.Obj.CFrame.p _.Obj.AssemblyLinearVelocity = vector*vector.Magnitude*_.MoveTo[2]
 		elseif _.AlignTo then end --- not filling in yet
 	end
 end)---- This is the thread that does ALL of the work
