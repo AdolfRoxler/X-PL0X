@@ -3,9 +3,6 @@ local PhysQueue = {}
 
 function Phys:MoveTo(Inst,Cframe,Aggressivity)
 	if Inst:IsA("BasePart") then else return end
-	if PhysQueue[Inst] then 
-		PhysQueue[Inst].MoveTo = {Cframe,Aggressivity}
-	else
 		PhysQueue[Inst] = {Obj=Inst,MoveTo={Cframe,Aggressivity}}
 	end
 end
@@ -16,9 +13,6 @@ function Phys:PurgePhysics(Inst)
 end
 function Phys:AlignTo(Inst,Cframe,Aggressivity)
 	if Inst:IsA("BasePart") then else return end
-	if PhysQueue[Inst] then 
-		PhysQueue[Inst].AlignTo = {Cframe,Aggressivity}
-	else
 		PhysQueue[Inst] = {Obj=Inst,AlignTo={Inst,Cframe,Aggressivity}}
 	end
 end
