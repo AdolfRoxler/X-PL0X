@@ -26,7 +26,12 @@ end
 
 game:GetService("RunService").Stepped:connect(function()
 for Obj,_ in pairs(PhysQueue) do
-if _.Obj then if isnetworkowner(_.Obj) then else continue end elseif not _.Obj:IsA("BasePart") then PhysQueue[Obj]=nil continue else PhysQueue[Obj]=nil continue end
+if _.Obj then if isnetworkowner(_.Obj) then 
+else continue end 
+elseif not _.Obj:IsA("BasePart") then PhysQueue[Obj]=nil continue
+else PhysQueue[Obj]=nil continue end
+
+
 if _.MoveTo then local vector = _.MoveTo[1].p-_.Obj.CFrame.p _.Obj.AssemblyLinearVelocity = vector*vector.Magnitude*_.MoveTo[2]
 elseif _.AlignTo then end --- not filling in yet
 end
