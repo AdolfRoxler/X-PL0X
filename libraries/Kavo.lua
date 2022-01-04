@@ -7,6 +7,7 @@ local run = game:GetService("RunService")
 
 local Utility = {}
 local Objects = {}
+HALT=false
 function Kavo:DraggingEnabled(frame, parent)
         
     parent = parent or frame
@@ -290,6 +291,7 @@ function Kavo.CreateLib(kavName, themeList)
 		}):Play()
         wait(1)
         ScreenGui:Destroy()
+        HALT=true
     end)
 
     MainSide.Name = "MainSide"
