@@ -227,7 +227,11 @@ function Kavo.CreateLib(kavName, themeList)
     ScreenGui.Name = LibName
     ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     ScreenGui.ResetOnSpawn = false
+    if syn then
     syn.protect_gui(ScreenGui)
+    else
+    warn("You aren't using synapse!!!! The script is now detectable!!!!")
+    end
 
     Main.Name = "Main"
     Main.Parent = ScreenGui
