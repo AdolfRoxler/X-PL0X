@@ -1923,6 +1923,7 @@ function Kavo.CreateLib(kavName, themeList)
                 keyinf = keyinf or "KebindInfo"
                 callback = callback or function() end
                 local oldKey = first.Name
+                local kc = first
                 local keybindElement = Instance.new("TextButton")
                 local UICorner = Instance.new("UICorner")
                 local togName = Instance.new("TextLabel")
@@ -1957,6 +1958,7 @@ function Kavo.CreateLib(kavName, themeList)
                         if a.KeyCode.Name ~= "Unknown" then
                             togName_2.Text = a.KeyCode.Name
                             oldKey = a.KeyCode.Name;
+                            kc = a.KeyCode
                         end
                         local c = sample:Clone()
                         c.Parent = keybindElement
@@ -1985,7 +1987,7 @@ function Kavo.CreateLib(kavName, themeList)
                 game:GetService("UserInputService").InputBegan:connect(function(current, ok) 
                     if not ok then 
                         if current.KeyCode.Name == oldKey then 
-                            callback(current.KeyCode or first)
+                            callback(oldKey)
                         end
                     end
                 end)
