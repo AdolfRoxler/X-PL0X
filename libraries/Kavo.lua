@@ -1985,7 +1985,7 @@ function Kavo.CreateLib(kavName, themeList)
                 game:GetService("UserInputService").InputBegan:connect(function(current, ok) 
                     if not ok then 
                         if current.KeyCode.Name == oldKey then 
-                            callback(current.KeyCode)
+                            callback(current.KeyCode or first)
                         end
                     end
                 end)
