@@ -16,7 +16,7 @@ Todo list [not in order]:
 
 
 
-This is a debug tool intended to test a roblox game dev's laziness (hard work meter)
+This is a debug tool intended to test a roblox game dev's laziness (hard work meter). Any misuse or catastrophe caused by this tool is at the responsibility of the end user. Not the developer.
 
 
 
