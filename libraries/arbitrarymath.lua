@@ -10,7 +10,7 @@ function meth:InverseWorldToViewportPoint(V3)
 local PlrCameraOffset = workspace.CurrentCamera.CFrame:PointToObjectSpace(V3)
 local AT = math.atan2(PlrCameraOffset.Y, PlrCameraOffset.X) + math.pi;
 local inverse = CFrame.Angles(0, 0, AT):vectorToWorldSpace((CFrame.Angles(0, math.rad(89.9), 0):vectorToWorldSpace(Vector3.new(0, 0, -1)))); --- my brain too ooga booga for this shit
-return Camera:WorldToViewportPoint(Camera.CFrame:pointToWorldSpace(inverse))
+return workspace.CurrentCamera:WorldToViewportPoint(workspace.CurrentCamera.CFrame:pointToWorldSpace(inverse))
 end
 
 return meth
