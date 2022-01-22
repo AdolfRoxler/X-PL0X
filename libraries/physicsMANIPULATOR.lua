@@ -24,7 +24,7 @@ game:GetService("RunService").Stepped:connect(function(t,DELTA)
 
 		if _.MoveTo then 
         local vector = _.MoveTo[1].p-_.Obj.CFrame.p 
-        _.Obj.AssemblyLinearVelocity = vector*_.MoveTo[2]*DELTA
+        _.Obj.AssemblyLinearVelocity = (vector*_.MoveTo[2])*DELTA
 		elseif _.AlignTo then end --- not filling in yet
 	end
 end)---- This is the thread that does ALL of the work
