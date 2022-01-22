@@ -14,8 +14,7 @@ function Phys:AlignTo(Inst,Cframe,Aggressivity)
 		PhysQueue[Inst] = {Obj=Inst,AlignTo={Inst,Cframe,Aggressivity}}
 end
 
-game:GetService("RunService").Stepped:connect(function(t,DELTA)
-	warn("hello nigga")
+game:GetService("RunService").Stepped:connect(function(t,delta)
 	for Obj,_ in pairs(PhysQueue) do
 		if _.Obj then
 		elseif not _.Obj:IsA("BasePart") then PhysQueue[Obj]=nil continue
@@ -23,10 +22,9 @@ game:GetService("RunService").Stepped:connect(function(t,DELTA)
 
 
 		if _.MoveTo then 
-        local vector = _.MoveTo[1].p-_.Obj.CFrame.p 
-        _.Obj.AssemblyLinearVelocity = (vector*_.MoveTo[2])--/DELTA
+        local vector = (_.MoveTo[1].p-_.Obj.CFrame.p)
+        _.Obj.AssemblyLinearVelocity = (vector*_.MoveTo[2])/delta
 		elseif _.AlignTo then end --- not filling in yet
 	end
 end)---- This is the thread that does ALL of the work
-
 return Phys
