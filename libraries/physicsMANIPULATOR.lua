@@ -1,6 +1,5 @@
 local Phys = {}
 local PhysQueue = {}
-warn("hello nigga")
 function Phys:MoveTo(Inst,Cframe,Aggressivity)
 	if Inst:IsA("BasePart") then else return end
 		PhysQueue[Inst] = {Obj=Inst,MoveTo={Cframe,Aggressivity}}
@@ -16,6 +15,7 @@ function Phys:AlignTo(Inst,Cframe,Aggressivity)
 end
 
 game:GetService("RunService").Stepped:connect(function(t,DELTA)
+	warn("hello nigga")
 	for Obj,_ in pairs(PhysQueue) do
 		if _.Obj then
 		elseif not _.Obj:IsA("BasePart") then PhysQueue[Obj]=nil continue
