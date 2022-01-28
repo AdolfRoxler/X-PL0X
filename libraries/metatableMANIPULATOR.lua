@@ -13,10 +13,6 @@ end
 
 spoofer.tamperedmetatable = hookmetamethod(game,"__index",newcclosure(function(Instance,Type)
 if spoofer.tamperedinstances[Instance] and spoofer.tamperedinstances[Instance][Type] then return spoofer.tamperedinstances[Instance][Type],Type end
-<<<<<<< Updated upstream
-return spoofer.tamperedmetatable(property,Type)
-=======
 return spoofer.tamperedmetatable(Instance,Type)
->>>>>>> Stashed changes
 end))
 return spoofer
