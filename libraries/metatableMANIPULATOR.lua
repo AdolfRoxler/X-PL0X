@@ -1,5 +1,6 @@
 local spoofer = {}
 local tamperedmetatable
+spoofer.tamperedmetatable = tamperedmetatable
 spoofer.tamperedinstances = {}
 
 function spoofer:spoof(Inst,prop,val)
