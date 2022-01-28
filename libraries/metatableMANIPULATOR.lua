@@ -12,7 +12,7 @@ end
 
 spoofer.tamperedmetatable = hookmetamethod(game,"__index",newcclosure(function(Property,Type)
 for INSTANCE in pairs(spoofer.tamperedinstances) do
-if INSTANCE[Property] then return INSTANCE[Property],Type
+if INSTANCE[Type]==Property then return spoofer.tamperedmetatable(INSTANCE[Property],Type)
 end
 return spoofer.tamperedmetatable(property,Type)
 end))
