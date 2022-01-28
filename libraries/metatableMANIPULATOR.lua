@@ -3,10 +3,12 @@ spoofer.tamperedmetatable = nil
 spoofer.tamperedinstances =  {}
 
 function spoofer:spoof(Inst,Prop,Val)
+if typeof(Inst)=="Instance" and typeof(Prop)=="String" then else return end
 spoofer.tamperedinstances[Inst][Prop]=Val
 end
 function spoofer:unspoof(Inst,Prop)
-spoofer.tamperedinstances[Inst][Prop]=nil
+if spoofer.tamperedinstances[Inst][Prop] then spoofer.tamperedinstances[Inst][Prop]=nil
+elseif spoofer.tamperedinstances[Inst] then spoofer.tamperedinstances[Inst]=nil end
 end
 
 spoofer.tamperedmetatable = hookmetamethod(game,"__index",newcclosure(function(Instance,Type)
