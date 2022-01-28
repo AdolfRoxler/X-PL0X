@@ -4,6 +4,7 @@ spoofer.tamperedinstances =  {}
 
 function spoofer:spoof(Inst,Prop,Val)
 if typeof(Inst)=="Instance" and typeof(Prop)=="String" then else return end
+spoofer.tamperedinstances[Inst]={}
 spoofer.tamperedinstances[Inst][Prop]=Val
 end
 function spoofer:unspoof(Inst,Prop)
