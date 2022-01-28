@@ -10,7 +10,7 @@ spoofer.tamperedinstances[Inst][Prop]=nil
 end
 
 spoofer.tamperedmetatable = hookmetamethod(game,"__index",newcclosure(function(Instance,Type)
-if spoofer.tamperedinstances[Instance] and spoofer.tamperedinstances[Instance][Type] then return spoofer.tamperedinstances[Instance][Type],Type
+if spoofer.tamperedinstances[Instance] and spoofer.tamperedinstances[Instance][Type] then return spoofer.tamperedinstances[Instance][Type],Type end
 return spoofer.tamperedmetatable(property,Type)
 end))
 return spoofer
