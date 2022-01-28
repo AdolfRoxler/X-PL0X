@@ -1,20 +1,24 @@
 local spoofer = {}
-local tamperedmetatable
-spoofer.tamperedmetatable = tamperedmetatable
-spoofer.tamperedinstances = {}
+spoofer.tamperedmetatable = nil
+local tamperedmetatable = spoofer.tamperedmetatable
+spoofer.tamperedproperties = {}
 
 function spoofer:spoof(Inst,prop,val)
-if Inst~=nil and typeof(prop) then spoofer.tamperedinstances[Inst] = {Property=prop,Value=val} end
+if Inst~=nil and typeof(prop) then spoofer.tamperedproperties[prop] = spoofer.tamperedproperties[prop] or {} spoofer.tamperedproperties[prop][Inst]=val end
 end
 
-function spoofer:unspoof(Inst)
-if spoofer.tamperedinstances[Inst] then spoofer.tamperedinstances[Inst]=nil end
+function spoofer:unspoof(Inst,prop)
+if spoofer.tamperedproperties[prop] and spoofer.tamperedproperties[prop][Inst] then spoofer.tamperedinstances[prop][Inst]=nil 
+elseif typeof(Inst)=="Instance" and not spoofer.tamperedproperties[prop] then  
+for ref,val in pairs(spoofer.tamperedproperties) do
+if ref[Inst] then ref[Inst]=nil end
+end
+end
 end
 
-local tamperedmetatable = hookmetamethod(game, "__newindex", newcclosure(function(Self,Index,Value)
-   local index = Index==spoofer.tamperedinstances[Self].Index and spoofer.tamperedinstances[Self].Index or Index
-   local value = Value==spoofer.tamperedinstances[Self].Value and spoofer.tamperedinstances[Self].Value or Value
-   return tamperedmetatable(Self,index,value)
+local tamperedmetatable = hookmetamethod(game, "__index", newcclosure(function(Prop,Type)
+   local value = spoofer.tamperedproperties[Prop][] or Value
+   return tamperedmetatable(Self,value)
 end))
 
 return spoofer
