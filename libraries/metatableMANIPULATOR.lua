@@ -3,8 +3,8 @@ spoofer.tamperedmetatable = nil
 spoofer.tamperedinstances =  {}
 
 function spoofer:spoof(Inst,Prop,Val)
-if typeof(Inst)=="Instance" and typeof(Prop)=="String" then else return end
-spoofer.tamperedinstances[Inst]={}
+if Inst and Prop then else return end
+if spoofer.tamperedinstances[Inst]==nil then spoofer.tamperedinstances[Inst]={} end
 spoofer.tamperedinstances[Inst][Prop]=Val
 end
 function spoofer:unspoof(Inst,Prop)
