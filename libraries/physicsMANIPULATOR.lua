@@ -26,7 +26,6 @@ game:GetService("RunService").Stepped:connect(function(t,delta)
 		if typeof(v3)=="CFrame" then v3 = _.MoveTo[1].p end
         local vector = (v3-_.Obj.CFrame.p)
         _.Obj.AssemblyLinearVelocity = (vector*_.MoveTo[2])
-        warn(_.Obj.AssemblyLinearVelocity)
 		elseif _.AlignTo then end --- not filling in yet
 	end
 end)---- This is the thread that does ALL of the work
