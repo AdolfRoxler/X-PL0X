@@ -2580,9 +2580,9 @@ function Kavo.CreateLib(kavName, themeList)
                             ImageTransparency = 0
                         }):Play()
                         rainbow = true
-                        rainbowconnection = rs.RenderStepped:Connect(function()
+                        rainbowconnection = rs.RenderStepped:Connect(function(d)
                             setrgbcolor({zigzag(counter),1,1})
-                            counter = counter + 0.01
+                            counter = counter + d
                         end)
                     end
                 end
