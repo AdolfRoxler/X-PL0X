@@ -200,7 +200,7 @@ function Kavo.CreateLib(kavName, themeList)
     local headerCover = Instance.new("UICorner")
     local coverup = Instance.new("Frame")
     local title = Instance.new("TextLabel")
-    local close = Instance.new("ImageButton")
+    --local close = Instance.new("ImageButton")
     local MainSide = Instance.new("Frame")
     local sideCorner = Instance.new("UICorner")
     local coverup_2 = Instance.new("Frame")
@@ -275,7 +275,7 @@ function Kavo.CreateLib(kavName, themeList)
     title.TextSize = 16.000
     title.TextXAlignment = Enum.TextXAlignment.Left
 
-    close.Name = "close"
+    --[[close.Name = "close"
     close.Parent = MainHeader
     close.BackgroundTransparency = 1.000
     close.Position = UDim2.new(0.949999988, 0, 0.137999997, 0)
@@ -296,7 +296,7 @@ function Kavo.CreateLib(kavName, themeList)
         wait(1)
         ScreenGui:Destroy()
         HALT=true
-    end)
+    end)]]
 
     MainSide.Name = "MainSide"
     MainSide.Parent = Main
