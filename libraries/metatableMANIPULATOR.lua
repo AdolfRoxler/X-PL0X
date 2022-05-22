@@ -27,6 +27,12 @@ spoofer.tamperedfunctions[Inst][Function].Replacement = Replacement
 spoofer.tamperedfunctions[Inst][Function].ignoresyn = ignoresyn2
 end
 
+function spoofer:unspooffunction(Inst,Function)
+if Inst and Function then else return end
+if spoofer.tamperedfunctions[Inst][Function]~=nil then spoofer.tamperedfunctions[Inst][Function]==nil return end
+if spoofer.tamperedfunctions[Inst]~=nil then spoofer.tamperedfunctions[Inst]==nil end
+end
+
 spoofer.tamperedmetatable = hookmetamethod(game,"__index",newcclosure(function(Instance,Type)
 if spoofer.tamperedinstances[Instance] and spoofer.tamperedinstances[Instance][Type] then return spoofer.tamperedinstances[Instance][Type] end
 return spoofer.tamperedmetatable(Instance,Type)
