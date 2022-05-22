@@ -15,11 +15,15 @@ if spoofer.tamperedinstances[Inst] and spoofer.tamperedinstances[Inst][Prop] the
 elseif spoofer.tamperedinstances[Inst] then spoofer.tamperedinstances[Inst]=nil end
 end
 
-function spoofer:spooffunction(Inst,Function,Args,Replacement)
-if Inst and Function and Args then else return end
+function spoofer:spooffunction(Inst,Function,ignoresyn,Replacement,Args)
+if Inst and Function and Replacement then else return end
+local ignoresyn2 = ignoresyn
+if type(ignoresyn2)=="boolean" then else ignoresyn2=true end
 if spoofer.tamperedfunctions[Inst]==nil then spoofer.tamperedfunctions[Inst]={} end
-spoofer.tamperedfunctions[Inst][tostring(Function)].Target = Args
-spoofer.tamperedfunctions[Inst][tostring(Function)].Replace = Replacement
+if spoofer.tamperedfunctions[Inst][Function]==nil then spoofer.tamperedfunctions[Inst][Function]={} end
+spoofer.tamperedfunctions[Inst][Function].Target = Args
+spoofer.tamperedfunctions[Inst][Function].Replacement = Replacement
+spoofer.tamperedfunctions[Inst][Function].ignoresyn = ignoresyn2
 end
 
 spoofer.tamperedmetatable = hookmetamethod(game,"__index",newcclosure(function(Instance,Type)
@@ -28,11 +32,22 @@ return spoofer.tamperedmetatable(Instance,Type)
 end))
 
 spoofer.namecall = hookmetamethod(game, "__namecall", function(Self, ...)
-local arguments = {...}
 local method = getnamecallmethod()
-if not checkcaller() and spoofer.tamperedfunctions[Self]~=nil and spoofer.tamperedfunctions[Self][method]~=nil and spoofer.tamperedfunctions[Self][method].Replacement~=nil then
-return spoofer.tamperedfunctions[Self][method].Target~=nil and spoofer.tamperedfunctions[Self][method].Target==arguments and spoofer.tamperedfunctions[Self][method].Replacement or spoofer.tamperedfunctions[Self][method].Replacement~=nil and spoofer.tamperedfunctions[Self][method].Replacement or arguments
+
+if spoofer.tamperedfunctions[Self] and spoofer.tamperedfunctions[Self][method] and spoofer.tamperedfunctions[Self][method].Replacement then
+if spoofer.tamperedfunctions[Self][method].ignoresyn==true and checkcaller() then return spoofer.namecall(Self,...) end
+--if spoofer.tamperedfunctions[Self][method].Target~=nil and spoofer.tamperedfunctions[Self][method].Target==arguments then return spoofer.namecall(Self,spoofer.tamperedfunctions[Self][method].Replacement) elseif spoofer.tamperedfunctions[Self][method].Target==nil then return spoofer.namecall(Self,spoofer.tamperedfunctions[Self][method].Replacement) end end
+--return spoofer.tamperedfunctions[Self][method].Replacement
+
+if spoofer.tamperedfunctions[Self][method].Target == ... or spoofer.tamperedfunctions[Self][method].Target == nil then
+print("hacked")
+return spoofer.namecall(Self,spoofer.tamperedfunctions[Self][method].Replacement)
+else
 end
+
+end
+--print(...)
+return spoofer.namecall(Self,...)
 end)
 
-return spoofer
+spoofer:spooffunction(game,"GetService",true,game.ReplicatedStorage)
