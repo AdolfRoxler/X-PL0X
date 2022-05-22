@@ -16,7 +16,8 @@ elseif spoofer.tamperedinstances[Inst] then spoofer.tamperedinstances[Inst]=nil 
 end
 
 function spoofer:spooffunction(Inst,Function,ignoresyn,Replacement,Args)
-if Inst and Function and Replacement then else return end
+if Function and Replacement then else return end
+if typeof(Inst)=="Instance" then else return end
 local ignoresyn2 = ignoresyn
 if type(ignoresyn2)=="boolean" then else ignoresyn2=true end
 if spoofer.tamperedfunctions[Inst]==nil then spoofer.tamperedfunctions[Inst]={} end
@@ -31,23 +32,22 @@ if spoofer.tamperedinstances[Instance] and spoofer.tamperedinstances[Instance][T
 return spoofer.tamperedmetatable(Instance,Type)
 end))
 
-spoofer.namecall = hookmetamethod(game, "__namecall", function(Self, ...)
+spoofer.namecall = hookmetamethod(game, "__namecall", function(Self,...)
 local method = getnamecallmethod()
-
 if spoofer.tamperedfunctions[Self] and spoofer.tamperedfunctions[Self][method] and spoofer.tamperedfunctions[Self][method].Replacement then
 if spoofer.tamperedfunctions[Self][method].ignoresyn==true and checkcaller() then return spoofer.namecall(Self,...) end
 --if spoofer.tamperedfunctions[Self][method].Target~=nil and spoofer.tamperedfunctions[Self][method].Target==arguments then return spoofer.namecall(Self,spoofer.tamperedfunctions[Self][method].Replacement) elseif spoofer.tamperedfunctions[Self][method].Target==nil then return spoofer.namecall(Self,spoofer.tamperedfunctions[Self][method].Replacement) end end
 --return spoofer.tamperedfunctions[Self][method].Replacement
-
-if spoofer.tamperedfunctions[Self][method].Target == ... or spoofer.tamperedfunctions[Self][method].Target == nil then
-print("hacked")
-return spoofer.namecall(Self,spoofer.tamperedfunctions[Self][method].Replacement)
-else
-end
+--if spoofer.tamperedfunctions[Self][method].Target == ... or spoofer.tamperedfunctions[Self][method].Target == nil then
+return spoofer.tamperedfunctions[Self][method].Replacement
+--else
+--end
 
 end
 --print(...)
 return spoofer.namecall(Self,...)
 end)
 
-spoofer:spooffunction(game,"GetService",true,game.ReplicatedStorage)
+--spoofer:spooffunction(game,"GetService",true,game.ReplicatedStorage)
+--spoofer:spooffunction(workspace,"FindPartOnRay",false,workspace)
+return spoofer
