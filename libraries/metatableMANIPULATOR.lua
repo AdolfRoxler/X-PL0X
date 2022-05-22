@@ -39,7 +39,9 @@ if spoofer.tamperedfunctions[Self][method].ignoresyn==true and checkcaller() the
 --if spoofer.tamperedfunctions[Self][method].Target~=nil and spoofer.tamperedfunctions[Self][method].Target==arguments then return spoofer.namecall(Self,spoofer.tamperedfunctions[Self][method].Replacement) elseif spoofer.tamperedfunctions[Self][method].Target==nil then return spoofer.namecall(Self,spoofer.tamperedfunctions[Self][method].Replacement) end end
 --return spoofer.tamperedfunctions[Self][method].Replacement
 --if spoofer.tamperedfunctions[Self][method].Target == ... or spoofer.tamperedfunctions[Self][method].Target == nil then
+if spoofer.tamperedfunctions[Self][method].Target == nil or (spoofer.tamperedfunctions[Self][method].Target~=nil and spoofer.tamperedfunctions[Self][method].Target == ...) then
 return spoofer.tamperedfunctions[Self][method].Replacement
+end
 --else
 --end
 
