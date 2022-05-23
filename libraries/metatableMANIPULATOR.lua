@@ -40,7 +40,10 @@ if typeof(Inst)=="Instance" then else Inst=false end
 if spoofer.dumpedfunctions[Inst]==nil then spoofer.dumpedfunctions[Inst]={} end
 spoofer.dumpedfunctions[Inst][Function]=true
 end
-function spoofer:dumpfunction(Inst,Function) probefunction(Inst,Function) end
+
+function spoofer:dumpfunction(Inst,Function) 
+spoofer:probefunction(Inst,Function) 
+end
 
 function spoofer:releasefunction(Inst,Function)
 if Inst and Function then else return end
@@ -84,9 +87,10 @@ end
 --print(...)
 return spoofer.namecall(Self,...)
 end)
+        --[[spoofer:dumpfunction(workspace,"FindPartOnRayWithIgnoreList") --- These are examples on dumping
+        spoofer:dumpfunction(workspace,"FindPartOnRayWithWhitelist")
+        spoofer:dumpfunction(workspace,"FindPartOnRay")
+        spoofer:dumpfunction(workspace,"findPartOnRay")
+        spoofer:dumpfunction(workspace,"Raycast")]] --- cba to do docs figure out urself fucking skid!
 
---spoofer:spooffunction(game,"GetService",true,game.ReplicatedStorage)
---spoofer:spooffunction(false,"FindPartOnRay",false,workspace)
 return spoofer
-
---spoofer:probefunction(workspace,'FindPartOnRay')
