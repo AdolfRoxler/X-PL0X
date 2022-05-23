@@ -40,13 +40,14 @@ end))
 
 spoofer.namecall = hookmetamethod(game, "__namecall", function(Self,...)
 local method = getnamecallmethod()
-if spoofer.tamperedfunctions[Self] and spoofer.tamperedfunctions[Self][method] and spoofer.tamperedfunctions[Self][method].Replacement then
-if spoofer.tamperedfunctions[Self][method].ignoresyn==true and checkcaller() then return spoofer.namecall(Self,...) end
+local Self2 = spoofer.tamperedfunctions[Self] and Self or false
+if spoofer.tamperedfunctions[Self2] and spoofer.tamperedfunctions[Self2][method] and spoofer.tamperedfunctions[Self2][method].Replacement then
+if spoofer.tamperedfunctions[Self2][method].ignoresyn==true and checkcaller() then return spoofer.namecall(Self,...) end
 --if spoofer.tamperedfunctions[Self][method].Target~=nil and spoofer.tamperedfunctions[Self][method].Target==arguments then return spoofer.namecall(Self,spoofer.tamperedfunctions[Self][method].Replacement) elseif spoofer.tamperedfunctions[Self][method].Target==nil then return spoofer.namecall(Self,spoofer.tamperedfunctions[Self][method].Replacement) end end
 --return spoofer.tamperedfunctions[Self][method].Replacement
 --if spoofer.tamperedfunctions[Self][method].Target == ... or spoofer.tamperedfunctions[Self][method].Target == nil then
-if spoofer.tamperedfunctions[Self][method].Target == nil or (spoofer.tamperedfunctions[Self][method].Target~=nil and spoofer.tamperedfunctions[Self][method].Target == ...) then
-return spoofer.tamperedfunctions[Self][method].Replacement
+if spoofer.tamperedfunctions[Self2][method].Target == nil or (spoofer.tamperedfunctions[Self2][method].Target~=nil and spoofer.tamperedfunctions[Self2][method].Target == ...) then
+return spoofer.tamperedfunctions[Self2][method].Replacement
 end
 --else
 --end
@@ -57,5 +58,5 @@ return spoofer.namecall(Self,...)
 end)
 
 --spoofer:spooffunction(game,"GetService",true,game.ReplicatedStorage)
---spoofer:spooffunction(workspace,"FindPartOnRay",false,workspace)
+--spoofer:spooffunction(false,"FindPartOnRay",false,workspace)
 return spoofer
