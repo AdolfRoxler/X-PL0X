@@ -37,6 +37,7 @@ end
 function spoofer:probefunction(Inst,Function)
 if Function then else return end
 if typeof(Inst)=="Instance" then else Inst=false end
+if spoofer.dumpedfunctions[Inst]==nil then spoofer.dumpedfunctions[Inst]={} end
 spoofer.dumpedfunctions[Inst][Function]=true
 end
 function spoofer:dumpfunction(Inst,Function) probefunction(Inst,Function) end
@@ -53,13 +54,26 @@ end))
 
 spoofer.namecall = hookmetamethod(game, "__namecall", function(Self,...)
 local method = getnamecallmethod()
-local Self2 = spoofer.tamperedfunctions[Self] and Self or false
+
+local Self2 = spoofer.dumpedfunctions[Self]~=nil and Self or false
+
+if spoofer.dumpedfunctions[Self2]~=nil and spoofer.dumpedfunctions[Self2][method]==true then 
+--local args = type(...)=="table" and tostring(table.unpack(...)) or tostring(...)
+--print(args)
+print(tostring(method)..':\n{ \n Self: '..tostring(Self).." \n Arguments: "..tostring(...).." \n}")
+--print('Self: '..tostring(Self)..",")
+--print(tostring(...))
+--print("}")
+end
+
+Self2 = spoofer.tamperedfunctions[Self]~=nil and Self or false
+
 if spoofer.tamperedfunctions[Self2] and spoofer.tamperedfunctions[Self2][method] and spoofer.tamperedfunctions[Self2][method].Replacement then
 if spoofer.tamperedfunctions[Self2][method].ignoresyn==true and checkcaller() then return spoofer.namecall(Self,...) end
 --if spoofer.tamperedfunctions[Self][method].Target~=nil and spoofer.tamperedfunctions[Self][method].Target==arguments then return spoofer.namecall(Self,spoofer.tamperedfunctions[Self][method].Replacement) elseif spoofer.tamperedfunctions[Self][method].Target==nil then return spoofer.namecall(Self,spoofer.tamperedfunctions[Self][method].Replacement) end end
 --return spoofer.tamperedfunctions[Self][method].Replacement
 --if spoofer.tamperedfunctions[Self][method].Target == ... or spoofer.tamperedfunctions[Self][method].Target == nil then
-if spoofer.dumpedfunctions[Self2][method] then print('Self: '..Self..' | Arguments: '..(...)) end
+
 if spoofer.tamperedfunctions[Self2][method].Target == nil or (spoofer.tamperedfunctions[Self2][method].Target~=nil and spoofer.tamperedfunctions[Self2][method].Target == ...) then
 return spoofer.tamperedfunctions[Self2][method].Replacement
 end
@@ -74,3 +88,5 @@ end)
 --spoofer:spooffunction(game,"GetService",true,game.ReplicatedStorage)
 --spoofer:spooffunction(false,"FindPartOnRay",false,workspace)
 return spoofer
+
+--spoofer:probefunction(workspace,'FindPartOnRay')
