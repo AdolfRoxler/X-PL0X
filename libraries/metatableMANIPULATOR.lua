@@ -39,6 +39,7 @@ if Function then else return end
 if typeof(Inst)=="Instance" then else Inst=false end
 spoofer.dumpedfunctions[Inst][Function]=true
 end
+function spoofer:dumpfunction(Inst,Function) probefunction(Inst,Function) end
 
 function spoofer:releasefunction(Inst,Function)
 if Inst and Function then else return end
