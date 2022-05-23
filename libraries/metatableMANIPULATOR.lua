@@ -65,7 +65,7 @@ local method = getnamecallmethod()
 
 local Self2 = spoofer.dumpedfunctions[Self]~=nil and Self or false
 
-if spoofer.dumpedfunctions[Self2]~=nil and spoofer.dumpedfunctions[Self2][method].engaged==true and ((spoofer.dumpedfunctions[Self2][method].ignoresyn==true and syncall~=true) or spoofer.dumpedfunctions[Self2][method].ignoresyn==false) then 
+if spoofer.dumpedfunctions[Self2]~=nil and spoofer.dumpedfunctions[Self2][method]~=nil and spoofer.dumpedfunctions[Self2][method].engaged==true and ((spoofer.dumpedfunctions[Self2][method].ignoresyn==true and syncall~=true) or spoofer.dumpedfunctions[Self2][method].ignoresyn==false) then 
 --local args = type(...)=="table" and tostring(table.unpack(...)) or tostring(...)
 --print(args)
 print(tostring(method)..':\n{ \n Self: '..tostring(Self).." \n Arguments: "..tostring(...).." \n}")
