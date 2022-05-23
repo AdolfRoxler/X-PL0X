@@ -3,6 +3,7 @@ spoofer.tamperedmetatable = nil
 spoofer.namecall = nil
 spoofer.tamperedinstances =  {}
 spoofer.tamperedfunctions = {}
+spoofer.dumpedfunctions = {}
 
 function spoofer:spoof(Inst,Prop,Val)
 if Inst and Prop then else return end
@@ -33,6 +34,17 @@ if spoofer.tamperedfunctions[Inst][Function]~=nil then spoofer.tamperedfunctions
 if spoofer.tamperedfunctions[Inst]~=nil then spoofer.tamperedfunctions[Inst]=nil end
 end
 
+function spoofer:probefunction(Inst,Function)
+if Function then else return end
+if typeof(Inst)=="Instance" then else Inst=false end
+spoofer.dumpedfunctions[Inst][Function]=true
+end
+
+function spoofer:releasefunction(Inst,Function)
+if Inst and Function then else return end
+spoofer.dumpedfunctions[Inst][Function]=nil
+end
+
 spoofer.tamperedmetatable = hookmetamethod(game,"__index",newcclosure(function(Instance,Type)
 if spoofer.tamperedinstances[Instance] and spoofer.tamperedinstances[Instance][Type] then return spoofer.tamperedinstances[Instance][Type] end
 return spoofer.tamperedmetatable(Instance,Type)
@@ -46,6 +58,7 @@ if spoofer.tamperedfunctions[Self2][method].ignoresyn==true and checkcaller() th
 --if spoofer.tamperedfunctions[Self][method].Target~=nil and spoofer.tamperedfunctions[Self][method].Target==arguments then return spoofer.namecall(Self,spoofer.tamperedfunctions[Self][method].Replacement) elseif spoofer.tamperedfunctions[Self][method].Target==nil then return spoofer.namecall(Self,spoofer.tamperedfunctions[Self][method].Replacement) end end
 --return spoofer.tamperedfunctions[Self][method].Replacement
 --if spoofer.tamperedfunctions[Self][method].Target == ... or spoofer.tamperedfunctions[Self][method].Target == nil then
+if spoofer.dumpedfunctions[Self2][method] then print('Self: '..Self..' | Arguments: '..(...)) end
 if spoofer.tamperedfunctions[Self2][method].Target == nil or (spoofer.tamperedfunctions[Self2][method].Target~=nil and spoofer.tamperedfunctions[Self2][method].Target == ...) then
 return spoofer.tamperedfunctions[Self2][method].Replacement
 end
