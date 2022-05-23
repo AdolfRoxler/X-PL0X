@@ -17,20 +17,20 @@ end
 
 function spoofer:spooffunction(Inst,Function,ignoresyn,Replacement,Args)
 if Function and Replacement then else return end
-if typeof(Inst)=="Instance" then else return end
-local ignoresyn2 = ignoresyn
-if type(ignoresyn2)=="boolean" then else ignoresyn2=true end
+if typeof(Inst)=="Instance" then else Inst=false end
+local ignoresyn = ignoresyn
+if type(ignoresyn)=="boolean" then else ignoresyn=true end
 if spoofer.tamperedfunctions[Inst]==nil then spoofer.tamperedfunctions[Inst]={} end
 if spoofer.tamperedfunctions[Inst][Function]==nil then spoofer.tamperedfunctions[Inst][Function]={} end
 spoofer.tamperedfunctions[Inst][Function].Target = Args
 spoofer.tamperedfunctions[Inst][Function].Replacement = Replacement
-spoofer.tamperedfunctions[Inst][Function].ignoresyn = ignoresyn2
+spoofer.tamperedfunctions[Inst][Function].ignoresyn = ignoresyn
 end
 
 function spoofer:unspooffunction(Inst,Function)
 if Inst and Function then else return end
-if spoofer.tamperedfunctions[Inst][Function]~=nil then spoofer.tamperedfunctions[Inst][Function]==nil return end
-if spoofer.tamperedfunctions[Inst]~=nil then spoofer.tamperedfunctions[Inst]==nil end
+if spoofer.tamperedfunctions[Inst][Function]~=nil then spoofer.tamperedfunctions[Inst][Function]=nil return end
+if spoofer.tamperedfunctions[Inst]~=nil then spoofer.tamperedfunctions[Inst]=nil end
 end
 
 spoofer.tamperedmetatable = hookmetamethod(game,"__index",newcclosure(function(Instance,Type)
