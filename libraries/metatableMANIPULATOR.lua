@@ -5,10 +5,11 @@ spoofer.tamperedinstances =  {}
 spoofer.tamperedfunctions = {}
 spoofer.dumpedfunctions = {}
 
-function spoofer:spoof(Inst,Prop,Val)
+function spoofer:spoof(Inst,Prop,Val,ignoresyn)
 if Inst and Prop then else return end
 if spoofer.tamperedinstances[Inst]==nil then spoofer.tamperedinstances[Inst]={} end
-spoofer.tamperedinstances[Inst][Prop]=Val
+local ignoresyn = type(ignoresyn)=="boolean" and ignoresyn or true
+spoofer.tamperedinstances[Inst][Prop]={Val,ignoresyn}
 end
 
 function spoofer:unspoof(Inst,Prop)
@@ -55,7 +56,7 @@ spoofer.dumpedfunctions[Inst][Function]=nil
 end
 
 spoofer.tamperedmetatable = hookmetamethod(game,"__index",newcclosure(function(Instance,Type)
-if spoofer.tamperedinstances[Instance] and spoofer.tamperedinstances[Instance][Type] and not checkcaller() then return spoofer.tamperedinstances[Instance][Type] end
+if spoofer.tamperedinstances[Instance] and spoofer.tamperedinstances[Instance][Type] and spoofer.tamperedinstances[Instance][Type][1] and not (checkcaller() and spoofer.tamperedinstances[Instance][Type][2]) then return spoofer.tamperedinstances[Instance][Type][1] end
 return spoofer.tamperedmetatable(Instance,Type)
 end))
 
