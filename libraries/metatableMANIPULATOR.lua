@@ -8,7 +8,8 @@ spoofer.dumpedfunctions = {}
 function spoofer:spoof(Inst,Prop,Val,ignoresyn)
 if Inst and Prop then else return end
 if spoofer.tamperedinstances[Inst]==nil then spoofer.tamperedinstances[Inst]={} end
-local ignoresyn = type(ignoresyn)=="boolean" and ignoresyn or true
+local ignoresyn = ignoresyn
+if type(ignoresyn)=="boolean" then else ignoresyn=true end
 spoofer.tamperedinstances[Inst][Prop]={Val,ignoresyn}
 end
 
@@ -56,7 +57,7 @@ spoofer.dumpedfunctions[Inst][Function]=nil
 end
 
 spoofer.tamperedmetatable = hookmetamethod(game,"__index",newcclosure(function(Instance,Type)
-if spoofer.tamperedinstances[Instance] and spoofer.tamperedinstances[Instance][Type] and spoofer.tamperedinstances[Instance][Type][1] and not (checkcaller() and spoofer.tamperedinstances[Instance][Type][2]) then return spoofer.tamperedinstances[Instance][Type][1] end
+if spoofer.tamperedinstances[Instance] and spoofer.tamperedinstances[Instance][Type] and spoofer.tamperedinstances[Instance][Type][1] and (not (checkcaller()==true and spoofer.tamperedinstances[Instance][Type][2]==true)) then return spoofer.tamperedinstances[Instance][Type][1] end
 return spoofer.tamperedmetatable(Instance,Type)
 end))
 
@@ -66,7 +67,7 @@ local method = getnamecallmethod()
 
 local Self2 = spoofer.dumpedfunctions[Self]~=nil and Self or false
 
-if spoofer.dumpedfunctions[Self2]~=nil and spoofer.dumpedfunctions[Self2][method]~=nil and spoofer.dumpedfunctions[Self2][method].engaged==true and ((spoofer.dumpedfunctions[Self2][method].ignoresyn==true and syncall~=true) or spoofer.dumpedfunctions[Self2][method].ignoresyn==false) then 
+if spoofer.dumpedfunctions[Self2]~=nil and spoofer.dumpedfunctions[Self2][method]~=nil and spoofer.dumpedfunctions[Self2][method].engaged==true and not (syncall==true and spoofer.dumpedfunctions[Self2][method].ignoresyn==true) then 
 --local args = type(...)=="table" and tostring(table.unpack(...)) or tostring(...)
 --print(args)
 print(tostring(method)..':\n{ \n Self: '..tostring(Self).." \n Arguments: "..tostring(...).." \n}")
