@@ -89,7 +89,7 @@ function spoofer:thawfunction(Inst,Function,r) spoofer:unfreezefunction(Inst,Fun
 spoofer.tamperedmetatable = hookmetamethod(game,"__index",newcclosure(function(instance,Type)
 local Instance = spoofer.tamperedinstances[instance]~=nil and instance or false
 if spoofer.tamperedinstances[Instance] and spoofer.tamperedinstances[Instance][Type] and spoofer.tamperedinstances[Instance][Type][1] and spoofer.tamperedinstances[Instance][Type][2] and (checkcaller()==true and spoofer.tamperedinstances[Instance][Type][2]==true)==false then return spoofer.tamperedinstances[Instance][Type][1] end
-return spoofer.tamperedmetatable(Instance,Type)
+return spoofer.tamperedmetatable(instance,Type)
 end))
 
 spoofer.namecall = hookmetamethod(game, "__namecall", newcclosure(function(Self,...)
