@@ -84,10 +84,10 @@ end
 function spoofer:unstallfunction(Inst,Function,r) spoofer:unfreezefunction(Inst,Function,r) end
 function spoofer:thawfunction(Inst,Function,r) spoofer:unfreezefunction(Inst,Function,r) end
 
---[[spoofer.tamperedmetatable = hookmetamethod(game,"__index",newcclosure(function(Instance,Type)
+spoofer.tamperedmetatable = hookmetamethod(game,"__index",newcclosure(function(Instance,Type)
 if spoofer.tamperedinstances[Instance] and spoofer.tamperedinstances[Instance][Type] and spoofer.tamperedinstances[Instance][Type][1] and spoofer.tamperedinstances[Instance][Type][2] and (checkcaller()==true and spoofer.tamperedinstances[Instance][Type][2]==true)==false then return spoofer.tamperedinstances[Instance][Type][1] end
 return spoofer.tamperedmetatable(Instance,Type)
-end))]]
+end))
 
 spoofer.namecall = hookmetamethod(game, "__namecall", newcclosure(function(Self,...)
 local syncall = checkcaller()
@@ -107,7 +107,7 @@ Self2 = spoofer.tamperedfunctions[Self]~=nil and Self or false
 if spoofer.tamperedfunctions[Self2] and spoofer.tamperedfunctions[Self2][method] and spoofer.tamperedfunctions[Self2][method].Replacement and (spoofer.tamperedfunctions[Self2][method].ignoresyn==true and syncall==true)==false and (spoofer.tamperedfunctions[Self2][method].Target == nil or (spoofer.tamperedfunctions[Self2][method].Target~=nil and spoofer.tamperedfunctions[Self2][method].Target == ...)) then finalchoice = spoofer.tamperedfunctions[Self2][method].Replacement end
 
 Self2 = spoofer.frozenfunctions[Self]~=nil and Self or false
-if spoofer.frozenfunctions[Self2]~=nil and spoofer.frozenfunctions[Self2][method]~=nil and not(syncall==true and spoofer.frozenfunctions[Self2][method][2]==true) then spoofer.frozenfunctions[Self2][method][1].Event:Wait() end--spoofer.frozenfunctions[Self2][method][1].Event:Wait() warn("allah") end end
+if spoofer.frozenfunctions[Self2]~=nil and spoofer.frozenfunctions[Self2][method]~=nil and not(syncall==true and spoofer.frozenfunctions[Self2][method][2]==true) then spoofer.frozenfunctions[Self2][method][1].Event:Wait() end
 
 if finalchoice then return finalchoice else return spoofer.namecall(Self,...) end
 end))
