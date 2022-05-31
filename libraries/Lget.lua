@@ -2,8 +2,8 @@ local wget = {}
 wget.Root = "LuaGet_Cache"
 if isfolder(wget.Root) then else makefolder(wget.Root) end
 
-function wget:Download(URL,overwrite,forcefilename)
-local overwrite,forcefilename = overwrite,forcefilename~=nil and tostring(forcefilename) or nil
+function wget:Download(URL,overwrite,forcefilename,forcefileformat)
+local overwrite,forcefileformat,forcefilename = overwrite,forcefileformat~=nil and tostring(forcefileformat) or nil,forcefilename~=nil and tostring(forcefilename) or nil
 if type(overwrite)=="boolean" then else overwrite = false end
 local URL = tostring(URL) or ""
 local asset=syn.request({Url=URL,Method='GET'});
@@ -18,7 +18,8 @@ local format = nameassembly:split(".")
 format = format[#format]
 local filename = string.sub(nameassembly,"1",string.len(nameassembly)-(string.len(format)+1))
 local clonestr = "."
-format = forcefilename==nil and format or forcefilename
+format = forcefileformat==nil and format or forcefileformat
+filename = forcefilename==nil and filename or forcefilename
 
 if overwrite==false then --- imitates windows' way to manage multiple downloaded files with the same name
 local clonenumber=0
