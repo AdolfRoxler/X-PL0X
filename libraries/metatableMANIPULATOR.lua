@@ -87,7 +87,7 @@ function spoofer:thawfunction(Inst,Function,r) spoofer:unfreezefunction(Inst,Fun
 local crackheadmt
 
 spoofer.tamperedmetatable = hookmetamethod(game,"__index",newcclosure(function(Instance,Type)
-if spoofer.tamperedinstances[Instance] and spoofer.tamperedinstances[Instance][Type] and spoofer.tamperedinstances[Instance][Type][1] and not(checkcaller()==true and spoofer.tamperedinstances[Instance][Type][2]==true) then return spoofer.tamperedinstances[Instance][Type][1] end
+if spoofer.tamperedinstances[Instance] and spoofer.tamperedinstances[Instance][Type] and spoofer.tamperedinstances[Instance][Type][1] and spoofer.tamperedinstances[Instance][Type][2] and not(checkcaller()==true and spoofer.tamperedinstances[Instance][Type][2]==true) then return spoofer.tamperedinstances[Instance][Type][1] end
 return spoofer.tamperedmetatable(Instance,Type)
 end))
 
