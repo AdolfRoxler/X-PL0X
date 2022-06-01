@@ -6,8 +6,10 @@ spoofer.tamperedfunctions = {}
 spoofer.dumpedfunctions = {}
 spoofer.frozenfunctions = {}
 
-function spoofer:spoof(Inst,Prop,Val,ignoresyn)
-if Inst and Prop then else return end
+function spoofer:spoof(inst,Prop,Val,ignoresyn)
+if Prop then else return end
+local Inst = inst
+if typeof(Inst)=="Instance" then else Inst=false end
 if spoofer.tamperedinstances[Inst]==nil then spoofer.tamperedinstances[Inst]={} end
 local ignoresyn = ignoresyn
 if type(ignoresyn)=="boolean" then else ignoresyn=true end
@@ -20,7 +22,7 @@ elseif spoofer.tamperedinstances[Inst] then spoofer.tamperedinstances[Inst]=nil 
 end
 
 function spoofer:spooffunction(inst,Function,Replacement,ignoresyn,Args)
-if inst and Function and Replacement then else return end
+if Function and Replacement then else return end
 local Inst = inst
 if typeof(Inst)=="Instance" then else Inst=false end
 local ignoresyn = ignoresyn
@@ -84,9 +86,10 @@ end
 function spoofer:unstallfunction(Inst,Function,r) spoofer:unfreezefunction(Inst,Function,r) end
 function spoofer:thawfunction(Inst,Function,r) spoofer:unfreezefunction(Inst,Function,r) end
 
-spoofer.tamperedmetatable = hookmetamethod(game,"__index",newcclosure(function(Instance,Type)
+spoofer.tamperedmetatable = hookmetamethod(game,"__index",newcclosure(function(instance,Type)
+local Instance = spoofer.tamperedinstances[instance]~=nil and instance or false
 if spoofer.tamperedinstances[Instance] and spoofer.tamperedinstances[Instance][Type] and spoofer.tamperedinstances[Instance][Type][1] and spoofer.tamperedinstances[Instance][Type][2] and (checkcaller()==true and spoofer.tamperedinstances[Instance][Type][2]==true)==false then return spoofer.tamperedinstances[Instance][Type][1] end
-return spoofer.tamperedmetatable(Instance,Type)
+return spoofer.tamperedmetatable(instance,Type)
 end))
 
 spoofer.namecall = hookmetamethod(game, "__namecall", newcclosure(function(Self,...)
