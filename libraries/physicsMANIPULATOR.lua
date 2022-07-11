@@ -17,12 +17,12 @@ function Phys:AlignTo(Inst,Cframe,Aggressivity)
 end
 
 game:GetService("RunService").Stepped:connect(function(t,delta)
-	for Obj,_ in pairs(PhysQueue) do
-		if _.Obj and _.Obj:IsA("BasePart") then else PhysQueue[Obj]=nil continue end
+	for s,_ in pairs(PhysQueue) do
+		if s and s:IsA("BasePart") then else PhysQueue[s]=nil continue end
 
 
 		if _.MoveTo then
-        local vector = (v3-_.Obj.CFrame.p)
+        local vector = (_.MoveTo[1]-s.CFrame.p)
         _.Obj.AssemblyLinearVelocity = (vector*_.MoveTo[2])
 		elseif _.AlignTo then end --- not filling in yet
 	end
