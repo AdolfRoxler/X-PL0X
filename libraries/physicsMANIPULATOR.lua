@@ -2,6 +2,8 @@ local Phys = {}
 local PhysQueue = {}
 function Phys:MoveTo(Inst,V3,Aggressivity)
 	if Inst:IsA("BasePart") then else return end
+	    local V3 = V3 or Vector3.new(0,0,0)
+	    if typeof(V3)=="CFrame" then V3 = V3.p end
 		PhysQueue[Inst] = {Obj=Inst,MoveTo={V3,Aggressivity}}
 end
 function Phys:PurgePhysics(Inst)
@@ -22,8 +24,6 @@ game:GetService("RunService").Stepped:connect(function(t,delta)
 
 
 		if _.MoveTo then
-		local v3 = _.MoveTo[1] or Vector3.new(0,0,0)
-		if typeof(v3)=="CFrame" then v3 = _.MoveTo[1].p end
         local vector = (v3-_.Obj.CFrame.p)
         _.Obj.AssemblyLinearVelocity = (vector*_.MoveTo[2])
 		elseif _.AlignTo then end --- not filling in yet
