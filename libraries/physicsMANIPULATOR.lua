@@ -18,9 +18,7 @@ end
 
 game:GetService("RunService").Stepped:connect(function(t,delta)
 	for Obj,_ in pairs(PhysQueue) do
-		if _.Obj then
-		elseif not _.Obj:IsA("BasePart") then PhysQueue[Obj]=nil continue
-		else PhysQueue[Obj]=nil continue end
+		if _.Obj and _.Obj:IsA("BasePart") then else PhysQueue[Obj]=nil continue end
 
 
 		if _.MoveTo then
