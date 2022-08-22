@@ -1,0 +1,36 @@
+local module = {}
+module.AssembledTXT = nil
+module.SpeechStep = Instance.new("BindableEvent")
+
+module.AudioConfig ={
+SpeechLocation = workspace,
+SpeechID  = 9899844444
+}
+
+local speakqueue =  {}
+local DELTA = 1
+
+game:GetService("RunService").Heartbeat:Connect(function(D) DELTA = D end)
+
+function module.speak(str)
+local str = str~=nil and tostring(str) or ""
+if str=="" then return end
+table.insert(speakqueue,str)
+end
+
+spawn(function()
+while true do
+for _,N in pairs(speakqueue) do
+local len = N.len
+local previouschar = nil
+local PD = DELTA
+game:GetService("RunService").Heartbeat:Wait()
+local arithmetic = DELTA-PD--+1
+warn(arithmetic)
+module.SpeechStep:Fire()
+end
+game:GetService("RunService").Heartbeat:Wait()
+module.AssembledTXT = nil
+end end)
+
+module.speak("sex")

@@ -7,16 +7,16 @@ So this thing is well, as you expected, a simple lego game script. It mainly foc
 
 
 Todo list [not in order]:
--Aimbot
--Add more features to ESP
--More customizability
--More protection features
--fix godmode
+-Aimbot (It's already done a long time)
+-Add more features to ESP (ummm i gotta fix skeleton)
+-More customizability (idk maybe i make my own drawing lib)
+-More protection features (I.E: sandboxed execution?)
+-fix godmode (yeah gotta copy IY's code again! woohoo!)
 
 
 
 
-This is a debug tool intended to test a roblox game dev's laziness (hard work meter). Any misuse or catastrophe caused by this tool is at the responsibility of the end user. Not the developer.
+This is a debug tool intended to test a roblox game dev's laziness (hard work meter). Any misuse or catastrophe caused by this tool is at the responsibility of the end user. Not the developer. (hope mossad doesn't kill me!)
 
 
 

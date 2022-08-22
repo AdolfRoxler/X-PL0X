@@ -1,44 +1,35 @@
-if syn then warn("bro nigga chill out I didn't make this for other gaysploits yet") else repeat wait() until syn end
+if not syn then warn("bro nigga chill out I didn't make this for other gaysploits yet") else repeat wait() until syn end
 local User = game:GetService('Players').LocalPlayer
-game:GetService("RunService").RenderStepped:connect(function() -- Constant updater to ease up resource use
+game:GetService("RunService").RenderStepped:connect(function() -- Im lazy ok?
     Camera = workspace.CurrentCamera
     Mouse = User:GetMouse()
-    Resolution = Vector2.new(Mouse.ViewSizeX,Mouse.ViewSizeY)
+    Resolution = Camera.ViewportSize
 end)
-------------- DO NOT USE THIS SHIT
-GUIFRAMES = {}
+local GraphicalHierarchy = {}
 
 local functions = {}
 
-function functions:MakeBox(PosX,PosY,SizeX,SizeY,Filled,BorderThickness,Color)
-local PX = tonumber(PosX)
-local PY = tonumber(PosY)
-local SX = tonumber(SizeX)
-local SY = tonumber(SizeY)
-local BT = tonumber(BorderThickness)
-
-if PX and PY and SX and SY then else return nil end
-
+function functions:CreateFrame(Pos,Size,Filled,BorderThickness,Color) --- Scaling based on vertical res because it's better. Argue with the retards that stretch like the guys on WOS and make ultrawide unplayable
+if Pos and Size then else return nil end
 local Frame = Drawing.new("Quad")
+
+local PX = Pos.X.Scale*Resolution.X+Pos.X.Offset      -- this of course should not depend on vertical res
+local PY = Pos.Y.Scale*Resolution.Y+Pos.Y.Offset
+local SizeX = Size.X.Scale*Resolution.Y+Size.X.Offset
+local SizeY = Size.Y.Scale*Resolution.Y+Size.Y.Offset
 
 Frame.PointB = Vector2.new(PX,PY)
 Frame.PointA = Vector2.new(PX+SizeX,PY)
-Frame.PointC = Vector2.new(PX,PY+SY)
-Frame.PointD = Vector2.new(PX+SizeX,PY+SY)
+Frame.PointC = Vector2.new(PX,PY+SizeY)
+Frame.PointD = Vector2.new(PX+SizeX,PY+SizeY)
 
-if Filled == true or Filled == false then
+if type(Filled)=="boolean" then
 Frame.Filled = Filled 
-else end
-
+end
 Frame.Color = Color
-
 Frame.Visible = true
-
-
 Frame.Thickness = tonumber(BorderThickness)
-
-table.insert(GUIFRAMES,Frame)
-
+table.insert(GraphicalHierarchy,Frame)
 return Frame
 end
 
