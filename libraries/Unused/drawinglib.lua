@@ -1,4 +1,4 @@
-if not syn then warn("bro nigga chill out I didn't make this for other gaysploits yet") else repeat wait() until syn end
+if not syn then warn("not supported lol!") else repeat wait() until syn end
 local User = game:GetService('Players').LocalPlayer
 game:GetService("RunService").RenderStepped:connect(function() -- Im lazy ok?
     Camera = workspace.CurrentCamera
@@ -29,7 +29,7 @@ end
 Frame.Color = Color
 Frame.Visible = true
 Frame.Thickness = tonumber(BorderThickness)
-table.insert(GraphicalHierarchy,Frame)
+GraphicalHierarchy[Frame] = {}
 return Frame
 end
 
