@@ -841,41 +841,6 @@ local Ping = StatsService:WaitForChild("Network"):WaitForChild("ServerStatsItem"
 local ContextActionService = game:GetService("ContextActionService")
 local movedir=Ve3n(0,0,0)
 local f,b,l,r = false,false,false,false
-function refreshplayers()
-	REFRESHING = true
-	RunService.RenderStepped:Wait()
-	for _,L in pairs(PLAYERLIST) do 
-		for l,n in pairs(SKELETONS[_]) do
-			n.one:Remove()
-			n.two:Remove()
-			SKELETONS[_][l]=nil
-		end
-		L.Tracer:Remove() L.Head:Remove() L.Nametag:Remove() L.Healthbar[1]:Remove() L.Healthbar[2]:Remove() L.Healthbar[3]:Remove() L.Box:Remove() L.Arrow[1]:Remove() L.Arrow[2]:Remove() L.Arrow[3]:Remove() L.Arrow[4]:Remove() L.Arrow[5]:Remove() L.Arrow[6]:Remove() L.Arrow[7]:Remove() L.Arrow[8]:Remove() L.Arrow[9]:Remove() L.Arrow[10]:Remove() PLAYERLIST[_]=nil end
-	local PlayerList = Players:GetPlayers()
-	for _,L in pairs(PlayerList) do 
-		if L and L~=User then
-			SKELETONS[L]={}
-			PLAYERLIST[L]={L,Tracer=Drawing.new("Line"),Head=Drawing.new("Circle"),Nametag=Drawing.new("Text"),Box=Drawing.new("Quad"),Healthbar={Drawing.new("Quad"),Drawing.new("Quad"),Drawing.new("Quad")},Arrow={Drawing.new("Quad"),Drawing.new("Triangle"),Drawing.new("Quad"),Drawing.new("Triangle"),Drawing.new("Quad"),Drawing.new("Quad"),Drawing.new("Quad"),Drawing.new("Quad"),Drawing.new("Quad"),Drawing.new("Quad")}} 
-		end
-	end
-	REFRESHING = false
-end
-
-function randomplayer()
-	local temptable = Players:GetPlayers()
-	table.remove(temptable,table.find(temptable,User))
-	return temptable[math.random(1,#temptable)]
-end
-
-function MatchName(Player)  ----copypasted from my other mf project, just modified it right now, it should autocomplete.... faster.
-	local tab = {}
-	for _,player in pairs(Players:GetPlayers()) do
-		if tostring(player.DisplayName):lower():find(tostring(Player):lower())==1 or tostring(player.Name):lower():find(tostring(Player):lower())==1 then
-			table.insert(tab,player)
-		end
-	end
-	return tab
-end
 
 WallRaycastConfig = RaycastParams.new()
 WallRaycastConfig.FilterType = Enum.RaycastFilterType.Blacklist
