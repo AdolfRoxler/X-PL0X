@@ -1,71 +1,3 @@
---- Preloaded default config
-Config = {}
-Config.ESP = false
-Config.flight = false
-Config.flightnograv = false
-Config.nograv = false
-Config.fspeed = 10
-Config.spdsp=16
-Config.spd=false
-Config.superman=false
-Config.CROSS=false
-Config.CROSSC={1,1,1}
-Config.CROSSS=15
-Config.IMMORTALITY=false
-Config.SWIM=false
-Config.XRAYB=false
-Config.HESPT = false
-Config.NTAGST = false
-Config.NTAGSV = 150
-Config.NTAGV = 15
-Config.firedelay = 1/5
-Config.FOVSET = false
-Config.CROSSTRAN = 100
-Config.XRAYM = 0
-Config.AFELOOP = false
-Config.FIDGETSPINNER = false
-Config.verticallock = false
-Config.CLICKDELTOG=false
-Config.CLICKTPTOG=false
-Config.aimbotkbmode = "None"
-Config.AIMBOT = false
-Config.TRIGGERBOT = false
-Config.MOUSESPOOF = false
-Config.autowalk = false
-Config.OKBPS = 64
-Config.RLAG = 0
-Config.FPDSD = false
-Config.CLICKTP = false
-Config.CLICKDEL = false
-Config.fspinnernoclip = false
-Config.COLOREDBOXES = false
-Config.ARW = false
-Config.HLT = false
-Config.TRACERST = false
-Config.FONT = Drawing.Fonts["UI"]
-Config.XRAYBU = false
-Config.SPEEDDRIFT = false
-Config.antiantitp = false
-Config.teamcheck = false
-Config.wallcheck = false
-Config.aimspeed = 10
-Config.headaim = false
-Config.shootrad = 10
-Config.RANDOMTGT= false
-Config.CurrentExploit = identifyexecutor() or nil
-Config.FOV = Camera.FieldOfView
-Config.LockTarget = false
-Config.BOX = true
-Config.Skeleton = false
-Config.ForceSimR = false
-Config.SimR = 1000
-Config.VisualizeSimR = false
-Config.VisualizeNet = false
-Config.SPOOFRANK = false
-Config.SPOOFASSETS = false
-Config.NOLOADINGSCREEN = false
-Config.NOPURCHASES = false
-
 --- For some reason this make shit run faster, i dunno ima just copy icewolf. Update 2: lol nigga even lua docs say indexing lua var globally in local once makes shit run faster! lol!
 local Camera = workspace.CurrentCamera;
 local RunService = game:GetService("RunService");
@@ -101,7 +33,7 @@ TPRaycastConfig.IgnoreWater = true
 local MAPRESTORING = false
 local teleportingtowardspoint = false
 
-function refreshplayers()
+local function refreshplayers()
 	REFRESHING = true
 	RunService.RenderStepped:Wait()
 	for _,L in pairs(PLAYERLIST) do 
