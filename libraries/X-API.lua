@@ -1,41 +1,110 @@
+local API = {}
 --- For some reason this make shit run faster, i dunno ima just copy icewolf. Update 2: lol nigga even lua docs say indexing lua var globally in local once makes shit run faster! lol!
-local Camera = workspace.CurrentCamera;
-local RunService = game:GetService("RunService");
-local Players = game:GetService("Players");
-local PLAYERLIST = Players:GetPlayers()
-local User = Players.LocalPlayer
-local GuiService = game:GetService("GuiService");
-local Ve3n = Vector3.new;
-local Ve2n = Vector2.new;
-local CFN = CFrame.new;
-local WTVP = Camera.WorldToViewportPoint;
-local WorldToViewport = function(...) return WTVP(Camera, ...) end;
-local Resolution = Ve2n(Mouse.ViewSizeX,Mouse.ViewSizeY)
+API.Camera = workspace.CurrentCamera;
+API.RunService = game:GetService("RunService");
+API.Players = game:GetService("Players");
+API.PLAYERLIST = Players:GetPlayers()
+API.User = Players.LocalPlayer
+API.GuiService = game:GetService("GuiService");
+API.Ve3n = Vector3.new;
+API.Ve2n = Vector2.new;
+API.CFN = CFrame.new;
+API.WTVP = API.Camera.WorldToViewportPoint;
+API.WorldToViewport = function(...) return WTVP(API.Camera, ...) end;
+API.Resolution = Ve2n(Mouse.ViewSizeX,Mouse.ViewSizeY)
 
 ---- Crosshair n sheeit
 
-local CR1 = Drawing.new("Line")
-local CR2 = Drawing.new("Line")
-local AIMSTATUS = Drawing.new("Text")
-local AIMSTATUS2 = Drawing.new("Text")
-local PATHSTATUS = Drawing.new("Text")
-local DELTA = 1
+API.CR1 = Drawing.new("Line")
+API.CR2 = Drawing.new("Line")
+API.AIMSTATUS = Drawing.new("Text")
+API.AIMSTATUS2 = Drawing.new("Text")
+API.PATHSTATUS = Drawing.new("Text")
+API.DELTA = 1
 
 --- Debounce and raycast
 
-local FIRING = false
-local DeletedInstances = {}
-local TPRaycastConfig = RaycastParams.new()
+API.FIRING = false
+API.DeletedInstances = {}
+API.TPRaycastAPI.Config = RaycastParams.new()
 TPRaycastConfig.FilterType = Enum.RaycastFilterType.Blacklist
 TPRaycastConfig.IgnoreWater = true
 
 --- Debounces below
-local MAPRESTORING = false
-local teleportingtowardspoint = false
+API.MAPRESTORING = false
+API.teleportingtowardspoint = false
 
-local function refreshplayers()
+--- Preloaded default config
+API.Config = {}
+Config.ESP = false
+Config.flight = false
+Config.flightnograv = false
+Config.nograv = false
+Config.fspeed = 10
+Config.spdsp=16
+Config.spd=false
+Config.superman=false
+Config.CROSS=false
+Config.CROSSC={1,1,1}
+Config.CROSSS=15
+Config.IMMORTALITY=false
+Config.SWIM=false
+Config.XRAYB=false
+Config.HESPT = false
+Config.NTAGST = false
+Config.NTAGSV = 150
+Config.NTAGV = 15
+Config.firedelay = 1/5
+Config.FOVSET = false
+Config.CROSSTRAN = 100
+Config.XRAYM = 0
+Config.AFELOOP = false
+Config.FIDGETSPINNER = false
+Config.verticallock = false
+Config.CLICKDELTOG=false
+Config.CLICKTPTOG=false
+Config.aimbotkbmode = "None"
+Config.AIMBOT = false
+Config.TRIGGERBOT = false
+Config.MOUSESPOOF = false
+Config.autowalk = false
+Config.OKBPS = 64
+Config.RLAG = 0
+Config.FPDSD = false
+Config.CLICKTP = false
+Config.CLICKDEL = false
+Config.fspinnernoclip = false
+Config.COLOREDBOXES = false
+Config.ARW = false
+Config.HLT = false
+Config.TRACERST = false
+Config.FONT = Drawing.Fonts["UI"]
+Config.XRAYBU = false
+Config.SPEEDDRIFT = false
+Config.antiantitp = false
+Config.teamcheck = false
+Config.wallcheck = false
+Config.aimspeed = 10
+Config.headaim = false
+Config.shootrad = 10
+Config.RANDOMTGT= false
+Config.CurrentExploit = identifyexecutor() or nil
+Config.FOV = 70
+Config.LockTarget = false
+Config.BOX = true
+Config.Skeleton = false
+Config.ForceSimR = false
+Config.SimR = 1000
+Config.VisualizeSimR = false
+Config.VisualizeNet = false
+Config.SPOOFRANK = false
+Config.SPOOFASSETS = false
+Config.NOLOADINGSCREEN = false
+Config.NOPURCHASES = false
+
+function API:refreshplayers()
 	REFRESHING = true
-	RunService.RenderStepped:Wait()
+	API.RunService.RenderStepped:Wait()
 	for _,L in pairs(PLAYERLIST) do 
 		for l,n in pairs(SKELETONS[_]) do
 			n.one:Remove()
@@ -43,7 +112,7 @@ local function refreshplayers()
 			SKELETONS[_][l]=nil
 		end
 		L.Tracer:Remove() L.Head:Remove() L.Nametag:Remove() L.Healthbar[1]:Remove() L.Healthbar[2]:Remove() L.Healthbar[3]:Remove() L.Box:Remove() L.Arrow[1]:Remove() L.Arrow[2]:Remove() L.Arrow[3]:Remove() L.Arrow[4]:Remove() L.Arrow[5]:Remove() L.Arrow[6]:Remove() L.Arrow[7]:Remove() L.Arrow[8]:Remove() L.Arrow[9]:Remove() L.Arrow[10]:Remove() PLAYERLIST[_]=nil end
-	local PlayerList = Players:GetPlayers()
+		API.PLAYERLIST = Players:GetPlayers()
 	for _,L in pairs(PlayerList) do 
 		if L and L~=User then
 			SKELETONS[L]={}
@@ -53,13 +122,13 @@ local function refreshplayers()
 	REFRESHING = false
 end
 
-function randomplayer()
+function API:randomplayer()
 	local temptable = Players:GetPlayers()
 	table.remove(temptable,table.find(temptable,User))
 	return temptable[math.random(1,#temptable)]
 end
 
-function MatchName(Player)  ----copypasted from my other mf project, just modified it right now, it should autocomplete.... faster.
+function API:MatchName(Player)  ----copypasted from my other mf project, just modified it right now, it should autocomplete.... faster.
 	local tab = {}
 	for _,player in pairs(Players:GetPlayers()) do
 		if tostring(player.DisplayName):lower():find(tostring(Player):lower())==1 or tostring(player.Name):lower():find(tostring(Player):lower())==1 then
@@ -69,7 +138,7 @@ function MatchName(Player)  ----copypasted from my other mf project, just modifi
 	return tab
 end
 
-local function GetBoundingBox(model, recursive, orientation, mustcollide) ----- copypasted code xdflol
+function API:GetBoundingBox(model, recursive, orientation, mustcollide) ----- copypasted code xdflol
 	if typeof(model) == "Instance" then
 		model = recursive and model:GetDescendants() or model:GetChildren() --- had to modify some shit, last two variables are implemented by me
 	end
@@ -112,14 +181,14 @@ local function GetBoundingBox(model, recursive, orientation, mustcollide) ----- 
 	return wCf, size
 end
 
-local function changestatus(h) --- I guess this is how I'll set up humanoid status changes from now on
-	if Config.IMMORTALITY==true and h then h:SetStateEnabled(15,false) end --my dumb ass thought this was somewhere else
-	if Config.SWIM==true and h then h:ChangeState(4) end
-	if Config.flight==true and h then h:ChangeState(5) end
-	if Config.FIDGETSPINNER==true and h then h:ChangeState(8) end
+function API:changestatus(h) --- I guess this is how I'll set up humanoid status changes from now on
+	if API.Config.IMMORTALITY==true and h then h:SetStateEnabled(15,false) end --my dumb ass thought this was somewhere else
+	if API.Config.SWIM==true and h then h:ChangeState(4) end
+	if API.Config.flight==true and h then h:ChangeState(5) end
+	if API.Config.FIDGETSPINNER==true and h then h:ChangeState(8) end
 end
 
-local function XRAY(int)
+function API:XRAY(int)
 	local int = tonumber(int) or 0
 	local function search(obj)
 		if obj:IsA("BasePart") then obj.LocalTransparencyModifier = math.abs(int) end
@@ -131,21 +200,21 @@ local function XRAY(int)
 	search(workspace)
 end
 
-local function charinstanceaddedfunc(l,h)
-	if (Config.AFELOOP or Config.FIDGETSPINNER) and l and l:IsA("Tool") and h then
+function API:UnequipEverythin(l,h)
+	if (API.Config.AFELOOP or API.Config.FIDGETSPINNER) and l and l:IsA("Tool") and h then
 		RunService.Stepped:Wait()
 		UserHum:UnequipTools()
 	end
 end
 
-local function setsimulationradius(v)
+function API:setsimulationradius(v)
 	local v = tonumber(v) or 1000
 	sethiddenproperty(User, "SimulationRadius", v) 
 	sethiddenproperty(User, "MaximumSimulationRadius", v) 
 	User.ReplicationFocus = workspace
 end
 
-function findpath(From,To,Path,overwritemaintable)
+function API:findpath(From,To,Path,overwritemaintable)
 	local from = From
 	local to = To
 	local path = Path
@@ -158,14 +227,14 @@ function findpath(From,To,Path,overwritemaintable)
 	if overwritemaintable then PathState = path.Status Waypoints = path:GetWaypoints() else return path.Status,path:GetWaypoints() end--return nil,tostring(errorMessage) 
 end
 
-local function mousefunctions()
-	if Config.CLICKTP==true and Mouse and (FIRING==false or Config.MOUSESPOOF==true) then
+function API:mousefunctions()
+	if API.Config.CLICKTP==true and Mouse and (FIRING==false or API.Config.MOUSESPOOF==true) then
 		if teleportingtowardspoint then return end
 		if UserChar then
 			teleportingtowardspoint = true
 			local n,s = GetBoundingBox(UserChar,false)
-			TPRaycastConfig.FilterDescendantsInstances={Camera,UserChar}
-			local raycast = workspace:Raycast(Camera.CFrame.p,Mouse.UnitRay.Direction*5000,TPRaycastConfig)
+			TPRaycastConfig.FilterDescendantsInstances={API.Camera,UserChar}
+			local raycast = workspace:Raycast(API.Camera.CFrame.p,Mouse.UnitRay.Direction*5000,TPRaycastConfig)
 			if raycast and raycast.Instance and raycast.Position then else UserChar:PivotTo(CFN(Mouse.Hit.p)*UserChar:GetModelCFrame().Rotation) teleportingtowardspoint = false return end
 			if UserHum then UserHum.Sit = false end
 			RunService.Heartbeat:Wait()
@@ -173,7 +242,7 @@ local function mousefunctions()
 		end
 		teleportingtowardspoint = false
 	end
-	if Config.CLICKDEL==true and Mouse and (FIRING==false or Config.MOUSESPOOF==true) then
+	if API.Config.CLICKDEL==true and Mouse and (FIRING==false or API.Config.MOUSESPOOF==true) then
 		local l = Mouse.Target:FindFirstAncestorWhichIsA("Model")
 		if Mouse.Target then if l and l:FindFirstChildOfClass("Humanoid") or Mouse.Target:FindFirstAncestorWhichIsA("Camera") or table.find(DeletedInstances,Mouse.Target) then else
 				DeletedInstances[Mouse.Target]={Mouse.Target,Mouse.Target.Size}
@@ -224,32 +293,32 @@ end
 					end
 				end   ]]
 
-local function drawvisuals(Delta)
+function API:drawvisuals(Delta)
 	Resolution = Ve2n(Mouse.ViewSizeX,Mouse.ViewSizeY)
 	DELTA = Delta
-	if Camera and Config.FOVSET==true then Camera.FieldOfView = Config.FOV end
+	if API.Camera and API.Config.FOVSET==true then API.Camera.FieldOfView = API.Config.FOV end
 
-	CR1.Visible = Config.CROSS
-	CR2.Visible = Config.CROSS
-	local maths = (Resolution.Y*(math.abs(Config.CROSSS)/1000))
+	CR1.Visible = API.Config.CROSS
+	CR2.Visible = API.Config.CROSS
+	local maths = (Resolution.Y*(math.abs(API.Config.CROSSS)/1000))
 	CR1.From = Vector2.new(Mouse.X-maths,Mouse.Y+inset)
 	CR1.To = Vector2.new(Mouse.X+maths,Mouse.Y+inset)
 	CR1.Thickness = (Resolution.Y*.0025)
 	CR2.From = Vector2.new(Mouse.X,Mouse.Y+inset+maths)
 	CR2.To = Vector2.new(Mouse.X,Mouse.Y+inset-maths)
 	CR2.Thickness = (Resolution.Y*.0025)
-	CR1.Color = Config.CROSSC and Config.CROSSC[1] and Config.CROSSC[2] and Config.CROSSC[3] and Color3.new(Config.CROSSC[1],Config.CROSSC[2],Config.CROSSC[3]) or Color3.new(1,1,1)
-	CR2.Color = Config.CROSSC and Config.CROSSC[1] and Config.CROSSC[2] and Config.CROSSC[3] and Color3.new(Config.CROSSC[1],Config.CROSSC[2],Config.CROSSC[3]) or Color3.new(1,1,1)
+	CR1.Color = API.Config.CROSSC and API.Config.CROSSC[1] and API.Config.CROSSC[2] and API.Config.CROSSC[3] and Color3.new(API.Config.CROSSC[1],API.Config.CROSSC[2],API.Config.CROSSC[3]) or Color3.new(1,1,1)
+	CR2.Color = API.Config.CROSSC and API.Config.CROSSC[1] and API.Config.CROSSC[2] and API.Config.CROSSC[3] and Color3.new(API.Config.CROSSC[1],API.Config.CROSSC[2],API.Config.CROSSC[3]) or Color3.new(1,1,1)
 	CR1.ZIndex = highvalue
 	CR2.ZIndex = highvalue
-	if Config.CROSSTRAN then CR1.Transparency = Config.CROSSTRAN/100 else CR1.Transparency = 1 end
+	if API.Config.CROSSTRAN then CR1.Transparency = API.Config.CROSSTRAN/100 else CR1.Transparency = 1 end
 	CR2.Transparency = CR1.Transparency
 
-	AIMSTATUS.Visible= Config.AIMBOT and GuiService.MenuIsOpen
-	AIMSTATUS.Font = Config.FONT
-	AIMSTATUS.Color = Config.CROSS and CR1.Color:Lerp(Color3.new(1,1,1),.5) or Color3.new(1,1,1)
+	AIMSTATUS.Visible= API.Config.AIMBOT and GuiService.MenuIsOpen
+	AIMSTATUS.Font = API.Config.FONT
+	AIMSTATUS.Color = API.Config.CROSS and CR1.Color:Lerp(Color3.new(1,1,1),.5) or Color3.new(1,1,1)
 	AIMSTATUS.OutlineColor = Color3.new(0,0,0)
-	AIMSTATUS.Transparency = Config.CROSS==true and Config.CROSSTRAN and Config.CROSSTRAN/100 or 0
+	AIMSTATUS.Transparency = API.Config.CROSS==true and API.Config.CROSSTRAN and API.Config.CROSSTRAN/100 or 0
 	AIMSTATUS.Size = Resolution.Y*0.03
 	AIMSTATUS.Center = true
 	AIMSTATUS.Position = Vector2.new(Mouse.X+AIMSTATUS.TextBounds.X/1.5,Mouse.Y+inset-AIMSTATUS.TextBounds.Y)
@@ -264,8 +333,8 @@ local function drawvisuals(Delta)
 	AIMSTATUS2.Position = Vector2.new(AIMSTATUS.Position.X+AIMSTATUS.TextBounds.X*.5+AIMSTATUS2.TextBounds.X*.5,AIMSTATUS.Position.Y)
 
 
-	Camera = workspace.CurrentCamera;
-	local FovDelta = (70/Camera.FieldOfView)
+	API.Camera = workspace.CurrentCamera;
+	local FovDelta = (70/API.Camera.FieldOfView)
 	local s1 = (0.068*Resolution.Y)
 	local s2 = (0.034*Resolution.Y)
 	local magic = 70/120
@@ -278,14 +347,14 @@ local function drawvisuals(Delta)
 		local HeadE = N.Head
 		local NameTag = N.Nametag
 		local Tracer = N.Tracer
-		if Char and Box and Arrow[10] and Healthbar[3] and NameTag and HeadE and (Char:GetModelCFrame().p-Camera.CFrame.p).Magnitude<=25000 then
+		if Char and Box and Arrow[10] and Healthbar[3] and NameTag and HeadE and (Char:GetModelCFrame().p-API.Camera.CFrame.p).Magnitude<=25000 then
 			local Head = Char:FindFirstChild("Head")
 			local Hum = Char:FindFirstChildOfClass("Humanoid")
 			local Pos,Size = GetBoundingBox(Char,false,Char:GetModelCFrame())
-			local teamcolor = Config.COLOREDBOXES and Plr.TeamColor.Color:Lerp(Color3.new(1,1,1),.5) or Color3.new(1,1,1)
+			local teamcolor = API.Config.COLOREDBOXES and Plr.TeamColor.Color:Lerp(Color3.new(1,1,1),.5) or Color3.new(1,1,1)
 			local boxzindex = lowvalue+5
-			local standard = ((s1/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
-			local standard2 = ((s2/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
+			local standard = ((s1/(API.Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
+			local standard2 = ((s2/(API.Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
 			local health = Hum and math.clamp((Hum.Health/Hum.MaxHealth),0,1) or 0
 			local c = Color3.fromHSV(health*.3,0.8,1)
 			local sx15 = -Size.X/1.5   
@@ -301,10 +370,10 @@ local function drawvisuals(Delta)
 			local HPV,HPV2 = nil
 			local NT,NT2 = nil
 
-			if _:IsAncestorOf(Camera.CameraSubject) then NameTag.Visible = false Tracer.Visible = false HeadE.Visible = false Box.Visible = false Arrow[1].Visible = false Arrow[2].Visible = false Arrow[3].Visible = false Arrow[4].Visible = false Arrow[5].Visible = false Arrow[6].Visible = false Arrow[7].Visible = false Arrow[8].Visible = false Arrow[9].Visible = false Arrow[10].Visible = false Healthbar[1].Visible = false Healthbar[2].Visible = false Healthbar[3].Visible = false continue end
+			if _:IsAncestorOf(API.Camera.CameraSubject) then NameTag.Visible = false Tracer.Visible = false HeadE.Visible = false Box.Visible = false Arrow[1].Visible = false Arrow[2].Visible = false Arrow[3].Visible = false Arrow[4].Visible = false Arrow[5].Visible = false Arrow[6].Visible = false Arrow[7].Visible = false Arrow[8].Visible = false Arrow[9].Visible = false Arrow[10].Visible = false Healthbar[1].Visible = false Healthbar[2].Visible = false Healthbar[3].Visible = false continue end
 
 
-			if Config.BOX == true then
+			if API.Config.BOX == true then
 				UR,V1 = WorldToViewport(Pos*(Ve3n(Size.X,Size.Y,0)*.5))
 				UL,V2 = WorldToViewport(Pos*(Ve3n(-Size.X,Size.Y,0)*.5))
 				DL,V3 = WorldToViewport(Pos*(Ve3n(-Size.X,-Size.Y,0)*.5))
@@ -322,7 +391,7 @@ local function drawvisuals(Delta)
 				Box.ZIndex = boxzindex 
 			end
 
-			if Config.HLT==true then
+			if API.Config.HLT==true then
 				BUR,V19 = WorldToViewport(Pos*(Ve3n(sx15,-sy2,0)))
 				BUL,V20 = WorldToViewport(Pos*(Ve3n(-sx2,-sy2,0)))
 				BDL,V21 = WorldToViewport(Pos*(Ve3n(-sx2,sy2,0)))
@@ -371,7 +440,7 @@ local function drawvisuals(Delta)
 				Healthbar[2].Thickness = 0
 			end
 
-			if Config.ARW==true then
+			if API.Config.ARW==true then
 				UR,V5 = WorldToViewport(Pos*(Ve3n(sx8,Size.Y,0)))
 				UL,V6 = WorldToViewport(Pos*(Ve3n(-sx8,Size.Y,0)))
 				DL,V7 = WorldToViewport(Pos*(Ve3n(-sx8,Size.Y,sx2)))
@@ -506,38 +575,36 @@ local function drawvisuals(Delta)
 				HeadE.Radius = m
 				HeadE.Thickness = m*0.5
 				HeadE.Color = teamcolor
-				HeadE.Transparency = math.clamp((Head.CFrame.p-Camera.CFrame.p).Magnitude-1,0,1)
+				HeadE.Transparency = math.clamp((Head.CFrame.p-API.Camera.CFrame.p).Magnitude-1,0,1)
 				HeadE.ZIndex = lowvalue+1
 			end
 
-			if Config.NTAGST==true then
-				NT,NT2 = WorldToViewport(Pos*Ve3n(0,(Size.Y*Config.NTAGSV/100),0)) --workspace.CurrentCamera.CFrame.p-Char:GetModelCFrame().p).Magnitude
-				NameTag.Size = math.clamp((Resolution.Y*(Config.NTAGV/500))*(magic),24,math.huge) --24
+			if API.Config.NTAGST==true then
+				NT,NT2 = WorldToViewport(Pos*Ve3n(0,(Size.Y*API.Config.NTAGSV/100),0)) --workspace.CurrentCamera.CFrame.p-Char:GetModelCFrame().p).Magnitude
+				NameTag.Size = math.clamp((Resolution.Y*(API.Config.NTAGV/500))*(magic),24,math.huge) --24
 				NameTag.Position = Ve2n(NT.X,NT.Y-NameTag.TextBounds.Y*.5)
 				NameTag.Text = Plr.Team and Plr.DisplayName.."/"..Plr.Name.."  ["..tostring(Plr.Team).."]" or Plr.DisplayName.."/"..Plr.Name
 				NameTag.Center = true
 				NameTag.Color = teamcolor
 				NameTag.Outline = true
 				NameTag.OutlineColor = Color3.new(0,0,0)
-				NameTag.Font = Config.FONT end
+				NameTag.Font = API.Config.FONT end
 
-			if Config.TRACERST==true then
+			if API.Config.TRACERST==true then
 				local TT = WorldToViewport(Pos*Ve3n(0,sy2,0))
 				Tracer.Thickness = (Resolution.Y*0.0016)
 				Tracer.Color = teamcolor
-				Tracer.Transparency = math.clamp(1-(Pos.p-Camera.CFrame.p).Magnitude/423,.32,1)
+				Tracer.Transparency = math.clamp(1-(Pos.p-API.Camera.CFrame.p).Magnitude/423,.32,1)
 				Tracer.From = Ve2n(Resolution.X*.5,Resolution.Y*0.95)
 				Tracer.ZIndex = boxzindex+4 if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*Ve3n(0,sy2,0)) end Tracer.To = Ve2n(TT.X,TT.Y) 
             end
 
-			if Config.TRACERST==true then Tracer.Visible = Config.ESP else Tracer.Visible = false end
-			if NT2 and Config.NTAGST==true then NameTag.Visible = Config.ESP else NameTag.Visible = false end
-			if HPV2 and Config.HESPT==true then HeadE.Visible = Config.ESP else HeadE.Visible = false end
-			if Config.ARW==true and V5 and V6 and V7 and V8 and V9 and V10 and V11 and V12 and V13 and V14 and V15 and V16 and V17 and V18 then Arrow[1].Visible = Config.ESP Arrow[2].Visible = Config.ESP Arrow[3].Visible = Config.ESP Arrow[4].Visible = Config.ESP Arrow[5].Visible = Config.ESP Arrow[6].Visible = Config.ESP Arrow[7].Visible = Config.ESP Arrow[8].Visible = Config.ESP Arrow[9].Visible = Config.ESP Arrow[10].Visible = Config.ESP else Arrow[1].Visible = false Arrow[2].Visible = false Arrow[3].Visible = false Arrow[4].Visible = false Arrow[5].Visible = false Arrow[6].Visible = false Arrow[7].Visible = false Arrow[8].Visible = false Arrow[9].Visible = false Arrow[10].Visible = false end
-			if Config.BOX==true and V1 and V2 and V3 and V4 then Box.Visible = Config.ESP else Box.Visible = false end
-			if Config.HLT==true and V19 and V20 and V21 and V22 then Healthbar[1].Visible = Config.ESP Healthbar[2].Visible = Config.ESP Healthbar[3].Visible = Config.ESP else Healthbar[1].Visible = false Healthbar[2].Visible = false Healthbar[3].Visible = false end
+			if API.Config.TRACERST==true then Tracer.Visible = API.Config.ESP else Tracer.Visible = false end
+			if NT2 and API.Config.NTAGST==true then NameTag.Visible = API.Config.ESP else NameTag.Visible = false end
+			if HPV2 and API.Config.HESPT==true then HeadE.Visible = API.Config.ESP else HeadE.Visible = false end
+			if API.Config.ARW==true and V5 and V6 and V7 and V8 and V9 and V10 and V11 and V12 and V13 and V14 and V15 and V16 and V17 and V18 then Arrow[1].Visible = API.Config.ESP Arrow[2].Visible = API.Config.ESP Arrow[3].Visible = API.Config.ESP Arrow[4].Visible = API.Config.ESP Arrow[5].Visible = API.Config.ESP Arrow[6].Visible = API.Config.ESP Arrow[7].Visible = API.Config.ESP Arrow[8].Visible = API.Config.ESP Arrow[9].Visible = API.Config.ESP Arrow[10].Visible = API.Config.ESP else Arrow[1].Visible = false Arrow[2].Visible = false Arrow[3].Visible = false Arrow[4].Visible = false Arrow[5].Visible = false Arrow[6].Visible = false Arrow[7].Visible = false Arrow[8].Visible = false Arrow[9].Visible = false Arrow[10].Visible = false end
+			if API.Config.BOX==true and V1 and V2 and V3 and V4 then Box.Visible = API.Config.ESP else Box.Visible = false end
+			if API.Config.HLT==true and V19 and V20 and V21 and V22 then Healthbar[1].Visible = API.Config.ESP Healthbar[2].Visible = API.Config.ESP Healthbar[3].Visible = API.Config.ESP else Healthbar[1].Visible = false Healthbar[2].Visible = false Healthbar[3].Visible = false end
 		else NameTag.Visible = false Tracer.Visible = false HeadE.Visible = false Box.Visible = false Arrow[1].Visible = false Arrow[2].Visible = false Arrow[3].Visible = false Arrow[4].Visible = false Arrow[5].Visible = false Arrow[6].Visible = false Arrow[7].Visible = false Arrow[8].Visible = false Arrow[9].Visible = false Arrow[10].Visible = false Healthbar[1].Visible = false Healthbar[2].Visible = false Healthbar[3].Visible = false end
 	end
 end
-
-game:GetService("RunService").RenderStepped:connect(drawvisuals)
