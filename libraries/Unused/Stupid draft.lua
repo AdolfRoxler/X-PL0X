@@ -154,6 +154,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		local Char = _.Character
 		local Chams = N.CheapChams
 		local Box = N.Box
+		local Tracer = N.Tracer
 		local TeamColor = _.TeamColor.Color:Lerp(Color3.new(1,1,1),.5) or Color3.new(1,1,1)
 		local Pos,Size,IsFocused = CFN(),Ve3n(),true
 		if Char then Pos,Size = GetBoundingBox(Char,false,Char:GetModelCFrame()) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
@@ -177,13 +178,21 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Box.PointB = Ve2n(UL.X,UL.Y)
 		Box.PointC = Ve2n(DL.X,DL.Y)
 		Box.PointD = Ve2n(DR.X,DR.Y)
-
 		Box.Filled = false
 		Box.Transparency = 1
 		Box.Thickness = standard
 		Box.Color = TeamColor
 		Box.ZIndex = lowvalue 
-		
 		Box.Visible = V1 and V2 and V3 and V4 and not IsFocused
+		
+	   	local TT = WorldToViewport(Pos*Ve3n(0,-Size.Y,0))
+		Tracer.Thickness = (Resolution.Y*0.0016)
+		Tracer.Color = TeamColor
+		Tracer.Transparency = math.clamp(1-(Pos.p-Camera.CFrame.p).Magnitude*.0025,.2,1)
+		Tracer.From = Ve2n(Resolution.X*.5,Resolution.Y*.985)
+		Tracer.ZIndex = lowvalue+4 
+		if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*Ve3n(0,-Size.Y,0)) end 
+		Tracer.To = Ve2n(TT.X,TT.Y) 
+		Tracer.Visible = not IsFocused
 	end
 end)
