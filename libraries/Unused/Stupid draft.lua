@@ -151,6 +151,7 @@ RefreshPlayers()
 
 game:GetService("RunService").RenderStepped:connect(function()
 	for _,N in pairs(PlayerList) do
+		Camera = workspace.CurrentCamera -- fix for penis rcl game that deletes camera
 		local Char = _.Character
 		local Chams = N.CheapChams
 		local Box = N.Box
@@ -161,7 +162,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		local zindex = lowvalue+100
 		local Pos,Size,IsFocused = CFN(),Ve3n(),true
 		local sx15 = Ve3n()
-		local FovDelta = 1
+		local FovDelta = (70/Camera.FieldOfView)
 		if Char then Pos,Size = GetBoundingBox(Char,false,Char:GetModelCFrame()) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
 		sx15 = Size*.75
 		Size = Size*.5
@@ -228,7 +229,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Healthbar[1].ZIndex = zindex
 		Healthbar[1].Color = TeamColor
 		Healthbar[1].Thickness = standard--Box.Thickness
-		local h,s,v = Healthbar[2].Color:ToHSV()
+		local h,s,v = c:ToHSV()
 		Healthbar[3].Filled = true
 		Healthbar[3].ZIndex = zindex-2
 		Healthbar[3].Color = Color3.fromHSV(h,s,.2)
@@ -247,9 +248,9 @@ game:GetService("RunService").RenderStepped:connect(function()
 
 
 		local TT = WorldToViewport(Pos*Ve3n(0,-Size.Y,0))
-		Tracer.Thickness = (Resolution.Y*0.002)
+		Tracer.Thickness = math.clamp(standard,0,(Resolution.Y*0.004))
 		Tracer.Color = TeamColor
-		Tracer.Transparency = math.clamp(1-(Pos.p-Camera.CFrame.p).Magnitude*.0025,.2,1)
+		Tracer.Transparency = math.clamp(1-(Pos.p-Camera.CFrame.p).Magnitude*.00025,.2,1)
 		Tracer.From = Ve2n(Resolution.X*.5,Resolution.Y*.985)
 		Tracer.ZIndex = zindex
 		if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*Ve3n(0,-Size.Y,0)) end 
