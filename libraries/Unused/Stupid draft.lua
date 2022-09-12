@@ -156,17 +156,19 @@ game:GetService("RunService").RenderStepped:connect(function()
 		local Box = N.Box
 		local Tracer = N.Tracer
 		local Healthbar = N.Healthbar
+		local HeadE = N.Circle
 		local TeamColor = _.TeamColor.Color:Lerp(Color3.new(1,1,1),.5) or Color3.new(1,1,1)
 		local zindex = lowvalue+100
 		local Pos,Size,IsFocused = CFN(),Ve3n(),true
 		local sx15 = Ve3n()
+		local FovDelta = 1
 		if Char then Pos,Size = GetBoundingBox(Char,false,Char:GetModelCFrame()) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
 		sx15 = Size*.75
 		Size = Size*.5
-		local standard = (((0.068*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))--*FovDelta 
+		local standard = (((0.068*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
 		Chams.Adornee = Char or nil
 		Chams.FillColor = TeamColor
-		Chams.FillTransparency = 1
+		Chams.FillTransparency = .43
 		Chams.OutlineColor = Color3.new(1,1,1)
 		Chams.OutlineTransparency = 0
 		Chams.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
@@ -193,9 +195,10 @@ game:GetService("RunService").RenderStepped:connect(function()
 		local BDR,V22 = WorldToViewport(Pos*(Ve3n(-sx15.X,-Size.Y,0)))
 
 		local Hum = Char and Char:FindFirstChildOfClass("Humanoid")
+		local Head = Char and Char:FindFirstChild("Head")
 		local H1,H2 = DL,DR
 		local barh,c,health
-		
+
 		if Hum then
 			health = (Hum.Health/Hum.MaxHealth)
 			barh = -Size.Y+(Size.Y*health*2)
@@ -234,9 +237,9 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Healthbar[2].Filled = true
 		Healthbar[2].ZIndex = zindex-1
 		Healthbar[2].Thickness = 0
-		
+
 		local hcheck = V2 and V3 and V19 and V22 and not IsFocused
-		
+
 		Healthbar[1].Visible = hcheck
 		Healthbar[2].Visible = hcheck
 		Healthbar[3].Visible = hcheck
@@ -252,5 +255,21 @@ game:GetService("RunService").RenderStepped:connect(function()
 		if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*Ve3n(0,-Size.Y,0)) end 
 		Tracer.To = Ve2n(TT.X,TT.Y) 
 		Tracer.Visible = not IsFocused
+		
+		local avghead,HPV,HPV2 = 0,Ve3n(),false
+        if Head then
+		avghead = (Head.Size.X+Head.Size.Y+Head.Size.Z)/3
+		HPV,HPV2 = WorldToViewport(Head.CFrame.p) 
+		HeadE.Transparency = math.clamp((Head.CFrame.p-Camera.CFrame.p).Magnitude-1,0,1)
+	    end
+		
+		HeadE.Position = Ve2n(HPV.X,HPV.Y)
+		local m = (((Resolution.Y*0.4*avghead)/HPV.Z))*FovDelta 
+		HeadE.Radius = m
+		HeadE.Thickness = m*0.5
+		HeadE.Color = TeamColor
+		HeadE.ZIndex = lowvalue+1
+        HeadE.Visible = HPV2 and Head and not IsFocused
+
 	end
 end)
