@@ -14,4 +14,5 @@ function API:Prompt(Prompt: string, Color: string, Callback)
 	pcall(function() Callback(rconsoleinput()) end)
 end
 
+return API
 ---- This copies linux terminal style loleris
