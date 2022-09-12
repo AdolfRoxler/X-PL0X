@@ -15,4 +15,5 @@ function API:Prompt(Prompt: string, Color: string, Callback)
 end
 
 return API
+
 ---- This copies linux terminal style loleris
