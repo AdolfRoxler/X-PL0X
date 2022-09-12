@@ -230,7 +230,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Healthbar[1].ZIndex = zindex
 		Healthbar[1].Color = TeamColor
 		Healthbar[1].Thickness = standard--Box.Thickness
-		local h,s,v = c:ToHSV()
+		local h,s,v = Healthbar[2].Color:ToHSV()
 		Healthbar[3].Filled = true
 		Healthbar[3].ZIndex = zindex-2
 		Healthbar[3].Color = Color3.fromHSV(h,s,.2)
