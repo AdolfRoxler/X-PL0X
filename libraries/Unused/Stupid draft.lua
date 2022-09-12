@@ -155,9 +155,13 @@ game:GetService("RunService").RenderStepped:connect(function()
 		local Chams = N.CheapChams
 		local Box = N.Box
 		local Tracer = N.Tracer
+		local Healthbar = N.Healthbar
 		local TeamColor = _.TeamColor.Color:Lerp(Color3.new(1,1,1),.5) or Color3.new(1,1,1)
+		local zindex = lowvalue+100
 		local Pos,Size,IsFocused = CFN(),Ve3n(),true
+		local sx15 = Ve3n()
 		if Char then Pos,Size = GetBoundingBox(Char,false,Char:GetModelCFrame()) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
+		sx15 = Size*.75
 		Size = Size*.5
 		local standard = (((0.068*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))--*FovDelta 
 		Chams.Adornee = Char or nil
@@ -182,15 +186,69 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Box.Transparency = 1
 		Box.Thickness = standard
 		Box.Color = TeamColor
-		Box.ZIndex = lowvalue 
+		Box.ZIndex = zindex
 		Box.Visible = V1 and V2 and V3 and V4 and not IsFocused
+
+		local BUR,V19 = WorldToViewport(Pos*(Ve3n(-sx15.X,Size.y,0)))
+		local BDR,V22 = WorldToViewport(Pos*(Ve3n(-sx15.X,-Size.Y,0)))
+
+		local Hum = Char and Char:FindFirstChildOfClass("Humanoid")
+		local H1,H2 = DL,DR
+		local barh,c,health
 		
-	   	local TT = WorldToViewport(Pos*Ve3n(0,-Size.Y,0))
-		Tracer.Thickness = (Resolution.Y*0.0016)
+		if Hum then
+			health = (Hum.Health/Hum.MaxHealth)
+			barh = -Size.Y+(Size.Y*health*2)
+			c = Color3.fromHSV(health*.3,0.8,1)
+			H1 = WorldToViewport(Pos*(Ve3n(-sx15.X,barh,0)))
+			H2 = WorldToViewport(Pos*(Ve3n(-Size.X,barh,0)))
+			Healthbar[2].Color = c
+		end
+
+		Healthbar[1].PointA = Ve2n(BUR.X,BUR.Y)
+		Healthbar[1].PointB = Ve2n(UL.X,UL.Y)
+		Healthbar[1].PointC = Ve2n(DL.X,DL.Y)
+		Healthbar[1].PointD = Ve2n(BDR.X,BDR.Y)
+
+		Healthbar[2].PointA = Ve2n(H1.X,H1.Y)
+		Healthbar[2].PointB = Ve2n(H2.X,H2.Y)
+		Healthbar[2].PointC = Ve2n(DL.X,DL.Y)
+		Healthbar[2].PointD = Ve2n(BDR.X,BDR.Y)
+
+		Healthbar[3].PointA = Ve2n(BUR.X,BUR.Y)
+		Healthbar[3].PointB = Ve2n(UL.X,UL.Y)
+		Healthbar[3].PointC = Ve2n(DL.X,DL.Y)
+		Healthbar[3].PointD = Ve2n(BDR.X,BDR.Y)
+
+
+		Healthbar[1].Filled = false
+		Healthbar[1].ZIndex = zindex
+		Healthbar[1].Color = TeamColor
+		Healthbar[1].Thickness = standard--Box.Thickness
+		local h,s,v = Healthbar[2].Color:ToHSV()
+		Healthbar[3].Filled = true
+		Healthbar[3].ZIndex = zindex-2
+		Healthbar[3].Color = Color3.fromHSV(h,s,.2)
+		Healthbar[3].Thickness = standard--Box.Thickness
+
+		Healthbar[2].Filled = true
+		Healthbar[2].ZIndex = zindex-1
+		Healthbar[2].Thickness = 0
+		
+		local hcheck = V2 and V3 and V19 and V22 and not IsFocused
+		
+		Healthbar[1].Visible = hcheck
+		Healthbar[2].Visible = hcheck
+		Healthbar[3].Visible = hcheck
+
+
+
+		local TT = WorldToViewport(Pos*Ve3n(0,-Size.Y,0))
+		Tracer.Thickness = (Resolution.Y*0.002)
 		Tracer.Color = TeamColor
 		Tracer.Transparency = math.clamp(1-(Pos.p-Camera.CFrame.p).Magnitude*.0025,.2,1)
 		Tracer.From = Ve2n(Resolution.X*.5,Resolution.Y*.985)
-		Tracer.ZIndex = lowvalue+4 
+		Tracer.ZIndex = zindex
 		if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*Ve3n(0,-Size.Y,0)) end 
 		Tracer.To = Ve2n(TT.X,TT.Y) 
 		Tracer.Visible = not IsFocused
