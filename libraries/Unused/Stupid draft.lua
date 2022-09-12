@@ -1,4 +1,5 @@
 --- Rewrite
+local devmode = devmode or true
 
 local Camera = workspace.CurrentCamera
 local RunService = game:GetService("RunService")
@@ -16,6 +17,14 @@ local PlayerList = {}
 local Random = Random.new(tick())
 local Draw = Drawing.new
 local SafeFolder = Instance.new("Folder",game.CoreGui) SafeFolder.Name = "GhettoSmosh"
+local lowvalue = -(2^31-1)
+syn.protect_gui(SafeFolder)
+
+--- Libraries
+
+local math = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/arbitrarymath.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/arbitrarymath.lua')()
+
+
 --- Crosshair objects
 
 local CR1 = Draw("Line")
@@ -49,12 +58,13 @@ local function RefreshPlayers()
 			PlayerList[N].Circle = PlayerList[N].Circle or Draw("Circle")
 			PlayerList[N].Healthbar = PlayerList[N].Healthbar or {Draw("Quad"),Draw("Quad"),Draw("Quad")}
 			PlayerList[N].Text = PlayerList[N].Text or Draw("Text")
+			PlayerList[N].Tracer = PlayerList[N].Tracer or Draw("Line")
 		else
 			if PlayerList[N] then 
 				for _,N in pairs(PlayerList[N]) do
-				N:Remove()
+					N:Remove()
+				end
 			end
-		end
 		end 
 	end
 end
@@ -143,14 +153,37 @@ game:GetService("RunService").RenderStepped:connect(function()
 	for _,N in pairs(PlayerList) do
 		local Char = _.Character
 		local Chams = N.CheapChams
+		local Box = N.Box
 		local TeamColor = _.TeamColor.Color:Lerp(Color3.new(1,1,1),.5) or Color3.new(1,1,1)
+		local Pos,Size,IsFocused = CFN(),Ve3n(),true
+		if Char then Pos,Size = GetBoundingBox(Char,false,Char:GetModelCFrame()) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
+		Size = Size*.5
+		local standard = (((0.068*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))--*FovDelta 
 		Chams.Adornee = Char or nil
 		Chams.FillColor = TeamColor
-		Chams.FillTransparency = 0.5
+		Chams.FillTransparency = 1
 		Chams.OutlineColor = Color3.new(1,1,1)
 		Chams.OutlineTransparency = 0
 		Chams.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-		Chams.Enabled = true
+		Chams.Enabled = not IsFocused
 		Chams.Parent = SafeFolder
+
+		local UR,V1 = WorldToViewport(Pos*(Ve3n(Size.X,Size.Y,0)))
+		local UL,V2 = WorldToViewport(Pos*(Ve3n(-Size.X,Size.Y,0)))
+		local DL,V3 = WorldToViewport(Pos*(Ve3n(-Size.X,-Size.Y,0)))
+		local DR,V4 = WorldToViewport(Pos*(Ve3n(Size.X,-Size.Y,0)))
+
+		Box.PointA = Ve2n(UR.X,UR.Y)
+		Box.PointB = Ve2n(UL.X,UL.Y)
+		Box.PointC = Ve2n(DL.X,DL.Y)
+		Box.PointD = Ve2n(DR.X,DR.Y)
+
+		Box.Filled = false
+		Box.Transparency = 1
+		Box.Thickness = standard
+		Box.Color = TeamColor
+		Box.ZIndex = lowvalue 
+		
+		Box.Visible = V1 and V2 and V3 and V4 and not IsFocused
 	end
 end)
