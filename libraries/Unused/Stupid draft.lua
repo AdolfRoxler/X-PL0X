@@ -167,7 +167,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		if Char then Pos,Size = GetBoundingBox(Char,false,Char:GetModelCFrame()) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
 		sx15 = Size*.75
 		Size = Size*.5
-		local standard = (((0.068*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
+		local standard = (((0.07*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
 		Chams.Adornee = Char or nil
 		Chams.FillColor = TeamColor
 		Chams.FillTransparency = .43
@@ -204,7 +204,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		if Hum then
 			health = (Hum.Health/Hum.MaxHealth)
 			barh = -Size.Y+(Size.Y*health*2)
-			c = Color3.fromHSV(health*.3,0.8,1)
+			c = Color3.fromHSV(health*.35,0.9,1)
 			H1 = WorldToViewport(Pos*(Ve3n(-sx15.X,barh,0)))
 			H2 = WorldToViewport(Pos*(Ve3n(-Size.X,barh,0)))
 			Healthbar[2].Color = c
@@ -234,6 +234,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Healthbar[3].Filled = true
 		Healthbar[3].ZIndex = zindex-2
 		Healthbar[3].Color = Color3.fromHSV(h,s,.2)
+		Healthbar[3].Transparency = .75
 		Healthbar[3].Thickness = standard--Box.Thickness
 
 		Healthbar[2].Filled = true
@@ -268,7 +269,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		HeadE.Position = Ve2n(HPV.X,HPV.Y)
 		local m = (((Resolution.Y*0.4*avghead)/HPV.Z))*FovDelta 
 		HeadE.Radius = m
-		HeadE.Thickness = m*0.5
+		HeadE.Thickness = m*0.45
 		HeadE.Color = TeamColor
 		HeadE.ZIndex = lowvalue+1
         HeadE.Visible = HPV2 and Head and not IsFocused
