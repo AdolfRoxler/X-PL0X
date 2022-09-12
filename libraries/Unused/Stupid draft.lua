@@ -1,6 +1,4 @@
 --- Rewrite
-local devmode = devmode or true
-
 local Camera = workspace.CurrentCamera
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
