@@ -151,8 +151,8 @@ game:GetService("Players").PlayerRemoving:Connect(RefreshPlayers)
 RefreshPlayers()
 
 game:GetService("RunService").RenderStepped:connect(function()
+	Camera = workspace.CurrentCamera -- fix for penis rcl game that deletes camera
 	for _,N in pairs(PlayerList) do
-		Camera = workspace.CurrentCamera -- fix for penis rcl game that deletes camera
 		local Char = _.Character
 		local Chams = N.CheapChams
 		local Box = N.Box
