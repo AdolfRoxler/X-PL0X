@@ -3,7 +3,7 @@ rconsolename("X-CLI")
 function API:DisplayText(Text: string, Color: string)
 	local Color = Color and Color~="" and "@@"..Color.."@@" or "@@WHITE@@"
 	rconsoleprint(Color)
-	local Text = Text and Text~="" and "[!] "..Text.. "\n" or ""
+	local Text = Text and Text~="" and "[!] "..Text.."\n" or ""
 	rconsoleprint(Text)
 end
 
