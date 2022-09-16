@@ -10,7 +10,7 @@ function API:Prompt(Prompt: string, Color: string, Callback)
 	API:DisplayText(Prompt.."\n",Color)
 	rconsoleprint("@@LIGHT_GREEN@@")
     rconsoleprint("["..game:GetService("Players").LocalPlayer.Name.."@"..game:GetService("Players").LocalPlayer.DisplayName.."]$ ")
-	rconsoleprint("@@"..Color.."@@")
+	rconsoleprint("@@WHITE@@")
 	local Callback = Callback or function() end
 	pcall(function() Callback(rconsoleinput()) end)
 end
