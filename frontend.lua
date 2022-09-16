@@ -21,15 +21,13 @@ local function mainmenu(message: boolean)
     local welcome = message and "Welcome to the main menu. Type in 'help' to see the command set." or ""
     CLI:Prompt(welcome,"YELLOW",function(t)
     print(t)
-    if lowercase(t)=="help" then help()
+    if lowercase(t)=="help" then CLI:DisplayText("umm fuck u go back to the menu","")  mainmenu(false)
     elseif lowercase(t)=="esp" then _G.ESP = not _G.ESP
     mainmenu(false)
     else mainmenu(false) 
     end
     end)
 end
-
-local function help() warn("poop") CLI:DisplayText("umm fuck u go back to the menu","")  mainmenu(false) end
 
 
 mainmenu(true)
