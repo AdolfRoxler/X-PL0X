@@ -1,10 +1,11 @@
 local API = {}
 rconsolename("X-CLI")
 function API:DisplayText(Text: string, Color: string)
+	if Text then
 	local Color = Color and Color~="" and "@@"..Color.."@@" or "@@WHITE@@"
 	rconsoleprint(Color)
-	local Text = Text and Text~="" and "[!] "..Text.."\n" or ""
 	rconsoleprint(Text)
+	end
 end
 
 function API:Prompt(Prompt: string, Color: string, Callback)
