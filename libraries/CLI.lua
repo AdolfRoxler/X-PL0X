@@ -4,7 +4,7 @@ function API:DisplayText(Text: string, Color: string)
 	if Text then
 	local Color = Color and Color~="" and "@@"..Color.."@@" or "@@WHITE@@"
 	rconsoleprint(Color)
-	rconsoleprint(Text)
+	rconsoleprint("[!] "..Text.."\n")
 	end
 end
 
