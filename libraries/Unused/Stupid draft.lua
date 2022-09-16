@@ -20,7 +20,7 @@ syn.protect_gui(SafeFolder)
 
 --- Libraries
 
-local math = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/arbitrarymath.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/arbitrarymath.lua')()
+--local math = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/arbitrarymath.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/arbitrarymath.lua')()
 --local wget = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Lget.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/Lget.lua')()
 --local Phys = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/physicsMANIPULATOR.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/physicsMANIPULATOR.lua')()
 --local spoofer = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/metatableMANIPULATOR.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/metatableMANIPULATOR.lua')()
@@ -168,13 +168,15 @@ game:GetService("RunService").RenderStepped:connect(function()
 		sx15 = Size*.75
 		Size = Size*.5
 		local standard = (((0.07*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
+
+		local standardcheck = not IsFocused and ESP
 		Chams.Adornee = Char or nil
 		Chams.FillColor = TeamColor
 		Chams.FillTransparency = .43
 		Chams.OutlineColor = Color3.new(1,1,1)
 		Chams.OutlineTransparency = 0
 		Chams.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-		Chams.Enabled = not IsFocused
+		Chams.Enabled = standardcheck
 		Chams.Parent = SafeFolder
 
 		local UR,V1 = WorldToViewport(Pos*(Ve3n(Size.X,Size.Y,0)))
@@ -191,7 +193,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Box.Thickness = standard
 		Box.Color = TeamColor
 		Box.ZIndex = zindex
-		Box.Visible = V1 and V2 and V3 and V4 and not IsFocused
+		Box.Visible = V1 and V2 and V3 and V4 and standardcheck
 
 		local BUR,V19 = WorldToViewport(Pos*(Ve3n(-sx15.X,Size.y,0)))
 		local BDR,V22 = WorldToViewport(Pos*(Ve3n(-sx15.X,-Size.Y,0)))
@@ -241,7 +243,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Healthbar[2].ZIndex = zindex-1
 		Healthbar[2].Thickness = 0
 
-		local hcheck = V2 and V3 and V19 and V22 and not IsFocused
+		local hcheck = V2 and V3 and V19 and V22 and standardcheck
 
 		Healthbar[1].Visible = hcheck
 		Healthbar[2].Visible = hcheck
@@ -257,7 +259,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Tracer.ZIndex = zindex
 		if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*Ve3n(0,-Size.Y,0)) end 
 		Tracer.To = Ve2n(TT.X,TT.Y) 
-		Tracer.Visible = not IsFocused
+		Tracer.Visible = standardcheck
 		
 		local avghead,HPV,HPV2 = 0,Ve3n(),false
         if Head then
@@ -272,7 +274,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		HeadE.Thickness = m*0.45
 		HeadE.Color = TeamColor
 		HeadE.ZIndex = lowvalue+1
-        HeadE.Visible = HPV2 and Head and not IsFocused
+        HeadE.Visible = HPV2 and Head and standardcheck
 
 	end
 end)
