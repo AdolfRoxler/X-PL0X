@@ -10,4 +10,4 @@ local CLI = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.co
 
 local Core = loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Unused/Stupid%20draft.lua')() --_L.LatestCommit = JSONDecode(Services.HttpService, game.HttpGetAsync(game, "https://api.github.com/repos/fatesc/fates-admin/commits?per_page=1&path=main.lua"))[1]
 
-CLI:Prompt("say ESP to toggle ESP on!","",function(t) if t == "ESP" then ESP = true end end)
+CLI:Prompt("say ESP to toggle ESP on!","",function(t) if t == "ESP" then warn(t) ESP = true end end)

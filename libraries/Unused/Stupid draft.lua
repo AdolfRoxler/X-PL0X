@@ -170,6 +170,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		local standard = (((0.07*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
 
 		local standardcheck = not IsFocused and ESP
+		
 		Chams.Adornee = Char or nil
 		Chams.FillColor = TeamColor
 		Chams.FillTransparency = .43
