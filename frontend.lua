@@ -21,7 +21,7 @@ local function mainmenu(message: boolean)
     local welcome = message and "Welcome to the main menu. Type in 'help' to see the command set." or ""
     CLI:Prompt(welcome,"YELLOW",function(t)
     print(t)
-    if lowercase(t)=="help" then warn("NIGGERS!") help() mainmenu(false)
+    if lowercase(t)=="help" then help() mainmenu(false)
     elseif lowercase(t)=="esp" then _G.ESP = not _G.ESP
     mainmenu(false)
     else mainmenu() 
