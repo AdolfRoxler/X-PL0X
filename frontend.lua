@@ -34,8 +34,9 @@ local commands = {
 		if args[2] then
 			local lowercase = lowercase(args[2])
 			if lowercase=="esp" then
-                local toggle = not Core.ESP
-				if args[3] then local lowercase = lowercase(args[3]) toggle = (lowercase=="on" and true) or (lowercase=="off" and false)  end
+				local toggle = not Core.ESP
+				if args[3] then local a = string.lower(tostring(args[3])) warn(a) if a=="on" then toggle=true elseif a=="off" then toggle=false end end
+				--if args[3] then local lowercase = lowercase(args[3]) toggle = (lowercase=="on" and true) or (lowercase=="off" and false)  end
 				Core.ESP = toggle
 			end
 		else
