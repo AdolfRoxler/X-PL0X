@@ -1,4 +1,5 @@
 --- Rewrite
+local Config = {}
 local Camera = workspace.CurrentCamera
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
@@ -18,6 +19,8 @@ local SafeFolder = Instance.new("Folder",game.CoreGui) SafeFolder.Name = "Ghetto
 local lowvalue = -(2^31-1)
 syn.protect_gui(SafeFolder)
 
+--- Config initialization
+Config.ESP = true
 --- Libraries
 
 local math = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/arbitrarymath.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/arbitrarymath.lua')()
@@ -169,7 +172,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Size = Size*.5
 		local standard = (((0.07*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
 
-		local standardcheck = (not IsFocused)==true and _G.ESP==true
+		local standardcheck = (not IsFocused)==true and Config.ESP==true
 
 		Chams.Adornee = Char or nil
 		Chams.FillColor = TeamColor
@@ -279,3 +282,5 @@ game:GetService("RunService").RenderStepped:connect(function()
 
 	end
 end)
+
+return Config
