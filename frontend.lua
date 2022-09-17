@@ -16,18 +16,19 @@ local CLI = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.co
 
 local Core = loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Unused/Stupid%20draft.lua')() --_L.LatestCommit = JSONDecode(Services.HttpService, game.HttpGetAsync(game, "https://api.github.com/repos/fatesc/fates-admin/commits?per_page=1&path=main.lua"))[1]
 
+local commands = {
+	help = function() CLI:DisplayText("ur gay af noob","") mainmenu(false) end,
+	esp = function() _G.ESP = not _G.ESP end,
+    clear = function() rconsoleclear() mainmenu(true) end
+ }
 
-local function mainmenu(message: boolean)
-    local welcome = message and "Welcome to the main menu. Type in 'help' to see the command set." or ""
-    CLI:Prompt(welcome,"YELLOW",function(t)
-    print(t)
-    if lowercase(t)=="help" then CLI:DisplayText("umm fuck u go back to the menu","")  mainmenu(false)
-    elseif lowercase(t)=="esp" then _G.ESP = not _G.ESP
-    mainmenu(false)
-    else mainmenu(false) 
-    end
-    end)
+
+function mainmenu(message: boolean)
+	local welcome = message and "Welcome to the main menu. Type in 'help' to see the command set." or ""
+	CLI:Prompt(welcome,"YELLOW",function(t)
+	local msg = t:split(" ")
+	commands[msg[1]](msg)
+	end)
 end
-
 
 mainmenu(true)
