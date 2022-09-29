@@ -50,13 +50,27 @@ RaycastConfig.IgnoreWater = true
 local MAPRESTORING = false
 local Teleporting = false
 
+local REFRESHING = false
 ---
 
 local function RefreshPlayers(Remove: Instance)
 	    if Remove then
+		REFRESHING = true
+
+		for _,N in pairs(PlayerList[Remove].Tag) do N:Remove() end
+		PlayerList[Remove].Healthbar[1]:Remove()
+		PlayerList[Remove].Healthbar[2]:Remove()
+		PlayerList[Remove].Healthbar[3]:Remove()
+		PlayerList[Remove].Healthbar = nil
+		PlayerList[Remove].Skeleton = nil
+		PlayerList[Remove].Tag = nil
+		for _,N in pairs(PlayerList[Remove]) do if N~=nil then N:Remove() end end 
+
+	    PlayerList[Remove] = nil
+
 		game:GetService'RunService'.Stepped:Wait()
-		for _,N in pairs(PlayerList[Remove].Tag) do print(_) N:Remove() end
-		for _,N in pairs(PlayerList[Remove]) do if type(N)~="table" then N:Remove() end end end
+		REFRESHING = false
+	end
 
 	for _,N in pairs(Players:GetPlayers()) do 
 		if N and N~=User then 
@@ -177,6 +191,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 	Camera = workspace.CurrentCamera -- fix for penis rcl game that deletes camera
 	Resolution = Ve2n(Mouse.ViewSizeX,Mouse.ViewSizeY)
 	for _,N in pairs(PlayerList) do
+		if REFRESHING then continue end
 		local Char = _.Character
 		local Chams = N.CheapChams
 		local Box = N.Box
@@ -343,7 +358,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		NameTag.Text = _.Name==_.DisplayName and _.Name or _.DisplayName.."\n(".._.Name..")"
            --*2/(string.len(NameTag.Text))
 		--NameTag.Size = n
-		NameTag.Size = n*2/(string.len(NameTag.Text)*.5)
+		NameTag.Size = (n*2)/(string.len(NameTag.Text)*(n*.5))
 		NameTag.Position = Ve2n(NBOX.X,NBOX.Y-NameTag.Size*.5)
 		NameTag.Visible = BV
 		NameTag.Color = Color3.new(1,1,1)
