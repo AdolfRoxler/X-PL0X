@@ -17,7 +17,7 @@ local Random = Random.new(tick())
 local Draw = Drawing.new
 local SafeFolder = Instance.new("Folder",game.CoreGui) SafeFolder.Name = "GhettoSmosh"
 local lowvalue = -(2^31-1)
-local AvatarURL = "https://www.roblox.com/headshot-thumbnail/image?userId=ñ&width=420&height=420&format=png"
+local AvatarURL = "https://www.roblox.com/headshot-thumbnail/image?userId=ñ&width=512&height=512&format=png"
 syn.protect_gui(SafeFolder)
 
 --- Config initialization
@@ -53,6 +53,13 @@ local Teleporting = false
 ---
 
 local function RefreshPlayers()
+	for _,N in pairs(PlayerList) do
+		if N then continue else end
+		for _,N in pairs(PlayerList[N].Tag) do print(_) N:Remove() end
+		for _,N in pairs(PlayerList[N]) do if type(N)~="table" then N:Remove() end end
+		PlayerList[N].Tag = nil
+		PlayerList[N] = nil
+	end
 	for _,N in pairs(Players:GetPlayers()) do 
 		if N and N~=User then 
 			PlayerList[N] = PlayerList[N] or {}
@@ -63,6 +70,7 @@ local function RefreshPlayers()
 			PlayerList[N].Healthbar = PlayerList[N].Healthbar or {Draw("Quad"),Draw("Quad"),Draw("Quad")}
 			PlayerList[N].Tracer = PlayerList[N].Tracer or Draw("Line")
 
+
 			PlayerList[N].Tag = PlayerList[N].Tag or {}
 			PlayerList[N].Tag.Background = PlayerList[N].Tag.Background or Draw("Quad")
 			PlayerList[N].Tag.Nametag = PlayerList[N].Tag.Nametag or Draw("Text")
@@ -70,21 +78,20 @@ local function RefreshPlayers()
 			PlayerList[N].Tag.Avatar = PlayerList[N].Tag.Avatar or Draw("Image")
 			PlayerList[N].Tag.AvatarFrame = PlayerList[N].Tag.AvatarFrame or Draw("Quad")
 			PlayerList[N].Tag.Healthbar = PlayerList[N].Tag.Healthbar or Draw("Line")
-			spawn(function() PlayerList[N].Tag.Avatar.Data = game:HttpGet(AvatarURL:gsub("ñ",tostring(N.UserId))) end)
 
-			syn.request({Url=URL,Method='GET'});
+			spawn(function() 
+			local avatar = syn.request({Url=AvatarURL:gsub("ñ",tostring(N.UserId)),Method='GET'}) 
+			PlayerList[N].Tag.Avatar.Data = avatar.Success and avatar.Body or ""
+		    end)
+
+
+			
+			--syn.request({Url=URL,Method='GET'});
 			
 			
 			--wget:LoadFile(N.Name.."png") or wget:Download(AvatarURL:gsub("ñ",tostring(N.UserId)),true,N.Name,"png")
-		else
-			if PlayerList[N] then 
-				for _,N in pairs(PlayerList[N].Tag) do N:Remove() end PlayerList[N].Tag = nil
-				for _,N in pairs(PlayerList[N]) do
-					N:Remove()
-				end
-				PlayerList[N] = nil
-			end
 		end 
+
 	end
 end
 
