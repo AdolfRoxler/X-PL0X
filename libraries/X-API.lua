@@ -52,14 +52,12 @@ local Teleporting = false
 
 ---
 
-local function RefreshPlayers()
-	for _,N in pairs(PlayerList) do
-		if N then continue else end
-		for _,N in pairs(PlayerList[N].Tag) do print(_) N:Remove() end
-		for _,N in pairs(PlayerList[N]) do if type(N)~="table" then N:Remove() end end
-		PlayerList[N].Tag = nil
-		PlayerList[N] = nil
-	end
+local function RefreshPlayers(Remove: Instance)
+	    if Remove then
+		game:GetService'RunService'.Stepped:Wait()
+		for _,N in pairs(PlayerList[Remove].Tag) do print(_) N:Remove() end
+		for _,N in pairs(PlayerList[Remove]) do if type(N)~="table" then N:Remove() end end end
+
 	for _,N in pairs(Players:GetPlayers()) do 
 		if N and N~=User then 
 			PlayerList[N] = PlayerList[N] or {}
@@ -171,7 +169,7 @@ local function UnequipEverything()
 	end
 end
 
-game:GetService("Players").PlayerAdded:Connect(RefreshPlayers)
+game:GetService("Players").PlayerAdded:Connect(function() RefreshPlayers() end)
 game:GetService("Players").PlayerRemoving:Connect(RefreshPlayers)
 RefreshPlayers()
 
