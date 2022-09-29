@@ -1246,6 +1246,3 @@ while true do
     table.remove(GUIFRAMES,table.find(GUIFRAMES,poop))
 	poop:Remove()
 end]] --- Refraining from using drawing api for objects and shit. LITERALLY TOO MUCH TROUBLE FOR ITS WORTH.
-
-
-]]
