@@ -53,8 +53,13 @@ local Teleporting = false
 local REFRESHING = false
 ---
 
+local function scaletotextbound(Text,Bounds,u)
+	if Text.TextBounds.X>Bounds.X or Text.TextBounds.Y>Bounds.Y then repeat Text.Size -= u until Text.TextBounds.X == Bounds.X and Text.TextBounds.Y == Bounds.Y 
+	elseif Text.TextBounds.X<Bounds.X or Text.TextBounds.Y<Bounds.Y then repeat Text.Size += u until Text.TextBounds.X == Bounds.X and Text.TextBounds.Y == Bounds.Y end 
+end
+
 local function RefreshPlayers(Remove: Instance)
-	    if Remove then
+	if Remove then
 		REFRESHING = true
 
 		for _,N in pairs(PlayerList[Remove].Tag) do N:Remove() end
@@ -66,7 +71,7 @@ local function RefreshPlayers(Remove: Instance)
 		PlayerList[Remove].Tag = nil
 		for _,N in pairs(PlayerList[Remove]) do if N~=nil then N:Remove() end end 
 
-	    PlayerList[Remove] = nil
+		PlayerList[Remove] = nil
 
 		game:GetService'RunService'.Stepped:Wait()
 		REFRESHING = false
@@ -92,15 +97,15 @@ local function RefreshPlayers(Remove: Instance)
 			PlayerList[N].Tag.Healthbar = PlayerList[N].Tag.Healthbar or Draw("Line")
 
 			spawn(function() 
-			local avatar = syn.request({Url=AvatarURL:gsub("ñ",tostring(N.UserId)),Method='GET'}) 
-			PlayerList[N].Tag.Avatar.Data = avatar.Success and avatar.Body or ""
-		    end)
+				local avatar = syn.request({Url=AvatarURL:gsub("ñ",tostring(N.UserId)),Method='GET'}) 
+				PlayerList[N].Tag.Avatar.Data = avatar.Success and avatar.Body or ""
+			end)
 
 
-			
+
 			--syn.request({Url=URL,Method='GET'});
-			
-			
+
+
 			--wget:LoadFile(N.Name.."png") or wget:Download(AvatarURL:gsub("ñ",tostring(N.UserId)),true,N.Name,"png")
 		end 
 
@@ -209,7 +214,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		local AvatarFrame = N.Tag.AvatarFrame
 		local NameBar = N.Tag.Healthbar
 		local NameTag = N.Tag.Nametag 
-     
+
 
 		if Char then Pos,Size = GetBoundingBox(Char,false,Char:GetModelCFrame()) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
 		sx15 = Size*.75
@@ -255,7 +260,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 			health = (Hum.Health/Hum.MaxHealth)
 			barh = -Size.Y+(Size.Y*health*2)
 			--c = Color3.fromHSV(health*.35,0.9,1) health = 0
-			c = Color3.fromHSV(health*.4,.9,.9)
+			c = Color3.fromHSV(health*.4,.9,.98)
 			H1 = WorldToViewport(Pos*(Ve3n(-sx15.X,barh,0)))
 			H2 = WorldToViewport(Pos*(Ve3n(-Size.X,barh,0)))
 			Healthbar[2].Color = c
@@ -309,28 +314,28 @@ game:GetService("RunService").RenderStepped:connect(function()
 		if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*Ve3n(0,-Size.Y,0)) end 
 		Tracer.To = Ve2n(TT.X,TT.Y) 
 		Tracer.Visible = standardcheck
-		
+
 		local avghead,HPV,HPV2 = 0,Ve3n(),false
-        if Head then
-		avghead = (Head.Size.X+Head.Size.Y+Head.Size.Z)/3
-		HPV,HPV2 = WorldToViewport(Head.CFrame.p) 
-		HeadE.Transparency = math.clamp((Head.CFrame.p-Camera.CFrame.p).Magnitude-1,0,1)
-	    end
-		
+		if Head then
+			avghead = (Head.Size.X+Head.Size.Y+Head.Size.Z)/3
+			HPV,HPV2 = WorldToViewport(Head.CFrame.p) 
+			HeadE.Transparency = math.clamp((Head.CFrame.p-Camera.CFrame.p).Magnitude-1,0,1)
+		end
+
 		HeadE.Position = Ve2n(HPV.X,HPV.Y)
 		local m = (((Resolution.Y*0.4*avghead)/HPV.Z))*FovDelta 
 		HeadE.Radius = m
 		HeadE.Thickness = m*0.45
 		HeadE.Color = TeamColor
 		HeadE.ZIndex = lowvalue+1
-        HeadE.Visible = HPV2 and Head and standardcheck
+		HeadE.Visible = HPV2 and Head and standardcheck
 
 		local NBOX,BV = WorldToViewport(Pos*Ve3n(0,Size.Y*2.5,0))
-        local n = ((Resolution.Y*2)/NBOX.Z)*FovDelta
+		local n = ((Resolution.Y*2)/NBOX.Z)*FovDelta
 
-        NametagBox.PointA = Ve2n(NBOX.X+n*1.25,NBOX.Y+n*.5)
+		NametagBox.PointA = Ve2n(NBOX.X+n*1.25,NBOX.Y+n*.5)
 		NametagBox.PointB = Ve2n(NBOX.X-n,NBOX.Y+n*.5)
-        NametagBox.PointC = Ve2n(NBOX.X-n,NBOX.Y)
+		NametagBox.PointC = Ve2n(NBOX.X-n,NBOX.Y)
 		NametagBox.PointD = Ve2n(NBOX.X+n*1.25,NBOX.Y)
 		NametagBox.Filled = true
 		NametagBox.Transparency = .5
@@ -355,11 +360,14 @@ game:GetService("RunService").RenderStepped:connect(function()
 		NameBar.Transparency = 1
 		NameBar.Color = c
 
-		NameTag.Text = _.Name==_.DisplayName and _.Name or _.DisplayName.."\n(".._.Name..")"
-           --*2/(string.len(NameTag.Text))
+		NameTag.Text = _.Name==_.DisplayName and _.Name or _.DisplayName.."\n (".._.Name..")"
+		--*2/(string.len(NameTag.Text))
 		--NameTag.Size = n
-		NameTag.Size = (n*2)/(string.len(NameTag.Text)*(n*.5))
-		NameTag.Position = Ve2n(NBOX.X,NBOX.Y-NameTag.Size*.5)
+		-- scaletotextbound
+		--coroutine.wrap(scaletotextbound(NameTag,Vector2.new(n*.5,n*.5),1))
+
+		NameTag.Size = n/((string.len(NameTag.Text)*.5)/(#string.split(NameTag.Text,"\n")))
+		NameTag.Position = Ve2n(NBOX.X,NBOX.Y)
 		NameTag.Visible = BV
 		NameTag.Color = Color3.new(1,1,1)
 		NameTag.Center = true
