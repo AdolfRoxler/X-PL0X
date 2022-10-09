@@ -65,16 +65,17 @@ local function scaletotextbound(Text,Bounds,u)
 end
 
 local function RefreshPlayers(Remove: Instance)
+	--repeat game:GetService('RunService').Heartbeat:Wait() until REFRESHING == false
+local function remove(Remove)
 	if Remove then
 		REFRESHING = true
-
-		for _,N in pairs(PlayerList[Remove].Tag) do N:Remove() end
+		if PlayerList[Remove].Tag then for _,N in pairs(PlayerList[Remove].Tag) do N:Remove() end end
+		PlayerList[Remove].Tag = nil
 		PlayerList[Remove].Healthbar[1]:Remove()
 		PlayerList[Remove].Healthbar[2]:Remove()
 		PlayerList[Remove].Healthbar[3]:Remove()
 		PlayerList[Remove].Healthbar = nil
 		PlayerList[Remove].Skeleton = nil
-		PlayerList[Remove].Tag = nil
 		for _,N in pairs(PlayerList[Remove]) do if N~=nil then N:Remove() end end 
 
 		PlayerList[Remove] = nil
@@ -82,9 +83,10 @@ local function RefreshPlayers(Remove: Instance)
 		game:GetService'RunService'.Stepped:Wait()
 		REFRESHING = false
 	end
-
+end
+    remove(Remove)
 	for _,N in pairs(Players:GetPlayers()) do 
-		if N and N~=User then 
+		if N.Parent~=nil and N~=User then 
 			PlayerList[N] = PlayerList[N] or {}
 			PlayerList[N].CheapChams = PlayerList[N].CheapChams or Instance.new("Highlight")
 			PlayerList[N].Box = PlayerList[N].Box or Draw("Quad")
@@ -111,6 +113,8 @@ local function RefreshPlayers(Remove: Instance)
 
 
 			--wget:LoadFile(N.Name.."png") or wget:Download(AvatarURL:gsub("ñ",tostring(N.UserId)),true,N.Name,"png")
+		else
+			remove(N)
 		end 
 
 	end
@@ -394,7 +398,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Distance.Text = tostring(floor(User:DistanceFromCharacter(Pos.p)*.28)).."m"
 		Distance.Visible = BV
 		Distance.Size = n*2.5/(clamp(string.len(Distance.Text),3,inf)*2)
-		Distance.Position = Ve2n(NBOX.X-n*1.35,NBOX.Y-Distance.TextBounds.Y+n*.5)
+		Distance.Position = Ve2n(NBOX.X-n*1.375,NBOX.Y-Distance.TextBounds.Y+n*.5)
 		Distance.Color = Color3.new(1,1,1)
 		Distance.Center = true
 	end
