@@ -369,7 +369,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		-- scaletotextbound
 		--coroutine.wrap(scaletotextbound(NameTag,Vector2.new(n*.5,n*.5),1))
 
-		NameTag.Size = n*8/(math.clamp(string.len(NameTag.Text)*2),6,math.huge))
+		NameTag.Size = n*8/(math.clamp(string.len(NameTag.Text)*2,6,math.huge))
 		--n/((string.len(NameTag.Text)*.5)/(#string.split(NameTag.Text,"\n")))
 		NameTag.Position = Ve2n(NBOX.X,NBOX.Y-NameTag.TextBounds.Y+n*.5)
 		NameTag.Visible = BV
