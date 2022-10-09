@@ -12,6 +12,12 @@ local inverse = CFrame.Angles(0, 0, AT):vectorToWorldSpace((CFrame.Angles(0, mat
 return workspace.CurrentCamera:WorldToViewportPoint(workspace.CurrentCamera.CFrame:pointToWorldSpace(inverse))
 end
 
+function module:clamp(a:number,b:number,c:number)
+local m = a>=b
+local M = a<=c
+return ((m and M) and a) or ((not m and M) and b) or ((m and not M) and c)
+end
+
 function module.truncate(f,x) return math.floor(f*x)/x end 
 
 return setmetatable(module, { __index = math })

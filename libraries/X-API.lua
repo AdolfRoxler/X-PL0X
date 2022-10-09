@@ -231,7 +231,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Chams.OutlineColor = Color3.new(1,1,1)
 		Chams.OutlineTransparency = 0
 		Chams.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-		Chams.Enabled = standardcheck
+		Chams.Enabled = false --standardcheck
 		Chams.Parent = SafeFolder
 
 		local UR,V1 = WorldToViewport(Pos*(Ve3n(Size.X,Size.Y,0)))
@@ -248,7 +248,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Box.Thickness = standard
 		Box.Color = TeamColor
 		Box.ZIndex = zindex
-		Box.Visible = V1 and V2 and V3 and V4 and standardcheck
+		Box.Visible = false --V1 and V2 and V3 and V4 and standardcheck
 
 		local BUR,V19 = WorldToViewport(Pos*(Ve3n(-sx15.X,Size.y,0)))
 		local BDR,V22 = WorldToViewport(Pos*(Ve3n(-sx15.X,-Size.Y,0)))
@@ -299,7 +299,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Healthbar[2].ZIndex = zindex-1
 		Healthbar[2].Thickness = 0
 
-		local hcheck = V2 and V3 and V19 and V22 and standardcheck
+		local hcheck = false --V2 and V3 and V19 and V22 and standardcheck
 
 		Healthbar[1].Visible = hcheck
 		Healthbar[2].Visible = hcheck
@@ -315,7 +315,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Tracer.ZIndex = zindex
 		if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*Ve3n(0,-Size.Y,0)) end 
 		Tracer.To = Ve2n(TT.X,TT.Y) 
-		Tracer.Visible = standardcheck
+		Tracer.Visible = false --standardcheck
 
 		local avghead,HPV,HPV2 = 0,Ve3n(),false
 		if Head then
@@ -330,7 +330,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		HeadE.Thickness = m*0.45
 		HeadE.Color = TeamColor
 		HeadE.ZIndex = lowvalue+1
-		HeadE.Visible = HPV2 and Head and standardcheck
+		HeadE.Visible = false --HPV2 and Head and standardcheck
 
 		local NBOX,BV = WorldToViewport(Pos*Ve3n(0,Size.Y*2.5,0))
 		local n = math.clamp(((Resolution.Y*2)/NBOX.Z)*FovDelta,55,math.huge)
@@ -369,7 +369,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		-- scaletotextbound
 		--coroutine.wrap(scaletotextbound(NameTag,Vector2.new(n*.5,n*.5),1))
 
-		NameTag.Size = n*8/(math.clamp(string.len(NameTag.Text)*2,6,math.huge))
+		NameTag.Size = n*8/(math.clamp(string.len(NameTag.Text),7,math.huge)*2)
 		--n/((string.len(NameTag.Text)*.5)/(#string.split(NameTag.Text,"\n")))
 		NameTag.Position = Ve2n(NBOX.X,NBOX.Y-NameTag.TextBounds.Y+n*.5)
 		NameTag.Visible = BV
@@ -387,7 +387,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 
 		Distance.Text = tostring(math.floor(User:DistanceFromCharacter(Pos.p)*.28)).."m"
 		Distance.Visible = BV
-		Distance.Size = n*2.5/(math.clamp(string.len(Distance.Text)*2,5,math.huge))
+		Distance.Size = n*2.5/(math.clamp(string.len(Distance.Text),3,math.huge)*2)
 		Distance.Position = Ve2n(NBOX.X-n*1.35,NBOX.Y-Distance.TextBounds.Y+n*.5)
 		Distance.Color = Color3.new(1,1,1)
 		Distance.Center = true
