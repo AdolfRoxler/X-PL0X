@@ -1,4 +1,8 @@
 local module = {}
+local split = string.split
+local tostring = tostring
+local tonumber = tonumber
+
 function module.roundtodecimal(X,decimallimit)
 if decimallimit then else decimallimit = 0 end ---found doing this for every time I wanted to round exhausting so here's this piece of shit
 decimalpointer = 10^math.abs(decimallimit)
@@ -19,7 +23,8 @@ return ((m and M) and a) or ((not m and M) and b) or ((m and not M) and c)
 end
 
 function module.abs(a:number)
-    return (0>a and a*-1) or a
+local operation = split(tostring(n),"-")
+return tonumber(operation[#operation])
 end
 
 function module.truncate(f,x) return math.floor(f*x)/x end 
