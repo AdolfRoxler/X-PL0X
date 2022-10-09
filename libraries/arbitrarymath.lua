@@ -18,7 +18,7 @@ local M = a<=c
 return ((m and M) and a) or ((not m and M) and b) or ((m and not M) and c)
 end
 
-function module:abs(a:number)
+function module.abs(a:number)
     return (0>a and a*-1) or a
 end
 
