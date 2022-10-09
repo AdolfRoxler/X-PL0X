@@ -2,21 +2,11 @@
 Crossin' yer roblocks gaym CUH
 
 
-This is a debug tool intended to test a roblox game dev's laziness (hard work meter). 
-Any misuse or catastrophe caused by this tool is at the responsibility of the end user. Not the developer. (hope mossad doesn't kill me!)
+Blah blah blah debug tool blah blah blah
 
+This is the legacy version before the rewrite. Enjoy!
 
-Todo list [not in order]:
-
--Optimization
--More customizability (idk maybe i make my own drawing lib)
--More protection features (I.E: sandboxed execution?)
--fix godmode (yeah gotta copy IY's code again! woohoo!)
-
-
-
-
-
+Might have some missing patches because of github being retarded. cba!
 
 
 Discord invite: eCtE2ukNVV
