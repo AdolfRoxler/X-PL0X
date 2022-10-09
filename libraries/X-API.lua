@@ -52,6 +52,12 @@ local Teleporting = false
 
 local REFRESHING = false
 ---
+--- make math faster cuh!
+local clamp = math.clamp
+local inf = math.huge
+local abs = math.abs
+local floor = math.floor
+---
 
 local function scaletotextbound(Text,Bounds,u)
 	if Text.TextBounds.X>Bounds.X or Text.TextBounds.Y>Bounds.Y then repeat Text.Size -= u until Text.TextBounds.X == Bounds.X and Text.TextBounds.Y == Bounds.Y 
@@ -131,17 +137,17 @@ local function GetBoundingBox(model: Instance, recursive: boolean, orientation: 
 		model = recursive and model:GetDescendants() or model:GetChildren() --- had to modify some shit, last two variables are implemented by me
 	end
 	local orientation = orientation~=nil and orientation or CFN()
-	local minx, miny, minz = math.huge,math.huge,math.huge
-	local maxx, maxy, maxz = -math.huge,-math.huge,-math.huge
+	local minx, miny, minz = inf,inf,inf
+	local maxx, maxy, maxz = -inf,-inf,-inf
 	for _, obj in pairs(model) do
 		if obj:IsA("BasePart") then
 			if (mustcollide==true and obj.CanCollide==false) then continue end
 			local cf = orientation:toObjectSpace(obj.CFrame)
 			local sx, sy, sz = obj.Size.X, obj.Size.Y, obj.Size.Z
 			local x, y, z, R00, R01, R02, R10, R11, R12, R20, R21, R22 = cf:components()
-			local wsx = 0.5 * (math.abs(R00) * sx + math.abs(R01) * sy + math.abs(R02) * sz)
-			local wsy = 0.5 * (math.abs(R10) * sx + math.abs(R11) * sy + math.abs(R12) * sz)
-			local wsz = 0.5 * (math.abs(R20) * sx + math.abs(R21) * sy + math.abs(R22) * sz)
+			local wsx = 0.5 * (abs(R00) * sx + abs(R01) * sy + abs(R02) * sz)
+			local wsy = 0.5 * (abs(R10) * sx + abs(R11) * sy + abs(R12) * sz)
+			local wsz = 0.5 * (abs(R20) * sx + abs(R21) * sy + abs(R22) * sz)
 			if minx > x - wsx then
 				minx = x - wsx
 			end
@@ -308,9 +314,9 @@ game:GetService("RunService").RenderStepped:connect(function()
 
 
 		local TT = WorldToViewport(Pos*Ve3n(0,-Size.Y,0))
-		Tracer.Thickness = math.clamp(standard,0,(Resolution.Y*0.004))
+		Tracer.Thickness = clamp(standard,0,(Resolution.Y*0.004))
 		Tracer.Color = TeamColor
-		Tracer.Transparency = math.clamp(1-(Pos.p-Camera.CFrame.p).Magnitude*.00025,.2,1)
+		Tracer.Transparency = clamp(1-(Pos.p-Camera.CFrame.p).Magnitude*.00025,.2,1)
 		Tracer.From = Ve2n(Resolution.X*.5,Resolution.Y*.985)
 		Tracer.ZIndex = zindex
 		if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*Ve3n(0,-Size.Y,0)) end 
@@ -321,7 +327,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		if Head then
 			avghead = (Head.Size.X+Head.Size.Y+Head.Size.Z)/3
 			HPV,HPV2 = WorldToViewport(Head.CFrame.p) 
-			HeadE.Transparency = math.clamp((Head.CFrame.p-Camera.CFrame.p).Magnitude-1,0,1)
+			HeadE.Transparency = clamp((Head.CFrame.p-Camera.CFrame.p).Magnitude-1,0,1)
 		end
 
 		HeadE.Position = Ve2n(HPV.X,HPV.Y)
@@ -333,7 +339,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		HeadE.Visible = false --HPV2 and Head and standardcheck
 
 		local NBOX,BV = WorldToViewport(Pos*Ve3n(0,Size.Y*2.5,0))
-		local n = math.clamp(((Resolution.Y*2)/NBOX.Z)*FovDelta,55,math.huge)
+		local n = clamp(((Resolution.Y*2)/NBOX.Z)*FovDelta,55,inf)
 
 		NametagBox.PointA = Ve2n(NBOX.X+n,NBOX.Y+n*.5)
 		NametagBox.PointB = Ve2n(NBOX.X-n,NBOX.Y+n*.5)
@@ -369,7 +375,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		-- scaletotextbound
 		--coroutine.wrap(scaletotextbound(NameTag,Vector2.new(n*.5,n*.5),1))
 
-		NameTag.Size = n*8/(math.clamp(string.len(NameTag.Text),7,math.huge)*2)
+		NameTag.Size = n*8/(clamp(string.len(NameTag.Text),7,inf)*2)
 		--n/((string.len(NameTag.Text)*.5)/(#string.split(NameTag.Text,"\n")))
 		NameTag.Position = Ve2n(NBOX.X,NBOX.Y-NameTag.TextBounds.Y+n*.5)
 		NameTag.Visible = BV
@@ -385,9 +391,9 @@ game:GetService("RunService").RenderStepped:connect(function()
 		DistanceFrame.Transparency = .5
 		DistanceFrame.Color = Color3.fromRGB(213,22,28)
 
-		Distance.Text = tostring(math.floor(User:DistanceFromCharacter(Pos.p)*.28)).."m"
+		Distance.Text = tostring(floor(User:DistanceFromCharacter(Pos.p)*.28)).."m"
 		Distance.Visible = BV
-		Distance.Size = n*2.5/(math.clamp(string.len(Distance.Text),3,math.huge)*2)
+		Distance.Size = n*2.5/(clamp(string.len(Distance.Text),3,inf)*2)
 		Distance.Position = Ve2n(NBOX.X-n*1.35,NBOX.Y-Distance.TextBounds.Y+n*.5)
 		Distance.Color = Color3.new(1,1,1)
 		Distance.Center = true
