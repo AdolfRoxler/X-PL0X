@@ -91,15 +91,13 @@ local function RefreshPlayers(Remove: Instance)
 			PlayerList[N].Tag = PlayerList[N].Tag or {}
 			PlayerList[N].Tag.Background = PlayerList[N].Tag.Background or Draw("Quad")
 			PlayerList[N].Tag.Nametag = PlayerList[N].Tag.Nametag or Draw("Text")
-			PlayerList[N].Tag.Distance = PlayerList[N].Tag.Distance or Draw("Text")
 			PlayerList[N].Tag.Avatar = PlayerList[N].Tag.Avatar or Draw("Image")
 			PlayerList[N].Tag.AvatarFrame = PlayerList[N].Tag.AvatarFrame or Draw("Quad")
 			PlayerList[N].Tag.Healthbar = PlayerList[N].Tag.Healthbar or Draw("Line")
+			PlayerList[N].Tag.DistanceFrame = PlayerList[N].Tag.DistanceFrame or Draw("Quad")
+			PlayerList[N].Tag.Distance = PlayerList[N].Tag.Distance or Draw("Text")
 
-			spawn(function() 
-				local avatar = syn.request({Url=AvatarURL:gsub("ñ",tostring(N.UserId)),Method='GET'}) 
-				PlayerList[N].Tag.Avatar.Data = avatar.Success and avatar.Body or ""
-			end)
+			spawn(function() local avatar = syn.request({Url=AvatarURL:gsub("ñ",tostring(N.UserId)),Method='GET'}) PlayerList[N].Tag.Avatar.Data = avatar.Success and avatar.Body or "" end)
 
 
 
@@ -214,6 +212,10 @@ game:GetService("RunService").RenderStepped:connect(function()
 		local AvatarFrame = N.Tag.AvatarFrame
 		local NameBar = N.Tag.Healthbar
 		local NameTag = N.Tag.Nametag 
+		local Distance = N.Tag.Distance
+		local DistanceFrame = N.Tag.DistanceFrame
+		NameTag.Font = 1
+		Distance.Font = 1
 
 
 		if Char then Pos,Size = GetBoundingBox(Char,false,Char:GetModelCFrame()) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
@@ -331,46 +333,64 @@ game:GetService("RunService").RenderStepped:connect(function()
 		HeadE.Visible = HPV2 and Head and standardcheck
 
 		local NBOX,BV = WorldToViewport(Pos*Ve3n(0,Size.Y*2.5,0))
-		local n = ((Resolution.Y*2)/NBOX.Z)*FovDelta
+		local n = math.clamp(((Resolution.Y*2)/NBOX.Z)*FovDelta,55,math.huge)
 
-		NametagBox.PointA = Ve2n(NBOX.X+n*1.25,NBOX.Y+n*.5)
+		NametagBox.PointA = Ve2n(NBOX.X+n,NBOX.Y+n*.5)
 		NametagBox.PointB = Ve2n(NBOX.X-n,NBOX.Y+n*.5)
 		NametagBox.PointC = Ve2n(NBOX.X-n,NBOX.Y)
-		NametagBox.PointD = Ve2n(NBOX.X+n*1.25,NBOX.Y)
+		NametagBox.PointD = Ve2n(NBOX.X+n,NBOX.Y)
 		NametagBox.Filled = true
 		NametagBox.Transparency = .5
 		NametagBox.Visible = BV
+		NametagBox.Color = Color3.new(0,0,0)
 
 		Avatar.Size = Ve2n(n*.5,n*.5)
 		Avatar.Position = Vector2.new(NBOX.X-n*1.5,NBOX.Y)
-		Avatar.Visible = BV
+		Avatar.Visible = false
 
 		AvatarFrame.PointA = Ve2n(NBOX.X-n,NBOX.Y+n*.5)
 		AvatarFrame.PointB = Ve2n(NBOX.X-n*1.5,NBOX.Y+n*.5)
 		AvatarFrame.PointC = Ve2n(NBOX.X-n*1.5,NBOX.Y)
 		AvatarFrame.PointD = Ve2n(NBOX.X-n,NBOX.Y)
-		AvatarFrame.Visible = BV
+		AvatarFrame.Visible = false
 		AvatarFrame.Filled = true
 		AvatarFrame.Transparency = .25
 
 		NameBar.From =  Ve2n(NBOX.X-n,NBOX.Y+n*.5-standard*.5)
-		NameBar.To = Ve2n(NBOX.X-n+(n*2.25*health),NBOX.Y+n*.5-standard*.5)
+		NameBar.To = Ve2n(NBOX.X-n+(n*2*health),NBOX.Y+n*.5-standard*.5)
 		NameBar.Thickness = standard
 		NameBar.Visible = BV
 		NameBar.Transparency = 1
 		NameBar.Color = c
 
-		NameTag.Text = _.Name==_.DisplayName and _.Name or _.DisplayName.."\n (".._.Name..")"
+		NameTag.Text = _.Name
 		--*2/(string.len(NameTag.Text))
 		--NameTag.Size = n
 		-- scaletotextbound
 		--coroutine.wrap(scaletotextbound(NameTag,Vector2.new(n*.5,n*.5),1))
 
-		NameTag.Size = n/((string.len(NameTag.Text)*.5)/(#string.split(NameTag.Text,"\n")))
-		NameTag.Position = Ve2n(NBOX.X,NBOX.Y)
+		NameTag.Size = n*8/(math.clamp(string.len(NameTag.Text)*2),6,math.huge))
+		--n/((string.len(NameTag.Text)*.5)/(#string.split(NameTag.Text,"\n")))
+		NameTag.Position = Ve2n(NBOX.X,NBOX.Y-NameTag.TextBounds.Y+n*.5)
 		NameTag.Visible = BV
 		NameTag.Color = Color3.new(1,1,1)
 		NameTag.Center = true
+
+		DistanceFrame.PointA = Ve2n(NBOX.X-n,NBOX.Y+n*.5)
+		DistanceFrame.PointB = Ve2n(NBOX.X-n*1.75,NBOX.Y+n*.5)
+		DistanceFrame.PointC = Ve2n(NBOX.X-n*1.75,NBOX.Y)
+		DistanceFrame.PointD = Ve2n(NBOX.X-n,NBOX.Y)
+		DistanceFrame.Visible = BV
+		DistanceFrame.Filled = true
+		DistanceFrame.Transparency = .5
+		DistanceFrame.Color = Color3.fromRGB(213,22,28)
+
+		Distance.Text = tostring(math.floor(User:DistanceFromCharacter(Pos.p)*.28)).."m"
+		Distance.Visible = BV
+		Distance.Size = n*2.5/(math.clamp(string.len(Distance.Text)*2,5,math.huge))
+		Distance.Position = Ve2n(NBOX.X-n*1.35,NBOX.Y-Distance.TextBounds.Y+n*.5)
+		Distance.Color = Color3.new(1,1,1)
+		Distance.Center = true
 	end
 end)
 
