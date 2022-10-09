@@ -22,11 +22,6 @@ local M = a<=c
 return ((m and M) and a) or ((not m and M) and b) or ((m and not M) and c)
 end
 
-function module.abs(a:number)
-local operation = split(tostring(n),"-")
-return tonumber(operation[#operation])
-end
-
 function module.truncate(f,x) return math.floor(f*x)/x end 
 
 return setmetatable(module, { __index = math })
