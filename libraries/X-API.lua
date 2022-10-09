@@ -64,12 +64,11 @@ local function scaletotextbound(Text,Bounds,u)
 	elseif Text.TextBounds.X<Bounds.X or Text.TextBounds.Y<Bounds.Y then repeat Text.Size += u until Text.TextBounds.X == Bounds.X and Text.TextBounds.Y == Bounds.Y end 
 end
 
-local function RefreshPlayers(Remove: Instance)
+local function RefreshPlayers(zemove: Instance)
 	--repeat game:GetService('RunService').Heartbeat:Wait() until REFRESHING == false
-local function remove(Remove)
-	if Remove then
+	if Remove and PlayerList[Remove] then
 		REFRESHING = true
-		if PlayerList[Remove].Tag then for _,N in pairs(PlayerList[Remove].Tag) do N:Remove() end end
+		for _,N in pairs(PlayerList[Remove].Tag) do N:Remove() end
 		PlayerList[Remove].Tag = nil
 		PlayerList[Remove].Healthbar[1]:Remove()
 		PlayerList[Remove].Healthbar[2]:Remove()
@@ -77,14 +76,9 @@ local function remove(Remove)
 		PlayerList[Remove].Healthbar = nil
 		PlayerList[Remove].Skeleton = nil
 		for _,N in pairs(PlayerList[Remove]) do if N~=nil then N:Remove() end end 
-
 		PlayerList[Remove] = nil
-
-		game:GetService'RunService'.Stepped:Wait()
 		REFRESHING = false
 	end
-end
-    remove(Remove)
 	for _,N in pairs(Players:GetPlayers()) do 
 		if N.Parent~=nil and N~=User then 
 			PlayerList[N] = PlayerList[N] or {}
@@ -113,11 +107,10 @@ end
 
 
 			--wget:LoadFile(N.Name.."png") or wget:Download(AvatarURL:gsub("ñ",tostring(N.UserId)),true,N.Name,"png")
-		else
-			remove(N)
 		end 
 
 	end
+	for _,N in pairs(PlayerList) do warn(_,N) end
 end
 
 local function RandomPlayer(ExcludePlayer: Instance)
