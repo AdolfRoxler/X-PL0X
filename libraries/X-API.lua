@@ -113,7 +113,7 @@ local function RefreshPlayers(zemove: Instance)
 		end 
 
 	end
-	for _,N in pairs(PlayerList) do warn(_,N) end
+	--for _,N in pairs(PlayerList) do warn(_,N) end
 end
 
 local function RandomPlayer(ExcludePlayer: Instance)
@@ -224,7 +224,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Distance.Font = 1
 
 
-		if Char then Pos,Size = GetBoundingBox(Char,false,Char:GetModelCFrame()) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
+		if Char then Pos,Size = GetBoundingBox(Char,false,Config.ESP.OrientateBox and Char:GetModelCFrame() or CFN(Char:GetModelCFrame().p)*Camera.CFrame.Rotation) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
 		sx15 = Size*.75
 		Size = Size*.5
 		local standard = (((0.07*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
