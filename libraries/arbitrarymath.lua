@@ -14,9 +14,11 @@ return workspace.CurrentCamera:WorldToViewportPoint(workspace.CurrentCamera.CFra
 end
 
 function module:clamp(a:number,b:number,c:number)
+if a and b and c then
 local m = a>=b
 local M = a<=c
 return ((m and M) and a) or ((not m and M) and b) or ((m and not M) and c)
+else return 0 end
 end
 
 function module.truncate(f,x) return math.floor(f*x)/x end 
