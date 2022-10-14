@@ -342,7 +342,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		local NBOX,BV = WorldToViewport(Pos*Ve3n(0,Size.Y*2.5,0))
 		local n = clamp(((Resolution.Y*2)/NBOX.Z)*FovDelta,55,inf)
 		local nNn = BV and Config.ESP.Nametag.Enabled
-		NBOX.Y = NBOX.Y-n*.5
+		NBOX = Ve3n(NBOX.X,NBOX.Y-n*.5,NBOX.Z)
 
 		NametagBox.PointA = Ve2n(NBOX.X+n,NBOX.Y+n*.5)
 		NametagBox.PointB = Ve2n(NBOX.X-n,NBOX.Y+n*.5)

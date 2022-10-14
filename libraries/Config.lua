@@ -1,7 +1,7 @@
 return {
 ESP = {
     Enabled = false, Box = false, Healthbar = false, Tracers = false, Head = false, 
-    Chams = {Enabled = false, ThroughWalls = false},
+    Chams = {Egnabled = false, ThroughWalls = false},
     OrientateBox = false, -- Orient it to character rotation
     Nametag = {Enabled = false, DisplayName = false, DisplayHealth = false, DisplayAvatar = false, DisplayDistance = false,
         Customization = {
