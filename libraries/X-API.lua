@@ -229,7 +229,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Size = Size*.5
 		local standard = (((0.07*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
 
-		local standardcheck = (not IsFocused)==true and Config.ESP==true
+		local standardcheck = IsFocused==false and Config.ESP.Disabled==false
 
 		Chams.Adornee = Char or nil
 		Chams.FillColor = TeamColor
@@ -254,7 +254,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Box.Thickness = standard
 		Box.Color = TeamColor
 		Box.ZIndex = zindex
-		Box.Visible = false --V1 and V2 and V3 and V4 and standardcheck
+		Box.Visible = V1 and V2 and V3 and V4 and standardcheck and Config.ESP.Box
 
 		local BUR,V19 = WorldToViewport(Pos*(Ve3n(-sx15.X,Size.y,0)))
 		local BDR,V22 = WorldToViewport(Pos*(Ve3n(-sx15.X,-Size.Y,0)))
@@ -305,7 +305,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Healthbar[2].ZIndex = zindex-1
 		Healthbar[2].Thickness = 0
 
-		local hcheck = false --V2 and V3 and V19 and V22 and standardcheck
+		local hcheck = V2 and V3 and V19 and V22 and standardcheck and Config.ESP.Healthbar
 
 		Healthbar[1].Visible = hcheck
 		Healthbar[2].Visible = hcheck
@@ -321,7 +321,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Tracer.ZIndex = zindex
 		if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*Ve3n(0,-Size.Y,0)) end 
 		Tracer.To = Ve2n(TT.X,TT.Y) 
-		Tracer.Visible = false --standardcheck
+		Tracer.Visible = standardcheck and Config.ESP.Tracers
 
 		local avghead,HPV,HPV2 = 0,Ve3n(),false
 		if Head then
@@ -336,10 +336,11 @@ game:GetService("RunService").RenderStepped:connect(function()
 		HeadE.Thickness = m*0.45
 		HeadE.Color = TeamColor
 		HeadE.ZIndex = lowvalue+1
-		HeadE.Visible = false --HPV2 and Head and standardcheck
+		HeadE.Visible = HPV2 and Head and standardcheck and Config.ESP.Head
 
 		local NBOX,BV = WorldToViewport(Pos*Ve3n(0,Size.Y*2.5,0))
 		local n = clamp(((Resolution.Y*2)/NBOX.Z)*FovDelta,55,inf)
+		local nNn = BV and Config.ESP.Nametag.Disabled
 
 		NametagBox.PointA = Ve2n(NBOX.X+n,NBOX.Y+n*.5)
 		NametagBox.PointB = Ve2n(NBOX.X-n,NBOX.Y+n*.5)
@@ -347,25 +348,25 @@ game:GetService("RunService").RenderStepped:connect(function()
 		NametagBox.PointD = Ve2n(NBOX.X+n,NBOX.Y)
 		NametagBox.Filled = true
 		NametagBox.Transparency = .5
-		NametagBox.Visible = BV
+		NametagBox.Visible = nNn
 		NametagBox.Color = Color3.new(0,0,0)
 
 		Avatar.Size = Ve2n(n*.5,n*.5)
 		Avatar.Position = Vector2.new(NBOX.X-n*1.5,NBOX.Y)
-		Avatar.Visible = false
+		Avatar.Visible = nNn and Config.ESP.Nametag.DisplayAvatar
 
 		AvatarFrame.PointA = Ve2n(NBOX.X-n,NBOX.Y+n*.5)
 		AvatarFrame.PointB = Ve2n(NBOX.X-n*1.5,NBOX.Y+n*.5)
 		AvatarFrame.PointC = Ve2n(NBOX.X-n*1.5,NBOX.Y)
 		AvatarFrame.PointD = Ve2n(NBOX.X-n,NBOX.Y)
-		AvatarFrame.Visible = false
+		AvatarFrame.Visible = nNn and Config.ESP.Nametag.DisplayAvatar
 		AvatarFrame.Filled = true
 		AvatarFrame.Transparency = .25
 
 		NameBar.From =  Ve2n(NBOX.X-n,NBOX.Y+n*.5-standard*.5)
 		NameBar.To = Ve2n(NBOX.X-n+(n*2*health),NBOX.Y+n*.5-standard*.5)
 		NameBar.Thickness = standard
-		NameBar.Visible = BV
+		NameBar.Visible = nNn and Config.ESP.Nametag.DisplayHealth
 		NameBar.Transparency = 1
 		NameBar.Color = c
 
@@ -378,7 +379,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		NameTag.Size = n*8/(clamp(string.len(NameTag.Text),7,inf)*2)
 		--n/((string.len(NameTag.Text)*.5)/(#string.split(NameTag.Text,"\n")))
 		NameTag.Position = Ve2n(NBOX.X,NBOX.Y-NameTag.TextBounds.Y+n*.5)
-		NameTag.Visible = BV
+		NameTag.Visible = nNn and Config.ESP.Nametag.DisplayName
 		NameTag.Color = Color3.new(1,1,1)
 		NameTag.Center = true
 
@@ -386,13 +387,13 @@ game:GetService("RunService").RenderStepped:connect(function()
 		DistanceFrame.PointB = Ve2n(NBOX.X-n*1.75,NBOX.Y+n*.5)
 		DistanceFrame.PointC = Ve2n(NBOX.X-n*1.75,NBOX.Y)
 		DistanceFrame.PointD = Ve2n(NBOX.X-n,NBOX.Y)
-		DistanceFrame.Visible = BV
+		DistanceFrame.Visible = nNn and Config.ESP.Nametag.DisplayDistance
 		DistanceFrame.Filled = true
 		DistanceFrame.Transparency = .5
 		DistanceFrame.Color = Color3.fromRGB(213,22,28)
 
 		Distance.Text = tostring(floor(User:DistanceFromCharacter(Pos.p)*.28)).."m"
-		Distance.Visible = BV
+		Distance.Visible = nNn and Config.ESP.Nametag.DisplayDistance
 		Distance.Size = n*2.5/(clamp(string.len(Distance.Text),3,inf)*2)
 		Distance.Position = Ve2n(NBOX.X-n*1.375,NBOX.Y-Distance.TextBounds.Y+n*.5)
 		Distance.Color = Color3.new(1,1,1)
