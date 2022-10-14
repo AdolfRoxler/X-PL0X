@@ -1,5 +1,4 @@
 --- Rewrite
-local Config = {}
 local Camera = workspace.CurrentCamera
 local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
@@ -21,7 +20,7 @@ local AvatarURL = "https://www.roblox.com/headshot-thumbnail/image?userId=ñ&wid
 syn.protect_gui(SafeFolder)
 
 --- Config initialization
-Config.ESP = true
+local Config = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/arbitrarymath.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/arbitrarymath.lua')()
 --- Libraries
 
 local math = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/arbitrarymath.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/arbitrarymath.lua')()
@@ -57,6 +56,10 @@ local clamp = math.clamp
 local inf = math.huge
 local abs = math.abs
 local floor = math.floor
+
+local split = string.split
+local tostring = tostring
+local tonumber = tonumber
 ---
 
 local function scaletotextbound(Text,Bounds,u)
