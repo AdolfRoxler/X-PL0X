@@ -68,11 +68,11 @@ local function scaletotextbound(Text,Bounds,u)
 	elseif Text.TextBounds.X<Bounds.X or Text.TextBounds.Y<Bounds.Y then repeat Text.Size += u until Text.TextBounds.X == Bounds.X and Text.TextBounds.Y == Bounds.Y end 
 end
 
-local function RefreshPlayers(zemove: Instance)
+local function RefreshPlayers(Remove: Instance)
 	--repeat game:GetService('RunService').Heartbeat:Wait() until REFRESHING == false
 	if Remove and PlayerList[Remove] then
 		REFRESHING = true
-		for _,N in pairs(PlayerList[Remove].Tag) do N:Remove() end
+		for _,N in pairs(PlayerList[Remove].Tag) do warn(_,N) N:Remove() end
 		PlayerList[Remove].Healthbar[1]:Remove()
 		PlayerList[Remove].Healthbar[2]:Remove()
 		PlayerList[Remove].Healthbar[3]:Remove()
@@ -225,12 +225,12 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Distance.Font = 1
 
 
-		if Char then Pos,Size = GetBoundingBox(Char,false,Config.ESP.OrientateBox and Char:GetModelCFrame() or CFN(Char:GetModelCFrame().p)*Camera.CFrame.Rotation) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
+		if Char then Pos,Size = GetBoundingBox(Char,false,Config.ESP.OrientateBox and Char:GetModelCFrame() or CFN(Char:GetModelCFrame().p,Camera.CFrame.p)) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
 		sx15 = Size*.75
 		Size = Size*.5
 		local standard = (((0.07*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
 
-		local standardcheck = IsFocused==false and Config.ESP.Disabled==false
+		local standardcheck = IsFocused==false and Config.ESP.Enabled
 
 		Chams.Adornee = Char or nil
 		Chams.FillColor = TeamColor
@@ -341,7 +341,8 @@ game:GetService("RunService").RenderStepped:connect(function()
 
 		local NBOX,BV = WorldToViewport(Pos*Ve3n(0,Size.Y*2.5,0))
 		local n = clamp(((Resolution.Y*2)/NBOX.Z)*FovDelta,55,inf)
-		local nNn = BV and Config.ESP.Nametag.Disabled
+		local nNn = BV and Config.ESP.Nametag.Enabled
+		NBOX.Y = NBOX.Y-n*.5
 
 		NametagBox.PointA = Ve2n(NBOX.X+n,NBOX.Y+n*.5)
 		NametagBox.PointB = Ve2n(NBOX.X-n,NBOX.Y+n*.5)
