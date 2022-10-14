@@ -20,7 +20,8 @@ local AvatarURL = "https://www.roblox.com/headshot-thumbnail/image?userId=ñ&wid
 syn.protect_gui(SafeFolder)
 
 --- Config initialization
-local Config = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Config.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/Config.lua')()
+--local Config = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Config.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/Config.lua')()
+local Config = loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Config.lua')()
 --- Libraries
 
 local math = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/arbitrarymath.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/arbitrarymath.lua')()
@@ -72,12 +73,12 @@ local function RefreshPlayers(zemove: Instance)
 	if Remove and PlayerList[Remove] then
 		REFRESHING = true
 		for _,N in pairs(PlayerList[Remove].Tag) do N:Remove() end
-		PlayerList[Remove].Tag = nil
 		PlayerList[Remove].Healthbar[1]:Remove()
 		PlayerList[Remove].Healthbar[2]:Remove()
 		PlayerList[Remove].Healthbar[3]:Remove()
 		PlayerList[Remove].Healthbar = nil
 		PlayerList[Remove].Skeleton = nil
+		PlayerList[Remove].Tag = nil
 		for _,N in pairs(PlayerList[Remove]) do if N~=nil then N:Remove() end end 
 		PlayerList[Remove] = nil
 		REFRESHING = false
