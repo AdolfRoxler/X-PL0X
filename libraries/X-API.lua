@@ -349,9 +349,9 @@ game:GetService("RunService").RenderStepped:connect(function()
 		NametagBox.PointC = Ve2n(NBOX.X-n,NBOX.Y)
 		NametagBox.PointD = Ve2n(NBOX.X+n,NBOX.Y)
 		NametagBox.Filled = true
-		NametagBox.Transparency = .5
+		NametagBox.Transparency = Config.ESP.Nametag.Customization.Base.Opacity
 		NametagBox.Visible = nNn
-		NametagBox.Color = Color3.new(0,0,0)
+		NametagBox.Color = Config.ESP.Nametag.Customization.Base.Color
 
 		Avatar.Size = Ve2n(n*.5,n*.5)
 		Avatar.Position = Vector2.new(NBOX.X-n*1.5,NBOX.Y)
@@ -363,7 +363,8 @@ game:GetService("RunService").RenderStepped:connect(function()
 		AvatarFrame.PointD = Ve2n(NBOX.X-n,NBOX.Y)
 		AvatarFrame.Visible = nNn and Config.ESP.Nametag.DisplayAvatar
 		AvatarFrame.Filled = true
-		AvatarFrame.Transparency = .25
+		AvatarFrame.Transparency = Config.ESP.Nametag.Customization.SecondaryRight.Opacity
+		AvatarFrame.Color = Config.ESP.Nametag.Customization.SecondaryRight.Color
 
 		NameBar.From =  Ve2n(NBOX.X-n,NBOX.Y+n*.5-standard*.5)
 		NameBar.To = Ve2n(NBOX.X-n+(n*2*health),NBOX.Y+n*.5-standard*.5)
@@ -391,8 +392,8 @@ game:GetService("RunService").RenderStepped:connect(function()
 		DistanceFrame.PointD = Ve2n(NBOX.X-n,NBOX.Y)
 		DistanceFrame.Visible = nNn and Config.ESP.Nametag.DisplayDistance
 		DistanceFrame.Filled = true
-		DistanceFrame.Transparency = .5
-		DistanceFrame.Color = Color3.fromRGB(213,22,28)
+		DistanceFrame.Transparency = Config.ESP.Nametag.Customization.SecondaryLeft.Opacity
+		DistanceFrame.Color = Config.ESP.Nametag.Customization.SecondaryLeft.Color
 
 		Distance.Text = tostring(floor(User:DistanceFromCharacter(Pos.p)*.28)).."m"
 		Distance.Visible = nNn and Config.ESP.Nametag.DisplayDistance
