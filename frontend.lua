@@ -37,13 +37,13 @@ local commands = {
 	end,
 	clear = function() rconsoleclear() return true end,
 	set = function(args)
-		local possiblevalue = args[#args]:lower
+		local possiblevalue = args[#args]:lower()
 		local memtree = Core
 		for _,N in pairs(args) do
 			print(_,N)
 			if memtree[N]~=nil then memtree = memtree[N] else break end
 		end
-		warn(possiblevalue)
+		memtree = TranslateValue(possiblevalue)
 		return false
 	end,
 }
