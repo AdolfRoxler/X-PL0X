@@ -72,7 +72,7 @@ local function RefreshPlayers(Remove: Instance)
 	--repeat game:GetService('RunService').Heartbeat:Wait() until REFRESHING == false
 	if Remove and PlayerList[Remove] then
 		REFRESHING = true
-		if PlayerList[Remove].Tag for _,N in pairs(PlayerList[Remove].Tag) do warn(_,N) N:Remove() end 	PlayerList[Remove].Tag = nil end
+		if PlayerList[Remove].Tag then for _,N in pairs(PlayerList[Remove].Tag) do warn(_,N) N:Remove() end 	PlayerList[Remove].Tag = nil end
 		PlayerList[Remove].Healthbar[1]:Remove()
 		PlayerList[Remove].Healthbar[2]:Remove()
 		PlayerList[Remove].Healthbar[3]:Remove()
