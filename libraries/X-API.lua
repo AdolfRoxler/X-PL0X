@@ -213,6 +213,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		local sx15 = Ve3n()
 		local FovDelta = (70/Camera.FieldOfView)
 
+		--[[ -- Not needed
 		local NametagBox = N.Tag.Background
 		local Avatar = N.Tag.Avatar
 		local AvatarFrame = N.Tag.AvatarFrame
@@ -222,6 +223,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		local DistanceFrame = N.Tag.DistanceFrame
 		NameTag.Font = 1
 		Distance.Font = 1
+		]]
 
 
 		if Char then Pos,Size = GetBoundingBox(Char,false,Config.ESP.OrientateBox and Char:GetModelCFrame() or CFN(Char:GetModelCFrame().p,Camera.CFrame.p)) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
