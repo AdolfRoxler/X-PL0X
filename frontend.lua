@@ -36,15 +36,29 @@ local commands = {
 		return false 
 	end,
 	clear = function() rconsoleclear() return true end,
-	toggle = function(args)
-		local possiblevalue = args[#args]
+	set = function(args)
+		local possiblevalue = string.lower(args[#args])
 		local memtree = Core
 		for _,N in pairs(args) do
+			print(_,N)
 			if memtree[N]~=nil then memtree = memtree[N] end
 		end
-		if typeof(memtree) == "boolean" == loadstring(args[#args]) then warn("wow") end
+		print(TranslateValue(possiblevalue))
+		memtree = TranslateValue(possiblevalue)
+		return false
 	end,
 }
+
+local function TranslateValue(str: string)
+	local translation = nil
+	if str=="on" or str=="true" then str=true
+	elseif str=="off" or str=="false" then str=false
+	end
+	return translation
+end
+
+local function CheckValidity(val: value)
+end
 
 
 function mainmenu(message: boolean)
