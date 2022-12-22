@@ -44,20 +44,19 @@ local commands = {
 			if memtree[N]~=nil then memtree = memtree[N] end
 		end
 		print(TranslateValue(possiblevalue))
-		memtree = TranslateValue(possiblevalue)
 		return false
 	end,
 }
 
-local function TranslateValue(str: string)
-	local translation = nil
-	if str=="on" or str=="true" then str=true
-	elseif str=="off" or str=="false" then str=false
+function TranslateValue(str: string)
+	local tr = nil
+	if str=="on" or str=="true" then tr=true
+	elseif str=="off" or str=="false" then tr=false
 	end
-	return translation
+	return tr
 end
 
-local function CheckValidity(val: value)
+function CheckValidity(val: value)
 end
 
 
