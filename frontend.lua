@@ -4,16 +4,22 @@ assert(Drawing,"No drawing api?")
 local devmode = type(devmode)=="boolean" and devmode or true
 rconsoleclear()
 rconsoleprint("@@WHITE@@")
-rconsoleprint("[!] Frontend script loaded. There will now be an attempt to load the required libraries. \n")
+rconsoleprint("[!] Frontend loaded. Press a key to nudge the CLI to continue loading. \n")
 --- code optimization for cli ---
 local lowercase = string.lower
 ---
 
-local CLI = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/CLI.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/CLI.lua')()
+local CLI = game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/CLI.lua'
+local ConfigTemplate = game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Config.lua'
+local Core = game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/X-API.lua'
+
+CLI = loadstring(CLI)()
+ConfigTemplate = loadstring(ConfigTemplate)()
+Core = loadstring(Core)()
 --local wget = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Lget.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/Lget.lua')()
 --local math = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/arbitrarymath.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/arbitrarymath.lua')()
 --local spoofer = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/metatableMANIPULATOR.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/metatableMANIPULATOR.lua')()
-local Core = loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/X-API.lua')() --_L.LatestCommit = JSONDecode(Services.HttpService, game.HttpGetAsync(game, "https://api.github.com/repos/fatesc/fates-admin/commits?per_page=1&path=main.lua"))[1]
+--_L.LatestCommit = JSONDecode(Services.HttpService, game.HttpGetAsync(game, "https://api.github.com/repos/fatesc/fates-admin/commits?per_page=1&path=main.lua"))[1]
 
 
 local help = {
@@ -31,9 +37,12 @@ local commands = {
 	end,
 	clear = function() rconsoleclear() return true end,
 	toggle = function(args)
-		local Big = args[2]
-		local Sub = args[3]
-		local SubSub = args[4]
+		local possiblevalue = args[#args]
+		local memtree = Core
+		for _,N in pairs(args) do
+			if memtree[N]~=nil then memtree = memtree[N] end
+		end
+		if typeof(memtree) == "boolean" == loadstring(args[#args]) then warn("wow") end
 	end,
 }
 

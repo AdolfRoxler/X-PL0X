@@ -72,13 +72,12 @@ local function RefreshPlayers(Remove: Instance)
 	--repeat game:GetService('RunService').Heartbeat:Wait() until REFRESHING == false
 	if Remove and PlayerList[Remove] then
 		REFRESHING = true
-		for _,N in pairs(PlayerList[Remove].Tag) do warn(_,N) N:Remove() end
+		if PlayerList[Remove].Tag for _,N in pairs(PlayerList[Remove].Tag) do warn(_,N) N:Remove() end 	PlayerList[Remove].Tag = nil end
 		PlayerList[Remove].Healthbar[1]:Remove()
 		PlayerList[Remove].Healthbar[2]:Remove()
 		PlayerList[Remove].Healthbar[3]:Remove()
 		PlayerList[Remove].Healthbar = nil
 		PlayerList[Remove].Skeleton = nil
-		PlayerList[Remove].Tag = nil
 		for _,N in pairs(PlayerList[Remove]) do if N~=nil then N:Remove() end end 
 		PlayerList[Remove] = nil
 		REFRESHING = false
@@ -93,7 +92,7 @@ local function RefreshPlayers(Remove: Instance)
 			PlayerList[N].Healthbar = PlayerList[N].Healthbar or {Draw("Quad"),Draw("Quad"),Draw("Quad")}
 			PlayerList[N].Tracer = PlayerList[N].Tracer or Draw("Line")
 
-
+			--[[
 			PlayerList[N].Tag = PlayerList[N].Tag or {}
 			PlayerList[N].Tag.Background = PlayerList[N].Tag.Background or Draw("Quad")
 			PlayerList[N].Tag.Nametag = PlayerList[N].Tag.Nametag or Draw("Text")
@@ -104,7 +103,7 @@ local function RefreshPlayers(Remove: Instance)
 			PlayerList[N].Tag.Distance = PlayerList[N].Tag.Distance or Draw("Text")
 
 			spawn(function() local avatar = syn.request({Url=AvatarURL:gsub("ñ",tostring(N.UserId)),Method='GET'}) PlayerList[N].Tag.Avatar.Data = avatar.Success and avatar.Body or "" end)
-
+			]] -- Unneeded for now
 
 
 			--syn.request({Url=URL,Method='GET'});
@@ -339,6 +338,8 @@ game:GetService("RunService").RenderStepped:connect(function()
 		HeadE.ZIndex = lowvalue+1
 		HeadE.Visible = HPV2 and Head and standardcheck and Config.ESP.Head
 
+		-- May complete later
+		--[[
 		local NBOX,BV = WorldToViewport(Pos*Ve3n(0,Size.Y*2.5,0))
 		local n = clamp(((Resolution.Y*2)/NBOX.Z)*FovDelta,55,inf)
 		local nNn = BV and Config.ESP.Nametag.Enabled
@@ -401,6 +402,8 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Distance.Position = Ve2n(NBOX.X-n*1.375,NBOX.Y-Distance.TextBounds.Y+n*.5)
 		Distance.Color = Color3.new(1,1,1)
 		Distance.Center = true
+
+		]]
 	end
 end)
 
