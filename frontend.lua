@@ -56,6 +56,8 @@ local commands = {
 		table.remove(args,1)
 		table.remove(args,#args)
 
+		for _,N in pairs(args) do args[_] = lowercase(N) end
+
 		table.insert(args,value)
 		--local memtree = {}
 
