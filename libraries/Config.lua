@@ -1,7 +1,7 @@
 return {
     esp = {
         enabled = false, tracers = false, head = false, 
-        chams = {enabled = false, throughWalls = false},
+        --chams = {enabled = false, throughWalls = false},  -- purged due to limitation of 31 objects. NOT GOOD.
         box = {enabled = false, healthbar = false, dynamic = false},
         nametag = {enabled = false, displayname = false, displayhealth = false, displayavatar = false, displaydistance = false,
             customization = {
