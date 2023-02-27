@@ -13,8 +13,8 @@ local lowercase = string.lower
 
 CLI = loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/CLI.lua')()
 Core = loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/X-API.lua')()
+ConfigTemplate = loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Config.lua')()
 
---ConfigTemplate = loadstring(ConfigTemplate)()
 --local wget = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Lget.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/Lget.lua')()
 --local math = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/arbitrarymath.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/arbitrarymath.lua')()
 --local spoofer = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/metatableMANIPULATOR.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/metatableMANIPULATOR.lua')()
@@ -29,14 +29,21 @@ local help = {
 
 local function changeData(tabl,pathArray) --- stolen from devforum | Source: https://devforum.roblox.com/t/how-to-make-equivalent-of-instancegetfullname-for-tables/1114061
 	--send pathArray to client
+	local template = ConfigTemplate
 	for index, path in ipairs(pathArray) do
 		if pathArray[index + 2]==nil then
-			tabl[path] = pathArray[index + 1]
+			--if typeof(ConfigTemplate[pathArray[index + 1]])==typeof(tabl[pathArray[index + 1]]) then tabl[path] = pathArray[index + 1] end
+			--if typeof(tabl[path])==typeof(ConfigTemplate[path]) then
+			print(typeof(tabl[path]),typeof(template[path]))
+			if typeof(tabl[path]) == typeof(template[path]) then tabl[path] = pathArray[index + 1] end
+			--end
 		else
 			if tabl[path]==nil then
 				break
 			end
-			tabl = tabl[path]
+
+			tabl = tabl[path] 
+			template = template[path]
 		end
 	end
 end
