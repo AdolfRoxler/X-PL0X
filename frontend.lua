@@ -11,9 +11,9 @@ local lowercase = string.lower
 
 --local ConfigTemplate = game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Config.lua'
 
-CLI = loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/CLI.lua')()
-Core = loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/X-API.lua')()
-ConfigTemplate = loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Config.lua')()
+local CLI = loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/CLI.lua')()
+local Core = loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/X-API.lua')()
+local ConfigTemplate = loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Config.lua')()
 
 --local wget = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Lget.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/Lget.lua')()
 --local math = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/arbitrarymath.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/arbitrarymath.lua')()
@@ -24,8 +24,19 @@ ConfigTemplate = loadstring(game:HttpGet'https://raw.githubusercontent.com/Adolf
 local help = {
 	help = "prints this gay ass guide",
 	clear = "clears cli output so it's way cleaner to the eye",
-	set = "Example: set ESP Enabled true | set ESP Boxes true \nFor reference: check out the default config.",
+	set = "Example: set ESP Enabled true | set ESP Boxes true \n   [For reference]: check out the default config.",
+	ping = "get the server ping",
+	config = "\n    write -> [args]: global (default) / game / place\n    load -> place > game > global\n    reset -> wipes loaded config [DOES NOT OVERWRITE]"
 }
+
+
+local function TranslateValue(str)
+	local tr = str
+	if str=="on" or str=="true" or str==1 then tr=true
+	elseif str=="off" or str=="false" or str==0 then tr=false
+	end
+	return tr
+end
 
 local function changeData(tabl,pathArray) --- stolen from devforum | Source: https://devforum.roblox.com/t/how-to-make-equivalent-of-instancegetfullname-for-tables/1114061
 	--send pathArray to client
@@ -48,6 +59,47 @@ local function changeData(tabl,pathArray) --- stolen from devforum | Source: htt
 		end
 	end
 end
+
+local function getconfig()
+	if readfile then
+    local success, value = pcall(function() return game:GetService("HttpService"):JSONDecode(readfile("X-PLOX.xpv2")) end)
+    if success==true then return success,value else return false,nil end
+	else
+	CLI:DisplayText("Your exploit can't read files","RED")
+	return false, nil
+end end
+
+local function writeconfig(method)
+	if writefile then
+		local success, config = getconfig()
+		local function globalconfig()
+			if config~=nil then else config = {} end
+			config.GLOBAL = Core
+			return config
+		end
+		local function gameconfig()
+			if config~=nil then else config = globalconfig() end
+			local id = tostring(game.GameId)
+			config.GAMES = config.GAMES or {}
+			config.GAMES[id] = config.GAMES[id] or {}
+			config.GAMES[id].GLOBAL = Core
+			return config
+		end
+		local function placeconfig()
+			if config~=nil and config.GAMES and config.GAMES[tostring(game.GameId)] then else config = gameconfig() end
+			local placeid = tostring(game.PlaceId)
+			local gameid = tostring(game.GameId)
+			config.GAMES[gameid][placeid] = Core
+			return config
+		end
+
+		writefile("X-PLOX.xpv2",game:GetService("HttpService"):JSONEncode(method=="game" and globalconfig() or method=="place" and placeconfig() or globalconfig()))
+	else
+	CLI:DisplayText("Your exploit can't write files","RED")
+end end
+
+
+
 
 local commands = {
 	help = function() 
@@ -76,21 +128,24 @@ local commands = {
 		changeData(Core,args)
 		return false
 	end,
+	ping = function()
+		CLI:DisplayText("Current ping: "..string.split(stats():WaitForChild("Network"):WaitForChild("ServerStatsItem"):WaitForChild("Data Ping"):GetValueString()," ")[1].."ms")
+		return false
+	end,
+	config = function(args)
+		table.remove(args,1)
+		for _,N in pairs(args) do print(N) args[_] = lowercase(N) end
+		if args[1] == "write" then
+		writeconfig(args[2] or "")
+		elseif args[1] == "load" then
+		elseif args[1] == "reset" then
+		Core = ConfigTemplate
+		end
+		return false
+	end
 }
 
-function TranslateValue(str)
-	local tr = str
-	if str=="on" or str=="true" or str==1 then tr=true
-	elseif str=="off" or str=="false" or str==0 then tr=false
-	end
-	return tr
-end
-
-function CheckValidity(val)
-end
-
-
-function mainmenu(message)
+local function mainmenu(message)
 	local welcome = message and "Welcome to the main menu. Type in 'help' to see the command set." or ""
 	CLI:Prompt(welcome,"YELLOW",function(t)
 		local msg = t:split(" ")
