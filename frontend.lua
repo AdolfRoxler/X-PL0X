@@ -28,13 +28,13 @@ local help = {
 	set = "Example: set ESP Enabled true | set ESP Boxes true \nFor reference: check out the default config.",
 }
 
-local function changeData(tabl,pathArray) --- stolen from devforum
+local function changeData(tabl,pathArray) --- stolen from devforum | Source: https://devforum.roblox.com/t/how-to-make-equivalent-of-instancegetfullname-for-tables/1114061
 	--send pathArray to client
 	for index, path in ipairs(pathArray) do
-		if not pathArray[index + 2] then
+		if pathArray[index + 2]==nil then
 			tabl[path] = pathArray[index + 1]
 		else
-			if not tabl[path] then
+			if tabl[path]==nil then
 				break
 			end
 			tabl = tabl[path]
