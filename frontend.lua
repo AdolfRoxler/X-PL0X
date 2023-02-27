@@ -45,7 +45,7 @@ local function changeData(tabl,pathArray) --- stolen from devforum | Source: htt
 		if pathArray[index + 2]==nil then
 			--if typeof(ConfigTemplate[pathArray[index + 1]])==typeof(tabl[pathArray[index + 1]]) then tabl[path] = pathArray[index + 1] end
 			--if typeof(tabl[path])==typeof(ConfigTemplate[path]) then
-			print(typeof(tabl[path]),typeof(template[path]),typeof(pathArray[index + 1]))
+			--print(typeof(tabl[path]),typeof(template[path]),typeof(pathArray[index + 1]))
 
 			if typeof(pathArray[index + 1]) == typeof(template[path]) then tabl[path] = pathArray[index + 1] end
 			--end
@@ -54,20 +54,20 @@ local function changeData(tabl,pathArray) --- stolen from devforum | Source: htt
 				break
 			end
 			if typeof(tabl[path]) == typeof(template[path]) then
-			tabl = tabl[path] 
-			template = template[path] end
+				tabl = tabl[path] 
+				template = template[path] end
 		end
 	end
 end
 
 local function getconfig()
 	if readfile then
-    local success, value = pcall(function() return game:GetService("HttpService"):JSONDecode(readfile("X-PLOX.xpv2")) end)
-    if success==true then return success,value else return false,nil end
+		local success, value = pcall(function() return game:GetService("HttpService"):JSONDecode(readfile("X-PLOX.xpv2")) end)
+		if success==true then return success,value else return false,nil end
 	else
-	CLI:DisplayText("Your exploit can't read files","RED")
-	return false, nil
-end end
+		CLI:DisplayText("Your exploit can't read files","RED")
+		return false, nil
+	end end
 
 local function writeconfig(method)
 	if writefile then
@@ -78,27 +78,47 @@ local function writeconfig(method)
 			return config
 		end
 		local function gameconfig()
-			if config~=nil then else config = globalconfig() end
+			local inheritance = false
+			if config~=nil then else config = globalconfig() inheritance = true end
 			local id = tostring(game.GameId)
 			config.GAMES = config.GAMES or {}
 			config.GAMES[id] = config.GAMES[id] or {}
-			config.GAMES[id].GLOBAL = Core
+			config.GAMES[id].GLOBAL = inheritance==true and config.GLOBAL or Core
 			return config
 		end
 		local function placeconfig()
-			if config~=nil and config.GAMES and config.GAMES[tostring(game.GameId)] then else config = gameconfig() end
+			local inheritance = false
+			if config~=nil and config.GAMES and config.GAMES[tostring(game.GameId)] then else config = gameconfig() inheritance = true end
 			local placeid = tostring(game.PlaceId)
 			local gameid = tostring(game.GameId)
-			config.GAMES[gameid][placeid] = Core
+			config.GAMES[gameid][placeid] = inheritance==true and config.GAMES[gameid].GLOBAL or Core
 			return config
 		end
 
 		writefile("X-PLOX.xpv2",game:GetService("HttpService"):JSONEncode(method=="game" and globalconfig() or method=="place" and placeconfig() or globalconfig()))
 	else
-	CLI:DisplayText("Your exploit can't write files","RED")
-end end
+		CLI:DisplayText("Your exploit can't write files","RED")
+	end end
 
-
+local function readconfig(success, mem)
+	local placeid = tostring(game.PlaceId)
+	local gameid = tostring(game.GameId)
+	print(success,mem)
+	if mem.GAMES and mem.GAMES[gameid] then
+		if mem.GAMES[gameid][placeid] then
+			for _,N in pairs(mem.GAMES[gameid][placeid]) do
+				Core[_] = mem.GAMES[gameid][placeid][_]
+			end return
+		end
+		for _,N in pairs(mem.GAMES[gameid]) do
+			Core[_] = mem.GAMES[gameid][_]
+		end return
+	end
+	for _,N in pairs(mem.GLOBAL) do
+		Core[_] = mem[_]
+	end
+	warn("succ")
+end
 
 
 local commands = {
@@ -134,12 +154,13 @@ local commands = {
 	end,
 	config = function(args)
 		table.remove(args,1)
-		for _,N in pairs(args) do print(N) args[_] = lowercase(N) end
+		for _,N in pairs(args) do args[_] = lowercase(N) end
 		if args[1] == "write" then
-		writeconfig(args[2] or "")
+			writeconfig(args[2] or "")
 		elseif args[1] == "load" then
+			readconfig(getconfig())
 		elseif args[1] == "reset" then
-		Core = ConfigTemplate
+			for _,N in pairs(Core) do Core[_] = ConfigTemplate[_] end
 		end
 		return false
 	end
@@ -148,7 +169,7 @@ local commands = {
 local function mainmenu(message)
 	local welcome = message and "Welcome to the main menu. Type in 'help' to see the command set." or ""
 	CLI:Prompt(welcome,"YELLOW",function(t)
-		local msg = t:split(" ")
+		local msg = lowercase(t):split(" ")
 		local displaymsg = msg and msg[1] and commands[msg[1]]~=nil and commands[msg[1]](msg) or false
 		displaymsg = displaymsg or false
 		mainmenu(displaymsg)
