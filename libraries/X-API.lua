@@ -226,12 +226,12 @@ game:GetService("RunService").RenderStepped:connect(function()
 		]]
 
 
-		if Char then Pos,Size = GetBoundingBox(Char,false,Config.ESP.Box.Dynamic and Char:GetModelCFrame() or CFN(Char:GetModelCFrame().p)*Camera.CFrame.Rotation) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
+		if Char then Pos,Size = GetBoundingBox(Char,false,Config.esp.box.dynamic and Char:GetModelCFrame() or CFN(Char:GetModelCFrame().p)*Camera.CFrame.Rotation) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
 		sx15 = Size*.75
 		Size = Size*.5
 		local standard = (((0.07*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
 
-		local standardcheck = IsFocused==false and Config.ESP.Enabled or false
+		local standardcheck = IsFocused==false and Config.esp.enabled or false
 
 		Chams.Adornee = Char or nil
 		Chams.FillColor = TeamColor
@@ -256,7 +256,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Box.Thickness = standard
 		Box.Color = TeamColor
 		Box.ZIndex = zindex
-		Box.Visible = V1 and V2 and V3 and V4 and standardcheck and Config.ESP.Box.Enabled
+		Box.Visible = V1 and V2 and V3 and V4 and standardcheck and Config.esp.box.enabled
 
 		local BUR,V19 = WorldToViewport(Pos*(Ve3n(-sx15.X,Size.y,0)))
 		local BDR,V22 = WorldToViewport(Pos*(Ve3n(-sx15.X,-Size.Y,0)))
@@ -307,7 +307,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Healthbar[2].ZIndex = zindex-1
 		Healthbar[2].Thickness = 0
 
-		local hcheck = V2 and V3 and V19 and V22 and standardcheck and Config.ESP.Box.Healthbar
+		local hcheck = V2 and V3 and V19 and V22 and standardcheck and Config.esp.box.healthbar
 
 		Healthbar[1].Visible = hcheck
 		Healthbar[2].Visible = hcheck
@@ -323,7 +323,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Tracer.ZIndex = zindex
 		if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*Ve3n(0,-Size.Y,0)) end 
 		Tracer.To = Ve2n(TT.X,TT.Y) 
-		Tracer.Visible = standardcheck and Config.ESP.Tracers
+		Tracer.Visible = standardcheck and Config.esp.tracers
 
 		local avghead,HPV,HPV2 = 0,Ve3n(),false
 		if Head then
@@ -338,7 +338,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		HeadE.Thickness = m*0.45
 		HeadE.Color = TeamColor
 		HeadE.ZIndex = lowvalue+1
-		HeadE.Visible = HPV2 and Head and standardcheck and Config.ESP.Head
+		HeadE.Visible = HPV2 and Head and standardcheck and Config.esp.head
 
 		-- May complete later
 		--[[
