@@ -34,16 +34,17 @@ local function changeData(tabl,pathArray) --- stolen from devforum | Source: htt
 		if pathArray[index + 2]==nil then
 			--if typeof(ConfigTemplate[pathArray[index + 1]])==typeof(tabl[pathArray[index + 1]]) then tabl[path] = pathArray[index + 1] end
 			--if typeof(tabl[path])==typeof(ConfigTemplate[path]) then
-			print(typeof(tabl[path]),typeof(template[path]))
-			if typeof(tabl[path]) == typeof(template[path]) then tabl[path] = pathArray[index + 1] end
+			print(typeof(tabl[path]),typeof(template[path]),typeof(pathArray[index + 1]))
+
+			if typeof(pathArray[index + 1]) == typeof(template[path]) then tabl[path] = pathArray[index + 1] end
 			--end
 		else
 			if tabl[path]==nil then
 				break
 			end
-
+			if typeof(tabl[path]) == typeof(template[path]) then
 			tabl = tabl[path] 
-			template = template[path]
+			template = template[path] end
 		end
 	end
 end
@@ -78,9 +79,9 @@ local commands = {
 }
 
 function TranslateValue(str)
-	local tr = nil
-	if str=="on" or str=="true" then tr=true
-	elseif str=="off" or str=="false" then tr=false
+	local tr = str
+	if str=="on" or str=="true" or str==1 then tr=true
+	elseif str=="off" or str=="false" or str==0 then tr=false
 	end
 	return tr
 end
