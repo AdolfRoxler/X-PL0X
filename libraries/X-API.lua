@@ -226,7 +226,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		]]
 
 
-		if Char then Pos,Size = GetBoundingBox(Char,false,Config.ESP.OrientateBox and Char:GetModelCFrame() or CFN(Char:GetModelCFrame().p)*Camera.CFrame.Rotation) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
+		if Char then Pos,Size = GetBoundingBox(Char,false,Config.ESP.Box.Dynamic and Char:GetModelCFrame() or CFN(Char:GetModelCFrame().p)*Camera.CFrame.Rotation) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
 		sx15 = Size*.75
 		Size = Size*.5
 		local standard = (((0.07*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
@@ -256,7 +256,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Box.Thickness = standard
 		Box.Color = TeamColor
 		Box.ZIndex = zindex
-		Box.Visible = V1 and V2 and V3 and V4 and standardcheck and Config.ESP.Box
+		Box.Visible = V1 and V2 and V3 and V4 and standardcheck and Config.ESP.Box.Enabled
 
 		local BUR,V19 = WorldToViewport(Pos*(Ve3n(-sx15.X,Size.y,0)))
 		local BDR,V22 = WorldToViewport(Pos*(Ve3n(-sx15.X,-Size.Y,0)))
@@ -307,7 +307,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Healthbar[2].ZIndex = zindex-1
 		Healthbar[2].Thickness = 0
 
-		local hcheck = V2 and V3 and V19 and V22 and standardcheck and Config.ESP.Healthbar
+		local hcheck = V2 and V3 and V19 and V22 and standardcheck and Config.ESP.Box.Healthbar
 
 		Healthbar[1].Visible = hcheck
 		Healthbar[2].Visible = hcheck
