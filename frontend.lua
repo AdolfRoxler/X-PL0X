@@ -10,11 +10,11 @@ local lowercase = string.lower
 ---
 
 local CLI = game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/CLI.lua'
-local ConfigTemplate = game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Config.lua'
+--local ConfigTemplate = game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Config.lua'
 local Core = game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/X-API.lua'
 
 CLI = loadstring(CLI)()
-ConfigTemplate = loadstring(ConfigTemplate)()
+--ConfigTemplate = loadstring(ConfigTemplate)()
 Core = loadstring(Core)()
 --local wget = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Lget.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/Lget.lua')()
 --local math = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/arbitrarymath.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/arbitrarymath.lua')()
@@ -25,8 +25,22 @@ Core = loadstring(Core)()
 local help = {
 	help = "prints this gay ass guide",
 	clear = "clears cli output so it's way cleaner to the eye",
-	toggle = "toggles shit",
+	set = "Example: set ESP Enabled true | set ESP Boxes true \nFor reference: check out the default config.",
 }
+
+local function changeData(tabl,pathArray) --- stolen from devforum
+	--send pathArray to client
+	for index, path in ipairs(pathArray) do
+		if not pathArray[index + 2] then
+			tabl[path] = pathArray[index + 1]
+		else
+			if not tabl[path] then
+				break
+			end
+			tabl = tabl[path]
+		end
+	end
+end
 
 local commands = {
 	help = function() 
@@ -37,18 +51,25 @@ local commands = {
 	end,
 	clear = function() rconsoleclear() return true end,
 	set = function(args)
-		local possiblevalue = args[#args]:lower()
-		local memtree = Core
-		for _,N in pairs(args) do
-			print(_,N)
-			if memtree[N]~=nil then memtree = memtree[N] else break end
-		end
-		memtree = TranslateValue(possiblevalue)
+
+		local value = TranslateValue(lowercase(args[#args]))
+
+		table.remove(args,1)
+		table.remove(args,#args)
+
+		table.insert(args,value)
+		--local memtree = {}
+
+		--[[for _,N in pairs(args) do
+			if Core[N]==nil then break end
+			table.insert(Core,N)
+		end]]
+		changeData(Core,args)
 		return false
 	end,
 }
 
-function TranslateValue(str: string)
+function TranslateValue(str)
 	local tr = nil
 	if str=="on" or str=="true" then tr=true
 	elseif str=="off" or str=="false" then tr=false
@@ -56,11 +77,11 @@ function TranslateValue(str: string)
 	return tr
 end
 
-function CheckValidity(val: value)
+function CheckValidity(val)
 end
 
 
-function mainmenu(message: boolean)
+function mainmenu(message)
 	local welcome = message and "Welcome to the main menu. Type in 'help' to see the command set." or ""
 	CLI:Prompt(welcome,"YELLOW",function(t)
 		local msg = t:split(" ")

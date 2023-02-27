@@ -231,7 +231,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 		Size = Size*.5
 		local standard = (((0.07*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
 
-		local standardcheck = IsFocused==false and Config.ESP.Enabled
+		local standardcheck = IsFocused==false and Config.ESP.Enabled or false
 
 		Chams.Adornee = Char or nil
 		Chams.FillColor = TeamColor
