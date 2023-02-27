@@ -106,18 +106,17 @@ local function readconfig(success, mem)
 	print(success,mem)
 	if mem.GAMES and mem.GAMES[gameid] then
 		if mem.GAMES[gameid][placeid] then
-			for _,N in pairs(mem.GAMES[gameid][placeid]) do
+			for _,N in pairs(Core) do
 				Core[_] = mem.GAMES[gameid][placeid][_]
 			end return
 		end
-		for _,N in pairs(mem.GAMES[gameid]) do
+		for _,N in pairs(Core) do
 			Core[_] = mem.GAMES[gameid][_]
 		end return
 	end
-	for _,N in pairs(mem.GLOBAL) do
-		Core[_] = mem[_]
+	for _,N in pairs(Core) do
+		Core[_] = mem.GLOBAL[_]
 	end
-	warn("succ")
 end
 
 
