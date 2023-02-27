@@ -6,8 +6,8 @@ return {
         nametag = {enabled = false, displayname = false, displayhealth = false, displayavatar = false, displaydistance = false,
             customization = {
                 base = {color = {R=0,G=0,B=0}, opacity=1},
-                secondaryLeft = {R=0,G=0,B=0}, opacity=1},
-                secondaryRight = {R=0,G=0,B=0}, opacity=1},
+                secondaryLeft = {color = {R=0,G=0,B=0}, opacity=1},
+                secondaryRight = {color = {R=0,G=0,B=0}, opacity=1},
             },
         },
     }
