@@ -169,7 +169,7 @@ local function GetBoundingBox(model: Instance, recursive: boolean, orientation: 
 		end
 	end
 	local omin, omax = Ve3n(minx, miny, minz), Ve3n(maxx, maxy, maxz)
-	local omiddle = (omax+omin)*.5
+	local omiddle = bit.lshift((omax+omin),1)
 	local wCf = orientation - orientation.p + orientation:pointToWorldSpace(omiddle)
 	local size = (omax-omin)
 	return wCf, size
@@ -228,7 +228,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 
 		if Char then Pos,Size = GetBoundingBox(Char,false,Config.esp.box.dynamic and Char:GetModelCFrame() or CFN(Char:GetModelCFrame().p)*Camera.CFrame.Rotation) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
 		sx15 = Size*.75
-		Size = Size*.5
+		Size = bit.lshift(Size,1)
 		local standard = (((0.07*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
 
 		local standardcheck = IsFocused==false and Config.esp.enabled or false
@@ -268,7 +268,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 
 		if Hum then
 			health = (Hum.Health/Hum.MaxHealth)
-			barh = -Size.Y+(Size.Y*health*2)
+			barh = -Size.Y+bit.rshift((Size.Y*health),1)
 			--c = Color3.fromHSV(health*.35,0.9,1) health = 0
 			c = Color3.fromHSV(health*.4,.9,.98)
 			H1 = WorldToViewport(Pos*(Ve3n(-sx15.X,barh,0)))
