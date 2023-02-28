@@ -145,9 +145,9 @@ local function GetBoundingBox(model: Instance, recursive: boolean, orientation: 
 			local cf = orientation:toObjectSpace(obj.CFrame)
 			local sx, sy, sz = obj.Size.X, obj.Size.Y, obj.Size.Z
 			local x, y, z, R00, R01, R02, R10, R11, R12, R20, R21, R22 = cf:components()
-			local wsx = 0.5 * (abs(R00) * sx + abs(R01) * sy + abs(R02) * sz)
-			local wsy = 0.5 * (abs(R10) * sx + abs(R11) * sy + abs(R12) * sz)
-			local wsz = 0.5 * (abs(R20) * sx + abs(R21) * sy + abs(R22) * sz)
+			local wsx = bit.lshift((abs(R00) * sx + abs(R01) * sy + abs(R02) * sz),1)
+			local wsy = bit.lshift((abs(R10) * sx + abs(R11) * sy + abs(R12) * sz),1)
+			local wsz = bit.lshift((abs(R20) * sx + abs(R21) * sy + abs(R22) * sz),1)
 			if minx > x - wsx then
 				minx = x - wsx
 			end
