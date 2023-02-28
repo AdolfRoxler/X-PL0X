@@ -61,8 +61,8 @@ local floor = math.floor
 local split = string.split
 local tostring = tostring
 local tonumber = tonumber
-local lshift = function(a,b,p) return p and bit.lshift(a,b) or a*(2^b) end
-local rshift = function(a,b,p) return p and bit.rshift(a,b) or a*(2^-b) end
+local lshift = function(a,b,p) return p and a*(2^b) or bit.lshift(a,b) end
+local rshift = function(a,b,p) return p and a*(2^-b) or bit.rshift(a,b) end
 	--local lshift = bit and Config.esp.precise and bit.lshift or and function(a,b) return a*(2^b) end
 	---
 
