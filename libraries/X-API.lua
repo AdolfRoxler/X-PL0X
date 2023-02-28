@@ -169,7 +169,7 @@ local function GetBoundingBox(model: Instance, recursive: boolean, orientation: 
 		end
 	end
 	local omin, omax = Ve3n(minx, miny, minz), Ve3n(maxx, maxy, maxz)
-	local omiddle = bit.lshift((omax+omin),1)
+	local omiddle = (omax+omin)*.5
 	local wCf = orientation - orientation.p + orientation:pointToWorldSpace(omiddle)
 	local size = (omax-omin)
 	return wCf, size
@@ -228,7 +228,7 @@ game:GetService("RunService").RenderStepped:connect(function()
 
 		if Char then Pos,Size = GetBoundingBox(Char,false,Config.esp.box.dynamic and Char:GetModelCFrame() or CFN(Char:GetModelCFrame().p)*Camera.CFrame.Rotation) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
 		sx15 = Size*.75
-		Size = bit.lshift(Size,1)
+		Size = Size*.5
 		local standard = (((0.07*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
 
 		local standardcheck = IsFocused==false and Config.esp.enabled or false
