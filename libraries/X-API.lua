@@ -17,7 +17,7 @@ local Draw = Drawing.new
 --local SafeFolder = Instance.new("Folder",game.CoreGui) SafeFolder.Name = "GhettoSmosh"
 local lowvalue = -(2^31-1)
 local AvatarURL = "https://www.roblox.com/headshot-thumbnail/image?userId=ñ&width=512&height=512&format=png"
-syn.protect_gui(SafeFolder)
+--syn.protect_gui(SafeFolder)
 
 --- Config initialization
 --local Config = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Config.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/Config.lua')()
