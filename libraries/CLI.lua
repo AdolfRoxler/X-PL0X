@@ -1,5 +1,5 @@
 local API = {}
-
+if syn then else reconsoleprint = function(txt) consoleprint(txt) end end
 rconsolename("X-CLI")
 function API:DisplayText(Text: string, Color: string)
 	if Text and Text~="" and Text~="\n" then
@@ -15,13 +15,12 @@ end
 
 function API:Prompt(Prompt: string, Color: string, Callback)
 	API:DisplayText(Prompt.."\n",Color)
-	rconsoleprint(syn and "@@LIGHT_GREEN@@" or "")
+	if syn then rconsoleprint("@@LIGHT_GREEN@@") end
     rconsoleprint("["..game:GetService("Players").LocalPlayer.Name.."@"..game:GetService("Players").LocalPlayer.DisplayName.."]$ ")
-	rconsoleprint(syn and "@@WHITE@@" or "")
+	if syn then rconsoleprint(syn and "@@WHITE@@" or "") end
 	local Callback = Callback or function() end
 	pcall(function() Callback(rconsoleinput()) end)
 end
 
 return API
-
 ---- This copies linux terminal style loleris
