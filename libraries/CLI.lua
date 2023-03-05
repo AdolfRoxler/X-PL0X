@@ -1,5 +1,5 @@
 local API = {}
-if syn then else reconsoleprint = function(txt) consoleprint(txt) end end
+if syn then else rconsoleprint = function(txt) consoleprint(txt) end end
 rconsolename("X-CLI")
 function API:DisplayText(Text: string, Color: string)
 	if Text and Text~="" and Text~="\n" then
