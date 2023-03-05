@@ -3,7 +3,7 @@ local API = {}
 rconsolename("X-CLI")
 function API:DisplayText(Text: string, Color: string)
 	if Text and Text~="" and Text~="\n" then
-	if syn then Color = Color~="" and "@@"..Color.."@@" or "@@WHITE@@" else Color = Color~="" and Color or "white"
+	if syn then Color = Color~="" and "@@"..Color.."@@" or "@@WHITE@@" else Color = Color~="" and Color or "white" end
 	--local Color = Color and Color~="" and (syn and ("@@"..Color.."@@" or "@@WHITE@@") or (white"))
 	rconsoleprint(Color)
 	rconsoleprint("[!] "..Text.."\n")
