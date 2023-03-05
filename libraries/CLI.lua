@@ -14,7 +14,7 @@ end
 
 function API:Prompt(Prompt: string, Color: string, Callback)
 	API:DisplayText(Prompt.."\n",Color)
-	if syn then rconsoleprint("@@LIGHT_GREEN@@") end
+	if syn then rconsoleprint("@@LIGHT_GREEN@@") end
     rconsoleprint("["..game:GetService("Players").LocalPlayer.Name.."@"..game:GetService("Players").LocalPlayer.DisplayName.."]$ ")
 	if syn then rconsoleprint(syn and "@@WHITE@@" or "") end
 	local Callback = Callback or function() end
