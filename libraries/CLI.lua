@@ -3,8 +3,8 @@ local API = {}
 rconsolename("X-CLI")
 function API:DisplayText(Text: string, Color: string)
 	if Text and Text~="" and Text~="\n" then
-	Color  = Color or ""
-	if syn then Color = Color~="" and "@@"..Color.."@@"  else Color = Color~="" and Color end
+	Color = Color~=nil and Color or ""
+	if syn then Color = Color~="" and "@@"..Color.."@@" else Color = Color~="" and string.lower(Color) end
 	
 	--local Color = Color and Color~="" and (syn and ("@@"..Color.."@@" or "@@WHITE@@") or (white"))
 	if syn then
@@ -25,6 +25,6 @@ function API:Prompt(Prompt: string, Color: string, Callback)
 	pcall(function() Callback(rconsoleinput()) end)
 end
 
-API:DisplayText("penis cock","white")
+return API
 
 ---- This copies linux terminal style loleris
