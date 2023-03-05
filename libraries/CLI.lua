@@ -8,10 +8,8 @@ function API:DisplayText(Text: string, Color: string)
 	--local Color = Color and Color~="" and (syn and ("@@"..Color.."@@" or "@@WHITE@@") or (white"))
 	if syn then
 	rconsoleprint(Color)
-	rconsoleprint("[!] "..Text.."\n")
-	else
-	rconsoleprint("[!] "..Text.."\n",Color)
 	end
+	rconsoleprint("[!] "..Text.."\n")
 	end
 end
 
