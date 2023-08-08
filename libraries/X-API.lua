@@ -230,7 +230,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 		]]
 
 
-			if Char then Pos,Size = GetBoundingBox(Char,false,Config.esp.box.dynamic and Char:GetModelCFrame() or CFN(Char:GetModelCFrame().p)*Camera.CFrame.Rotation) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
+			if Char~=nil then Pos,Size = GetBoundingBox(Char,false,Config.esp.box.dynamic and Char:GetModelCFrame() or CFN(Char:GetModelCFrame().p)*Camera.CFrame.Rotation) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
 			sx15 = Size*.75
 			Size = Size*.5
 			local standard = (((0.07*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
@@ -265,8 +265,8 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			local BUR,V19 = WorldToViewport(Pos*(Ve3n(-sx15.X,Size.y,0)))
 			local BDR,V22 = WorldToViewport(Pos*(Ve3n(-sx15.X,-Size.Y,0)))
 
-			local Hum = Char and Char:FindFirstChildOfClass("Humanoid")
-			local Head = Char and Char:FindFirstChild("Head")
+			local Hum = Char:FindFirstChildOfClass("Humanoid")
+			local Head = Char:FindFirstChild("Head")
 			local H1,H2 = DL,DR
 			local barh,c,health = nil,Color3.new(0,0,1),0
 
