@@ -230,12 +230,12 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 		]]
 
 
-			if Char~=nil then Pos,Size = GetBoundingBox(Char,false,Config.esp.box.dynamic and Char:GetModelCFrame() or CFN(Char:GetModelCFrame().p)*Camera.CFrame.Rotation) IsFocused = Char:IsAncestorOf(Camera.CameraSubject) end
+			if Char~=nil then Pos,Size = GetBoundingBox(Char,false,Config.esp.box.dynamic and Char:GetModelCFrame() or CFN(Char:GetModelCFrame().p)*Camera.CFrame.Rotation) IsFocused = Char:IsAncestorOf(Camera.CameraSubject)
 			sx15 = Size*.75
 			Size = Size*.5
 			local standard = (((0.07*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
 
-			local standardcheck = IsFocused==false and Config.esp.enabled or false
+			local standardcheck = IsFocused==true and Config.esp.enabled or false
 
 			--[[Chams.Adornee = Char or nil
 			Chams.FillColor = TeamColor
@@ -260,7 +260,6 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			Box.Thickness = standard
 			Box.Color = TeamColor
 			Box.ZIndex = zindex
-			Box.Visible = V1 and V2 and V3 and V4 and standardcheck and Config.esp.box.enabled
 
 			local BUR,V19 = WorldToViewport(Pos*(Ve3n(-sx15.X,Size.y,0)))
 			local BDR,V22 = WorldToViewport(Pos*(Ve3n(-sx15.X,-Size.Y,0)))
@@ -313,9 +312,6 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 
 			local hcheck = V2 and V3 and V19 and V22 and standardcheck and Config.esp.box.healthbar
 
-			Healthbar[1].Visible = hcheck
-			Healthbar[2].Visible = hcheck
-			Healthbar[3].Visible = hcheck
 
 			print(Config.esp.tracers)
 			if Config.esp.tracers then
@@ -327,8 +323,6 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			Tracer.ZIndex = zindex
 			if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*Ve3n(0,-Size.Y,0)) end 
 			Tracer.To = Ve2n(TT.X,TT.Y)  end
-
-			Tracer.Visible = standardcheck and Config.esp.tracers
 
 			local avghead,HPV,HPV2;
 			print(Head)
@@ -344,8 +338,16 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 				HeadE.ZIndex = lowvalue+1
 				print("yo penis cock sex lol boob")
 			end
-			HeadE.Visible = HPV2 and Head and standardcheck and Config.esp.head
+			end
 
+
+
+			Box.Visible = V1 and V2 and V3 and V4 and standardcheck and Config.esp.box.enabled
+			HeadE.Visible = HPV2 and Head and standardcheck and Config.esp.head
+			Tracer.Visible = standardcheck and Config.esp.tracers
+			Healthbar[1].Visible = hcheck
+			Healthbar[2].Visible = hcheck
+			Healthbar[3].Visible = hcheck
 			-- May complete later
 		--[[
 		local NBOX,BV = WorldToViewport(Pos*Ve3n(0,Size.Y*2.5,0))
@@ -412,6 +414,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 		Distance.Center = true
 
 		]]
+
 		end
 	end)
 
