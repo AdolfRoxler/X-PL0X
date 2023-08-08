@@ -215,7 +215,7 @@ local rshift = function(a,b,p) return p==true and rshift(a,b) or a*(.5^b) end
 			local Healthbar = N.Healthbar
 			local HeadE = N.Circle
 			local TeamColor = _.TeamColor.Color:Lerp(WHITE,.5) or WHITE
-			local Pos,Size,IsFocused,sx15,standardcheck,hcheck,Head,HPV2,V1,V2,V3,V4;
+			local Pos,Size,IsFocused,sx15,standardcheck,hcheck,Head,HPV2,V1,V2,V3,V4 = false;
 
 		--[[ -- Not needed
 		local NametagBox = N.Tag.Background
