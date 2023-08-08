@@ -313,7 +313,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			local hcheck = V2 and V3 and V19 and V22 and standardcheck and Config.esp.box.healthbar
 
 
-			print(Config.esp.tracers)
+			rconsoleprint(Config.esp.tracers)
 			if Config.esp.tracers then
 			local TT = WorldToViewport(Pos*Ve3n(0,-Size.Y,0))
 			Tracer.Thickness = clamp(standard,0,(Resolution.Y*0.004))
@@ -325,7 +325,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			Tracer.To = Ve2n(TT.X,TT.Y)  end
 
 			local avghead,HPV,HPV2;
-			print(Head)
+			rconsoleprint(Head)
 			if Head then
 				avghead = (Head.Size.X+Head.Size.Y+Head.Size.Z)/3
 				HPV,HPV2 = WorldToViewport(Head.CFrame.p) 
