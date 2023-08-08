@@ -3,7 +3,7 @@ return {
         enabled = true, precise = false, head = false, -- If precise is set to false it'll use bitwise operations, which are WAY FASTER.
         --chams = {enabled = false, throughWalls = false},  -- purged due to limitation of 31 objects. NOT GOOD.
         box = {enabled = true, healthbar = false, dynamic = false},
-        tracers = {enabled = true, maxdistance = 200, thickness = 4},
+        tracers = {enabled = false, maxdistance = 200},
         data = {
             name = {enabled = false, displayname = false}
         },
@@ -17,7 +17,7 @@ return {
 
     },
     movement = {
-        walkspeed = {enabled = true, speed = 32},
+        walkspeed = {enabled = true, speed = 32, allowinertia = true},
         flight = {enabled = true, speed = 32},
 
     },

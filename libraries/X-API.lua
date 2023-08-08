@@ -4,8 +4,8 @@ local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 local User = Players.LocalPlayer
 local GuiService = game:GetService("GuiService")
-local Ve3n = Vector3.new
-local Ve2n = Vector2.new
+local V3N = Vector3.new
+local V2N = Vector2.new
 local CFN = CFrame.new
 local WTVP = Camera.WorldToViewportPoint
 local WorldToViewport = function(...) return WTVP(Camera, ...) end
@@ -42,6 +42,7 @@ local pDELTA = 1
 local FovDelta = 1
 local WHITE = Color3.new(1,1,1)
 local zindex = lowvalue+100
+local NaN = math.huge-math.huge
 
 --- Debounces
 
@@ -53,9 +54,19 @@ RaycastConfig.IgnoreWater = true
 
 local MAPRESTORING = false
 local Teleporting = false
-
 local REFRESHING = false
+
 ---
+--- Character stuff
+
+local SelfHum;
+local SelfRoot;
+local HumVector;
+local InputVector;
+
+---
+
+
 --- make math faster cuh!
 local clamp = math.clamp ---- math.clamp no worky real
 local inf = math.huge
@@ -68,6 +79,9 @@ local tostring = tostring
 local tonumber = tonumber
 local lshift = function(a,b,p) return p==true and bit.lshift(a,b) or a*(.5^-b) end
 local rshift = function(a,b,p) return p==true and bit.rshift(a,b) or a*(.5^b) end
+
+
+
 	--local lshift = bit and Config.esp.precise and bit.lshift or and function(a,b) return a*(2^b) end
 	---
 
@@ -176,7 +190,7 @@ local rshift = function(a,b,p) return p==true and bit.rshift(a,b) or a*(.5^b) en
 				end
 			end
 		end
-		local omin, omax = Ve3n(minx, miny, minz), Ve3n(maxx, maxy, maxz)
+		local omin, omax = V3N(minx, miny, minz), V3N(maxx, maxy, maxz)
 		local omiddle = (omax+omin)*.5
 		local wCf = orientation - orientation.p + orientation:pointToWorldSpace(omiddle)
 		local size = (omax-omin)
@@ -251,10 +265,10 @@ local rshift = function(a,b,p) return p==true and bit.rshift(a,b) or a*(.5^b) en
 			Chams.Enabled = false --standardcheck
 			Chams.Parent = SafeFolder]]
 
-			UR,V1 = WorldToViewport(Pos*(Ve3n(Size.X,Size.Y,0)))
-			UL,V2 = WorldToViewport(Pos*(Ve3n(-Size.X,Size.Y,0)))
-			DL,V3 = WorldToViewport(Pos*(Ve3n(-Size.X,-Size.Y,0)))
-			DR,V4 = WorldToViewport(Pos*(Ve3n(Size.X,-Size.Y,0)))
+			UR,V1 = WorldToViewport(Pos*(V3N(Size.X,Size.Y,0)))
+			UL,V2 = WorldToViewport(Pos*(V3N(-Size.X,Size.Y,0)))
+			DL,V3 = WorldToViewport(Pos*(V3N(-Size.X,-Size.Y,0)))
+			DR,V4 = WorldToViewport(Pos*(V3N(Size.X,-Size.Y,0)))
 
 			Box.PointA = Ve2n(UR.X,UR.Y)
 			Box.PointB = Ve2n(UL.X,UL.Y)
@@ -266,8 +280,8 @@ local rshift = function(a,b,p) return p==true and bit.rshift(a,b) or a*(.5^b) en
 			Box.Color = TeamColor
 			Box.ZIndex = zindex
 
-			local BUR,V19 = WorldToViewport(Pos*(Ve3n(-sx15.X,Size.y,0)))
-			local BDR,V22 = WorldToViewport(Pos*(Ve3n(-sx15.X,-Size.Y,0)))
+			local BUR,V19 = WorldToViewport(Pos*(V3N(-sx15.X,Size.y,0)))
+			local BDR,V22 = WorldToViewport(Pos*(V3N(-sx15.X,-Size.Y,0)))
 
 			local Hum = Char:FindFirstChildOfClass("Humanoid")
 			Head = Char:FindFirstChild("Head")
@@ -279,8 +293,8 @@ local rshift = function(a,b,p) return p==true and bit.rshift(a,b) or a*(.5^b) en
 				barh = -Size.Y+(Size.Y*health*2)
 				--c = Color3.fromHSV(health*.35,0.9,1) health = 0
 				c = Color3.fromHSV(health*.4,.9,.98)
-				H1 = WorldToViewport(Pos*(Ve3n(-sx15.X,barh,0)))
-				H2 = WorldToViewport(Pos*(Ve3n(-Size.X,barh,0)))
+				H1 = WorldToViewport(Pos*(V3N(-sx15.X,barh,0)))
+				H2 = WorldToViewport(Pos*(V3N(-Size.X,barh,0)))
 				Healthbar[2].Color = c
 			end
 
@@ -319,8 +333,8 @@ local rshift = function(a,b,p) return p==true and bit.rshift(a,b) or a*(.5^b) en
 
 
 			if Config.esp.tracers.enabled then
-				local TT = WorldToViewport(Pos*Ve3n(0,-Size.Y,0))
-				if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*Ve3n(0,-Size.Y,0)) end 
+				local TT = WorldToViewport(Pos*V3N(0,-Size.Y,0))
+				if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*V3N(0,-Size.Y,0)) end 
 
 
 				--Tracer.Thickness = clamp(standard,0,(Resolution.Y*0.004))
@@ -356,10 +370,10 @@ local rshift = function(a,b,p) return p==true and bit.rshift(a,b) or a*(.5^b) en
 			Healthbar[3].Visible = hcheck
 			-- May complete later
 		--[[
-		local NBOX,BV = WorldToViewport(Pos*Ve3n(0,Size.Y*2.5,0))
+		local NBOX,BV = WorldToViewport(Pos*V3N(0,Size.Y*2.5,0))
 		local n = clamp(((Resolution.Y*2)/NBOX.Z)*FovDelta,55,inf)
 		local nNn = BV and Config.ESP.Nametag.Enabled
-		NBOX = Ve3n(NBOX.X,NBOX.Y-n*.5,NBOX.Z)
+		NBOX = V3N(NBOX.X,NBOX.Y-n*.5,NBOX.Z)
 
 		NametagBox.PointA = Ve2n(NBOX.X+n,NBOX.Y+n*.5)
 		NametagBox.PointB = Ve2n(NBOX.X-n,NBOX.Y+n*.5)
@@ -426,7 +440,15 @@ local rshift = function(a,b,p) return p==true and bit.rshift(a,b) or a*(.5^b) en
 
 	game:GetService("RunService").Stepped:connect(function(d)
 		pDELTA = d
-	
+		if Config.movement.walkspeed.enabled and User.Character then
+			SelfHum = SelfHum or User.Character:FindFirstChildOfClass("Humanoid")
+			SelfRoot = SelfRoot or User.Character:FindFirstChild("HumanoidRootPart")
+			HumVector = SelfHum.MoveVector
+
+			if HumVector.Magnitude>0 then
+				SelfRoot.AssemblyLinearVelocity = Config.movement.walkspeed.allowinertia and SelfRoot.AssemblyLinearVelocity+HumVector.Unit*Config.movement.walkspeed.speed or HumVector.Unit*Config.movement.walkspeed.speed+V3N(0,SelfRoot.AssemblyLinearVelocity.Y,0)
+			end
+		end
 	end)
 
 	return Config
