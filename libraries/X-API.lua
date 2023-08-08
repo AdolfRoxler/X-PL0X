@@ -253,9 +253,10 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 
 		local H,S,V = RGB(Config.render.ui.crosshair.color.r,Config.render.ui.crosshair.color.g,Config.render.ui.crosshair.color.b):ToHSV()
 		local N = Config.render.ui.crosshair.rgb and time() or 0
+		local K = HSV(H+N,Config.render.ui.crosshair.rgb and S or 1,Config.render.ui.crosshair.rgb and V or 1)
 
-		CR1.Color = HSV(H+N,S,V)
-		CR2.Color = HSV(H+N,S,V)
+		CR1.Color = K
+		CR2.Color = K
 		
 
 
