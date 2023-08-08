@@ -40,6 +40,7 @@ local CR1 = Draw("Line")
 local CR2 = Draw("Line")
 local AIMSTATUS = Draw("Text")
 local CrosshairLength = 0
+local CrosshairThickness = 0
 local inset = 36
 local N = 0
 CR1.Color = WHITE
@@ -240,10 +241,11 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 		CR2.Visible = Config.render.ui.crosshair.enabled
 
 		if Config.render.ui.crosshair.enabled then
-
-		CR1.Thickness = Resolution.Y*(Config.render.ui.crosshair.thickness/1000)
-		CR2.Thickness = Resolution.Y*(Config.render.ui.crosshair.thickness/1000)
+		CrosshairThickness = Resolution.Y*(Config.render.ui.crosshair.thickness/1000)
 		CrosshairLength = Resolution.Y*(Config.render.ui.crosshair.length/1000)
+
+		CR1.Thickness = CrosshairThickness
+		CR2.Thickness = CrosshairThickness
 
 		CR1.From = V2N(Mouse.X-CrosshairLength,Mouse.y+inset)
 		CR1.To = V2N(Mouse.X+CrosshairLength,Mouse.y+inset)
@@ -253,7 +255,7 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 
 		local H,S,V = RGB(Config.render.ui.crosshair.color.r,Config.render.ui.crosshair.color.g,Config.render.ui.crosshair.color.b):ToHSV()
 		N = Config.render.ui.crosshair.rgb and N+d or 0
-		local K = HSV(H+N,Config.render.ui.crosshair.rgb and S or 1,Config.render.ui.crosshair.rgb and V or 1)
+		local K = HSV(H+N,not Config.render.ui.crosshair.rgb and S or 1,not Config.render.ui.crosshair.rgb and V or 1)
 
 		CR1.Color = K
 		CR2.Color = K end
