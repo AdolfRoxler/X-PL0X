@@ -322,7 +322,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 
 				Tracer.Thickness = clamp(standard,0,(Resolution.Y*0.004))
 				Tracer.Color = TeamColor
-				Tracer.Transparency = clamp(1-(Pos.p-Camera.CFrame.p).Magnitude*.00025,.2,.5)
+				Tracer.Transparency = clamp(1-(Pos.p-Camera.CFrame.p).Magnitude*.00025,.2,1)
 				Tracer.From = Ve2n(Resolution.X*.5,Resolution.Y*.985)
 				Tracer.ZIndex = zindex
 				Tracer.To = Ve2n(TT.X,TT.Y)  
