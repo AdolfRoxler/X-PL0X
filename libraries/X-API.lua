@@ -315,7 +315,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			hcheck = V2 and V3 and V19 and V22 and standardcheck and Config.esp.box.healthbar
 
 
-			if Config.esp.tracers then
+			if Config.esp.tracers.enabled then
 				local TT = WorldToViewport(Pos*Ve3n(0,-Size.Y,0))
 				if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*Ve3n(0,-Size.Y,0)) end 
 
