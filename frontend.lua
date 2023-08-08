@@ -43,15 +43,19 @@ local function changeData(tabl,pathArray) --- stolen from devforum | Source: htt
 	local template = ConfigTemplate
 	for index, path in ipairs(pathArray) do
 		if pathArray[index + 2]==nil then
+			--if typeof(ConfigTemplate[pathArray[index + 1]])==typeof(tabl[pathArray[index + 1]]) then tabl[path] = pathArray[index + 1] end
+			--if typeof(tabl[path])==typeof(ConfigTemplate[path]) then
+			--print(typeof(tabl[path]),typeof(template[path]),typeof(pathArray[index + 1]))
+
 			if typeof(pathArray[index + 1]) == typeof(template[path]) and pathArray[index + 1]~=nil and template[path]~=nil then tabl[path] = pathArray[index + 1] end
+			--end
 		else
 			if tabl[path]==nil then
 				break
 			end
 			if typeof(tabl[path]) == typeof(template[path]) and tabl[path]~=nil and template[path]~=nil then
 				tabl = tabl[path] 
-				template = template[path] 
-				else break end
+				template = template[path] else break end
 		end
 	end
 end
