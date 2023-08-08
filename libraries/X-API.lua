@@ -329,19 +329,18 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			Tracer.To = Ve2n(TT.X,TT.Y) 
 			Tracer.Visible = standardcheck and Config.esp.tracers
 
-			local avghead,HPV,HPV2 = 0,Ve3n(),false
+			local avghead,HPV,HPV2;
 			if Head then
 				avghead = (Head.Size.X+Head.Size.Y+Head.Size.Z)/3
 				HPV,HPV2 = WorldToViewport(Head.CFrame.p) 
 				HeadE.Transparency = clamp((Head.CFrame.p-Camera.CFrame.p).Magnitude-1,0,1)
+				HeadE.Position = Ve2n(HPV.X,HPV.Y)
+				local m = (((Resolution.Y*0.4*avghead)/HPV.Z))*FovDelta
+				HeadE.Radius = m
+				HeadE.Thickness = m*0.45
+				HeadE.Color = TeamColor
+				HeadE.ZIndex = lowvalue+1
 			end
-
-			HeadE.Position = Ve2n(HPV.X,HPV.Y)
-			local m = (((Resolution.Y*0.4*avghead)/HPV.Z))*FovDelta 
-			HeadE.Radius = m
-			HeadE.Thickness = m*0.45
-			HeadE.Color = TeamColor
-			HeadE.ZIndex = lowvalue+1
 			HeadE.Visible = HPV2 and Head and standardcheck and Config.esp.head
 
 			-- May complete later
