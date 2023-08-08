@@ -32,10 +32,11 @@ local help = {
 
 local function TranslateValue(str)
 	local tr = str
-	if str=="on" or str=="true" or str==1 then tr=true
-	elseif str=="off" or str=="false" or str==0 then tr=false
+	local ntr = tonumber(str)
+	if str=="on" or str=="true" or ntr==1 then tr=true
+	elseif str=="off" or str=="false" or ntr==0 then tr=false
 	end
-	return tr
+	return ntr or tr
 end
 
 local function changeData(tabl,pathArray) --- stolen from devforum | Source: https://devforum.roblox.com/t/how-to-make-equivalent-of-instancegetfullname-for-tables/1114061
