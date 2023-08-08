@@ -228,16 +228,6 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 
 
 
-	Mouse.Move:Connect(function()
-
-		if Config.render.ui.crosshair.enabled then
-			CR1.From = V2N(Mouse.X-CrosshairLength,Mouse.y+inset)
-			CR1.To = V2N(Mouse.X+CrosshairLength,Mouse.y+inset)
-
-			CR2.From = V2N(Mouse.X,Mouse.y+inset-CrosshairLength)
-			CR2.To = V2N(Mouse.X,Mouse.y+inset+CrosshairLength)
-		end
-	end)
 
 	game:GetService("RunService").RenderStepped:connect(function(d)
 		rDELTA = d
@@ -247,16 +237,25 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 
 		CR1.Visible = Config.render.ui.crosshair.enabled
 		CR2.Visible = Config.render.ui.crosshair.enabled
+
+		if Config.render.ui.crosshair.enabled then
+
 		CR1.Thickness = Resolution.Y*(Config.render.ui.crosshair.thickness/1000)
 		CR2.Thickness = Resolution.Y*(Config.render.ui.crosshair.thickness/1000)
 		CrosshairLength = Resolution.Y*(Config.render.ui.crosshair.length/1000)
 
+		CR1.From = V2N(Mouse.X-CrosshairLength,Mouse.y+inset)
+		CR1.To = V2N(Mouse.X+CrosshairLength,Mouse.y+inset)
+
+		CR2.From = V2N(Mouse.X,Mouse.y+inset-CrosshairLength)
+		CR2.To = V2N(Mouse.X,Mouse.y+inset+CrosshairLength)
+
 		local H,S,V = RGB(Config.render.ui.crosshair.color.r,Config.render.ui.crosshair.color.g,Config.render.ui.crosshair.color.b):ToHSV()
-		local N = Config.render.ui.crosshair.rgb and time() or 0
+		local N = Config.render.ui.crosshair.rgb and N+d or 0
 		local K = HSV(H+N,Config.render.ui.crosshair.rgb and S or 1,Config.render.ui.crosshair.rgb and V or 1)
 
 		CR1.Color = K
-		CR2.Color = K
+		CR2.Color = K end
 		
 
 
