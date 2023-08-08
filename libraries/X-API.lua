@@ -72,13 +72,14 @@ local clamp = math.clamp ---- math.clamp no worky real
 local inf = math.huge
 local abs = math.abs
 local floor = math.floor
-local bit.rshift = bit.rshift or bit32.rshift
+local bitrshift = bit.rshift or bit32.rshift
+local bitlshift = bit.lshift or bit32.lshift
 
 local split = string.split
 local tostring = tostring
 local tonumber = tonumber
-local lshift = function(a,b,p) return p==true and bit.lshift(a,b) or a*(.5^-b) end
-local rshift = function(a,b,p) return p==true and bit.rshift(a,b) or a*(.5^b) end
+local lshift = function(a,b,p) return p==true and bitlshift(a,b) or a*(.5^-b) end
+local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 
 
 
