@@ -35,6 +35,8 @@ local CR1 = Draw("Line")
 local CR2 = Draw("Line")
 local AIMSTATUS = Draw("Text")
 local CrosshairLength = 0
+local inset = 36
+
 ---
 
 local rDELTA = 1
@@ -224,11 +226,11 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 	Mouse.Move:Connect(function()
 
 		if Config.render.ui.crosshair.enabled then
-			CR1.From = Vector2.new(Mouse.X-CrosshairLength,Mouse.y+inset)
-			CR1.To = Vector2.new(Mouse.X+CrosshairLength,Mouse.y+inset)
+			CR1.From = V2N(Mouse.X-CrosshairLength,Mouse.y+inset)
+			CR1.To = V2N(Mouse.X+CrosshairLength,Mouse.y+inset)
 
-			CR2.From = Vector2.new(Mouse.X,Mouse.y+inset-CrosshairLength)
-			CR2.To = Vector2.new(Mouse.X,Mouse.y+inset+CrosshairLength)
+			CR2.From = V2N(Mouse.X,Mouse.y+inset-CrosshairLength)
+			CR2.To = V2N(Mouse.X,Mouse.y+inset+CrosshairLength)
 		end
 	end)
 
