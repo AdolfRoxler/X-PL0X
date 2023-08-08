@@ -15,5 +15,10 @@ return {
             },
         },]]
 
-    }
+    },
+    movement = {
+        walkspeed = {enabled = true, speed = 32},
+        flight = {enabled = true, speed = 32},
+
+    },
 }

@@ -37,7 +37,8 @@ local AIMSTATUS = Draw("Text")
 
 ---
 
-local DELTA = 1
+local rDELTA = 1
+local pDELTA = 1
 local FovDelta = 1
 local WHITE = Color3.new(1,1,1)
 local zindex = lowvalue+100
@@ -60,12 +61,13 @@ local clamp = math.clamp ---- math.clamp no worky real
 local inf = math.huge
 local abs = math.abs
 local floor = math.floor
+local bit.rshift = bit.rshift or bit32.rshift
 
 local split = string.split
 local tostring = tostring
 local tonumber = tonumber
-local lshift = function(a,b,p) return p==true and lshift(a,b) or a*(.5^-b) end
-local rshift = function(a,b,p) return p==true and rshift(a,b) or a*(.5^b) end
+local lshift = function(a,b,p) return p==true and bit.lshift(a,b) or a*(.5^-b) end
+local rshift = function(a,b,p) return p==true and bit.rshift(a,b) or a*(.5^b) end
 	--local lshift = bit and Config.esp.precise and bit.lshift or and function(a,b) return a*(2^b) end
 	---
 
@@ -202,7 +204,8 @@ local rshift = function(a,b,p) return p==true and rshift(a,b) or a*(.5^b) end
 	game:GetService("Players").PlayerRemoving:Connect(RefreshPlayers)
 	RefreshPlayers()
 
-	game:GetService("RunService").RenderStepped:connect(function()
+	game:GetService("RunService").RenderStepped:connect(function(d)
+		rDELTA = d
 		Camera = workspace.CurrentCamera -- fix for penis rcl game that deletes camera
 		Resolution = Ve2n(Mouse.ViewSizeX,Mouse.ViewSizeY)
 		FovDelta = (70/Camera.FieldOfView)
@@ -419,6 +422,11 @@ local rshift = function(a,b,p) return p==true and rshift(a,b) or a*(.5^b) end
 		]]
 
 		end
+	end)
+
+	game:GetService("RunService").Stepped:connect(function(d)
+		pDELTA = d
+	
 	end)
 
 	return Config
