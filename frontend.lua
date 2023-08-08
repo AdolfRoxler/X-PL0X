@@ -1,7 +1,7 @@
 assert(Drawing,"No drawing api?")
 --if getgenv().XPL0X then return end
 --if getgenv().XPL0XDISABLELOADINGSCREEN then game:GetService("ReplicatedFirst"):RemoveDefaultLoadingScreen() game:GetService("CoreGui").TeleportGui.Enabled = false scrn = getgenv().XPL0XDISABLELOADINGSCREEN end
-local devmode = type(devmode)=="boolean" and devmode or true
+local devmode = type(devmode)=="boolean" and devmode or false
 rconsoleclear()
 rconsoleprint(syn and "@@WHITE@@" or "")
 rconsoleprint("[!] Frontend loaded. Press a key to nudge the CLI to continue loading. \n")
