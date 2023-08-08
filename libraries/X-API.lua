@@ -330,6 +330,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			Tracer.Visible = standardcheck and Config.esp.tracers
 
 			local avghead,HPV,HPV2;
+			print(Head)
 			if Head then
 				avghead = (Head.Size.X+Head.Size.Y+Head.Size.Z)/3
 				HPV,HPV2 = WorldToViewport(Head.CFrame.p) 
