@@ -22,11 +22,12 @@ local ConfigTemplate = devmode and loadstring(game:HttpGet'https://raw.githubuse
 
 
 local help = {
-	help = "prints this gay ass guide",
-	clear = "clears cli output so it's way cleaner to the eye",
-	set = "Example: set ESP Enabled true | set ESP Boxes true \n   [For reference]: check out the default config.",
-	ping = "get the server ping",
+	help = "Prints this gay ass guide",
+	clear = "Clears cli output",
+	set = "Example: set movement walkspeed enabled true | set render esp box enabled true \n   [For reference]: \n   https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/Config.lua",
+	ping = "Get the server ping",
 	config = "\n    write -> [args]: global (default) / game / place\n    load -> place > game > global\n    reset -> wipes loaded config [DOES NOT OVERWRITE]"
+	discord = "Outputs the discord server"
 }
 
 
@@ -159,7 +160,11 @@ local commands = {
 			for _,N in pairs(Core) do Core[_] = ConfigTemplate[_] end
 		end
 		return false
-	end
+	end,
+	discord = function()
+		CLI:DisplayText("discord.gg/eCtE2ukNVV")
+		return false
+	end,
 }
 
 local function mainmenu(message)
