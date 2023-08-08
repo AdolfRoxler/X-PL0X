@@ -236,7 +236,7 @@ local rshift = function(a,b,p) return p==true and rshift(a,b) or a*(.5^b) end
 			
 			sx15 = Size*.75
 			Size = Size*.5
-			local standard = (((0.07*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
+			local standard = (((0.1*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
 			standardcheck = IsFocused==false and Config.esp.enabled or false
 
 			--[[Chams.Adornee = Char or nil
