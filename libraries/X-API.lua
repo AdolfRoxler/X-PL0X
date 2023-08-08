@@ -34,7 +34,7 @@ local wget = devmode and loadstring(game:HttpGet('https://raw.githubusercontent.
 local CR1 = Draw("Line")
 local CR2 = Draw("Line")
 local AIMSTATUS = Draw("Text")
-
+local CrosshairLength = 0
 ---
 
 local rDELTA = 1
@@ -83,7 +83,7 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 
 
 
-	--local lshift = bit and Config.esp.precise and bit.lshift or and function(a,b) return a*(2^b) end
+	--local lshift = bit and Config.render.esp.precise and bit.lshift or and function(a,b) return a*(2^b) end
 	---
 
 	local function scaletotextbound(Text,Bounds,u)
@@ -168,9 +168,9 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 				local cf = orientation:toObjectSpace(obj.CFrame)
 				local sx, sy, sz = obj.Size.X, obj.Size.Y, obj.Size.Z
 				local x, y, z, R00, R01, R02, R10, R11, R12, R20, R21, R22 = cf:components()
-				local wsx = rshift((abs(R00) * sx + abs(R01) * sy + abs(R02) * sz),1,Config.esp.precise)
-				local wsy = rshift((abs(R10) * sx + abs(R11) * sy + abs(R12) * sz),1,Config.esp.precise)
-				local wsz = rshift((abs(R20) * sx + abs(R21) * sy + abs(R22) * sz),1,Config.esp.precise)
+				local wsx = rshift((abs(R00) * sx + abs(R01) * sy + abs(R02) * sz),1,Config.render.esp.precise)
+				local wsy = rshift((abs(R10) * sx + abs(R11) * sy + abs(R12) * sz),1,Config.render.esp.precise)
+				local wsz = rshift((abs(R20) * sx + abs(R21) * sy + abs(R22) * sz),1,Config.render.esp.precise)
 				if minx > x - wsx then
 					minx = x - wsx
 				end
@@ -219,11 +219,35 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 	game:GetService("Players").PlayerRemoving:Connect(RefreshPlayers)
 	RefreshPlayers()
 
+
+
+	Mouse.Move:Connect(function()
+
+		if Config.render.ui.crosshair.enabled then
+			CR1.From = Vector2.new(Mouse.X-CrosshairLength,Mouse.y+inset)
+			CR1.To = Vector2.new(Mouse.X+CrosshairLength,Mouse.y+inset)
+
+			CR2.From = Vector2.new(Mouse.X,Mouse.y+inset-CrosshairLength)
+			CR2.To = Vector2.new(Mouse.X,Mouse.y+inset+CrosshairLength)
+		end
+	end)
+
 	game:GetService("RunService").RenderStepped:connect(function(d)
 		rDELTA = d
 		Camera = workspace.CurrentCamera -- fix for penis rcl game that deletes camera
 		Resolution = V2N(Mouse.ViewSizeX,Mouse.ViewSizeY)
 		FovDelta = (70/Camera.FieldOfView)
+
+		CR1.Visible = Config.render.ui.crosshair.enabled
+		CR2.Visible = Config.render.ui.crosshair.enabled
+		CR1.Thickness = Resolution.Y*(Config.render.ui.crosshair.thickness/1000)
+		CR2.Thickness = Resolution.Y*(Config.render.ui.crosshair.thickness/1000)
+		CrosshairLength = Resolition.Y*(Config.render.ui.crosshair.length/1000)
+
+
+
+
+		
 		for _,N in pairs(PlayerList) do
 			if REFRESHING then continue end
 			local Char = _.Character
@@ -248,14 +272,14 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 		]]
 
 
-			if Char~=nil then Pos,Size = GetBoundingBox(Char,false,Config.esp.box.dynamic and Char:GetModelCFrame() or CFN(Char:GetModelCFrame().p)*Camera.CFrame.Rotation) IsFocused = Char:IsAncestorOf(Camera.CameraSubject)
+			if Char~=nil then Pos,Size = GetBoundingBox(Char,false,Config.render.esp.box.dynamic and Char:GetModelCFrame() or CFN(Char:GetModelCFrame().p)*Camera.CFrame.Rotation) IsFocused = Char:IsAncestorOf(Camera.CameraSubject)
 			local UR,UL,DR,DL;
 			
 			
 			sx15 = Size*.75
 			Size = Size*.5
 			local standard = (((0.1*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
-			standardcheck = IsFocused==false and Config.esp.enabled or false
+			standardcheck = IsFocused==false and Config.render.esp.enabled or false
 
 			--[[Chams.Adornee = Char or nil
 			Chams.FillColor = TeamColor
@@ -330,10 +354,10 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 			Healthbar[2].ZIndex = zindex-1
 			Healthbar[2].Thickness = 0
 
-			hcheck = V2 and V3 and V19 and V22 and standardcheck and Config.esp.box.healthbar
+			hcheck = V2 and V3 and V19 and V22 and standardcheck and Config.render.esp.box.healthbar
 
 
-			if Config.esp.tracers.enabled then
+			if Config.render.esp.tracers.enabled then
 				local TT = WorldToViewport(Pos*V3N(0,-Size.Y,0))
 				if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*V3N(0,-Size.Y,0)) end 
 
@@ -341,7 +365,7 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 				--Tracer.Thickness = clamp(standard,0,(Resolution.Y*0.004))
 				Tracer.Thickness = standard
 				Tracer.Color = TeamColor
-				Tracer.Transparency = 1-(Pos.p-Camera.CFrame.p).Magnitude*(1/Config.esp.tracers.maxdistance)
+				Tracer.Transparency = 1-(Pos.p-Camera.CFrame.p).Magnitude*(1/Config.render.esp.tracers.maxdistance)
 				Tracer.From = V2N(Resolution.X*.5,Resolution.Y*.985)
 				Tracer.ZIndex = zindex
 				Tracer.To = V2N(TT.X,TT.Y)  
@@ -363,9 +387,9 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 
 
 
-			Box.Visible = V1 and V2 and V3 and V4 and standardcheck and Config.esp.box.enabled
-			HeadE.Visible = HPV2 and Head and standardcheck and Config.esp.head
-			Tracer.Visible = standardcheck and Config.esp.tracers.enabled
+			Box.Visible = V1 and V2 and V3 and V4 and standardcheck and Config.render.esp.box.enabled
+			HeadE.Visible = HPV2 and Head and standardcheck and Config.render.esp.head
+			Tracer.Visible = standardcheck and Config.render.esp.tracers.enabled
 			Healthbar[1].Visible = hcheck
 			Healthbar[2].Visible = hcheck
 			Healthbar[3].Visible = hcheck
@@ -373,7 +397,7 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 		--[[
 		local NBOX,BV = WorldToViewport(Pos*V3N(0,Size.Y*2.5,0))
 		local n = clamp(((Resolution.Y*2)/NBOX.Z)*FovDelta,55,inf)
-		local nNn = BV and Config.ESP.Nametag.Enabled
+		local nNn = BV and Config.render.esp.Nametag.Enabled
 		NBOX = V3N(NBOX.X,NBOX.Y-n*.5,NBOX.Z)
 
 		NametagBox.PointA = V2N(NBOX.X+n,NBOX.Y+n*.5)
@@ -381,27 +405,27 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 		NametagBox.PointC = V2N(NBOX.X-n,NBOX.Y)
 		NametagBox.PointD = V2N(NBOX.X+n,NBOX.Y)
 		NametagBox.Filled = true
-		NametagBox.Transparency = Config.ESP.Nametag.Customization.Base.Opacity
+		NametagBox.Transparency = Config.render.esp.Nametag.Customization.Base.Opacity
 		NametagBox.Visible = nNn
-		NametagBox.Color = Config.ESP.Nametag.Customization.Base.Color
+		NametagBox.Color = Config.render.esp.Nametag.Customization.Base.Color
 
 		Avatar.Size = V2N(n*.5,n*.5)
 		Avatar.Position = Vector2.new(NBOX.X-n*1.5,NBOX.Y)
-		Avatar.Visible = nNn and Config.ESP.Nametag.DisplayAvatar
+		Avatar.Visible = nNn and Config.render.esp.Nametag.DisplayAvatar
 
 		AvatarFrame.PointA = V2N(NBOX.X-n,NBOX.Y+n*.5)
 		AvatarFrame.PointB = V2N(NBOX.X-n*1.5,NBOX.Y+n*.5)
 		AvatarFrame.PointC = V2N(NBOX.X-n*1.5,NBOX.Y)
 		AvatarFrame.PointD = V2N(NBOX.X-n,NBOX.Y)
-		AvatarFrame.Visible = nNn and Config.ESP.Nametag.DisplayAvatar
+		AvatarFrame.Visible = nNn and Config.render.esp.Nametag.DisplayAvatar
 		AvatarFrame.Filled = true
-		AvatarFrame.Transparency = Config.ESP.Nametag.Customization.SecondaryRight.Opacity
-		AvatarFrame.Color = Config.ESP.Nametag.Customization.SecondaryRight.Color
+		AvatarFrame.Transparency = Config.render.esp.Nametag.Customization.SecondaryRight.Opacity
+		AvatarFrame.Color = Config.render.esp.Nametag.Customization.SecondaryRight.Color
 
 		NameBar.From =  V2N(NBOX.X-n,NBOX.Y+n*.5-standard*.5)
 		NameBar.To = V2N(NBOX.X-n+(n*2*health),NBOX.Y+n*.5-standard*.5)
 		NameBar.Thickness = standard
-		NameBar.Visible = nNn and Config.ESP.Nametag.DisplayHealth
+		NameBar.Visible = nNn and Config.render.esp.Nametag.DisplayHealth
 		NameBar.Transparency = 1
 		NameBar.Color = c
 
@@ -414,7 +438,7 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 		NameTag.Size = n*8/(clamp(string.len(NameTag.Text),7,inf)*2)
 		--n/((string.len(NameTag.Text)*.5)/(#string.split(NameTag.Text,"\n")))
 		NameTag.Position = V2N(NBOX.X,NBOX.Y-NameTag.TextBounds.Y+n*.5)
-		NameTag.Visible = nNn and Config.ESP.Nametag.DisplayName
+		NameTag.Visible = nNn and Config.render.esp.Nametag.DisplayName
 		NameTag.Color = WHITE
 		NameTag.Center = true
 
@@ -422,13 +446,13 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 		DistanceFrame.PointB = V2N(NBOX.X-n*1.75,NBOX.Y+n*.5)
 		DistanceFrame.PointC = V2N(NBOX.X-n*1.75,NBOX.Y)
 		DistanceFrame.PointD = V2N(NBOX.X-n,NBOX.Y)
-		DistanceFrame.Visible = nNn and Config.ESP.Nametag.DisplayDistance
+		DistanceFrame.Visible = nNn and Config.render.esp.Nametag.DisplayDistance
 		DistanceFrame.Filled = true
-		DistanceFrame.Transparency = Config.ESP.Nametag.Customization.SecondaryLeft.Opacity
-		DistanceFrame.Color = Config.ESP.Nametag.Customization.SecondaryLeft.Color
+		DistanceFrame.Transparency = Config.render.esp.Nametag.Customization.SecondaryLeft.Opacity
+		DistanceFrame.Color = Config.render.esp.Nametag.Customization.SecondaryLeft.Color
 
 		Distance.Text = tostring(floor(User:DistanceFromCharacter(Pos.p)*.28)).."m"
-		Distance.Visible = nNn and Config.ESP.Nametag.DisplayDistance
+		Distance.Visible = nNn and Config.render.esp.Nametag.DisplayDistance
 		Distance.Size = n*2.5/(clamp(string.len(Distance.Text),3,inf)*2)
 		Distance.Position = V2N(NBOX.X-n*1.375,NBOX.Y-Distance.TextBounds.Y+n*.5)
 		Distance.Color = WHITE
