@@ -87,8 +87,8 @@ local bitlshift = bit.lshift or bit32.lshift
 local split = string.split
 local tostring = tostring
 local tonumber = tonumber
-local lshift = function(a,b,p) return p==true and bitlshift(a,b) or a*(.5^-b) end
-local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
+local lshift = function(a,b,p) return not p and bitlshift(a,b) or a*(.5^-b) end
+local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 
 
