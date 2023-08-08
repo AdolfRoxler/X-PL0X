@@ -444,7 +444,7 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 		if Config.movement.walkspeed.enabled and User.Character then
 			SelfHum = SelfHum or User.Character:FindFirstChildOfClass("Humanoid")
 			SelfRoot = SelfRoot or User.Character:FindFirstChild("HumanoidRootPart")
-			HumVector = SelfHum.MoveVector
+			HumVector = SelfHum.MoveDirection
 
 			if HumVector.Magnitude>0 then
 				SelfRoot.AssemblyLinearVelocity = Config.movement.walkspeed.allowinertia and SelfRoot.AssemblyLinearVelocity+HumVector.Unit*Config.movement.walkspeed.speed or HumVector.Unit*Config.movement.walkspeed.speed+V3N(0,SelfRoot.AssemblyLinearVelocity.Y,0)
