@@ -40,7 +40,7 @@ end
 
 local function changeData(tabl,pathArray) --- stolen from devforum | Source: https://devforum.roblox.com/t/how-to-make-equivalent-of-instancegetfullname-for-tables/1114061
 	--send pathArray to client
-	local template = DefaultConfig
+	local template = ConfigTemplate
 	for index, path in ipairs(pathArray) do
 		if pathArray[index + 2]==nil then
 			if typeof(pathArray[index + 1]) == typeof(template[path]) and pathArray[index + 1]~=nil and template[path]~=nil then tabl[path] = pathArray[index + 1] end
