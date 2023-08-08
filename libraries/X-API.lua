@@ -267,7 +267,7 @@ local rshift = function(a,b,p) return p==true and rshift(a,b) or a*(.5^b) end
 			local BDR,V22 = WorldToViewport(Pos*(Ve3n(-sx15.X,-Size.Y,0)))
 
 			local Hum = Char:FindFirstChildOfClass("Humanoid")
-			local Head = Char:FindFirstChild("Head")
+			Head = Char:FindFirstChild("Head")
 			local H1,H2 = DL,DR
 			local barh,c,health;
 
