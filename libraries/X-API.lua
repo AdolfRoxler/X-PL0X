@@ -317,8 +317,8 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			Healthbar[2].Visible = hcheck
 			Healthbar[3].Visible = hcheck
 
-
-
+			print(Config.esp.tracers)
+			if Config.esp.tracers then
 			local TT = WorldToViewport(Pos*Ve3n(0,-Size.Y,0))
 			Tracer.Thickness = clamp(standard,0,(Resolution.Y*0.004))
 			Tracer.Color = TeamColor
@@ -326,7 +326,8 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			Tracer.From = Ve2n(Resolution.X*.5,Resolution.Y*.985)
 			Tracer.ZIndex = zindex
 			if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*Ve3n(0,-Size.Y,0)) end 
-			Tracer.To = Ve2n(TT.X,TT.Y) 
+			Tracer.To = Ve2n(TT.X,TT.Y)  end
+
 			Tracer.Visible = standardcheck and Config.esp.tracers
 
 			local avghead,HPV,HPV2;

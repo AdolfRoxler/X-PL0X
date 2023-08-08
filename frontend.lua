@@ -103,7 +103,7 @@ local function writeconfig(method)
 local function readconfig(success, mem)
 	local placeid = tostring(game.PlaceId)
 	local gameid = tostring(game.GameId)
-	print(success,mem)
+	--print(success,mem)
 	if mem.GAMES and mem.GAMES[gameid] then
 		if mem.GAMES[gameid][placeid] then
 			for _,N in pairs(Core) do
