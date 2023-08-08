@@ -26,7 +26,7 @@ local help = {
 	clear = "Clears cli output",
 	set = "Example: set movement walkspeed enabled true | set render esp box enabled true \n   [For reference]: \n   https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/Config.lua",
 	ping = "Get the server ping",
-	config = "\n    write -> [args]: global (default) / game / place\n    load -> place > game > global\n    reset -> wipes loaded config [DOES NOT OVERWRITE]"
+	config = "\n    write -> [args]: global (default) / game / place\n    load -> place > game > global\n    reset -> wipes loaded config [DOES NOT OVERWRITE]",
 	discord = "Outputs the discord server"
 }
 
