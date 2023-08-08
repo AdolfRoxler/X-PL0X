@@ -251,9 +251,7 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 		CR2.Thickness = Resolution.Y*(Config.render.ui.crosshair.thickness/1000)
 		CrosshairLength = Resolution.Y*(Config.render.ui.crosshair.length/1000)
 
-		local H,S,V = RGB(Config.render.ui.crosshair.color.r,
-		Config.render.ui.crosshair.color.g,
-		Config.render.ui.crosshair.color.b,):ToHSV()
+		local H,S,V = RGB(Config.render.ui.crosshair.color.r,Config.render.ui.crosshair.color.g,Config.render.ui.crosshair.color.b):ToHSV()
 		local N = Config.render.ui.crosshair.rgb and time() or 0
 
 		CR1.Color = HSV(H+N,S,V)
