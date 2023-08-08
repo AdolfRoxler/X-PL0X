@@ -340,6 +340,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 				HeadE.Thickness = m*0.45
 				HeadE.Color = TeamColor
 				HeadE.ZIndex = lowvalue+1
+				print("yo penis cock sex lol boob")
 			end
 			HeadE.Visible = HPV2 and Head and standardcheck and Config.esp.head
 
