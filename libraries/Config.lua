@@ -27,8 +27,8 @@ return {
 
 
     movement = {
-        walkspeed = {enabled = true, speed = 32, allowinertia = false},
-        flight = {enabled = true, speed = 32},
+        walkspeed = {enabled = false, speed = 32, allowinertia = false},
+        flight = {enabled = false, speed = 32},
 
     },
 
