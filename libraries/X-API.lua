@@ -348,6 +348,7 @@ local rshift = function(a,b,p) return p==true and rshift(a,b) or a*(.5^b) end
 
 			Box.Visible = V1 and V2 and V3 and V4 and standardcheck and Config.esp.box.enabled
 			HeadE.Visible = HPV2 and Head and standardcheck and Config.esp.head
+			print(HeadE.Visible)
 			Tracer.Visible = standardcheck and Config.esp.tracers.enabled
 			Healthbar[1].Visible = hcheck
 			Healthbar[2].Visible = hcheck
