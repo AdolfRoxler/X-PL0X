@@ -215,7 +215,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			local Healthbar = N.Healthbar
 			local HeadE = N.Circle
 			local TeamColor = _.TeamColor.Color:Lerp(WHITE,.5) or WHITE
-			Pos,Size,IsFocused,sx15;
+			local Pos,Size,IsFocused,sx15;
 
 		--[[ -- Not needed
 		local NametagBox = N.Tag.Background
@@ -235,7 +235,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			Size = Size*.5
 			local standard = (((0.07*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
 
-			local standardcheck = IsFocused==true and Config.esp.enabled or false
+			local standardcheck = IsFocused==false and Config.esp.enabled or false
 
 			--[[Chams.Adornee = Char or nil
 			Chams.FillColor = TeamColor
@@ -313,7 +313,6 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			local hcheck = V2 and V3 and V19 and V22 and standardcheck and Config.esp.box.healthbar
 
 
-			rconsoleprint(Config.esp.tracers)
 			if Config.esp.tracers then
 			local TT = WorldToViewport(Pos*Ve3n(0,-Size.Y,0))
 			Tracer.Thickness = clamp(standard,0,(Resolution.Y*0.004))
@@ -325,7 +324,6 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			Tracer.To = Ve2n(TT.X,TT.Y)  end
 
 			local avghead,HPV,HPV2;
-			rconsoleprint(Head)
 			if Head then
 				avghead = (Head.Size.X+Head.Size.Y+Head.Size.Z)/3
 				HPV,HPV2 = WorldToViewport(Head.CFrame.p) 
