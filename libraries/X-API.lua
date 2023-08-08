@@ -40,6 +40,7 @@ local AIMSTATUS = Draw("Text")
 local DELTA = 1
 local FovDelta = 1
 local WHITE = Color3.new(1,1,1)
+local zindex = lowvalue+100
 
 --- Debounces
 
@@ -204,6 +205,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a/(b+1) end
 	game:GetService("RunService").RenderStepped:connect(function()
 		Camera = workspace.CurrentCamera -- fix for penis rcl game that deletes camera
 		Resolution = Ve2n(Mouse.ViewSizeX,Mouse.ViewSizeY)
+		FovDelta = (70/Camera.FieldOfView)
 		for _,N in pairs(PlayerList) do
 			if REFRESHING then continue end
 			local Char = _.Character
@@ -213,10 +215,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a/(b+1) end
 			local Healthbar = N.Healthbar
 			local HeadE = N.Circle
 			local TeamColor = _.TeamColor.Color:Lerp(WHITE,.5) or WHITE
-			local zindex = lowvalue+100
-			Pos,Size,IsFocused;
-			local sx15 = Ve3n()
-			FovDelta = (70/Camera.FieldOfView)
+			Pos,Size,IsFocused,sx15;
 
 		--[[ -- Not needed
 		local NametagBox = N.Tag.Background
