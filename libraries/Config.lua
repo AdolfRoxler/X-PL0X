@@ -2,8 +2,8 @@ return {
     esp = {
         enabled = false, precise = false, head = false, -- If precise is set to false it'll use bitwise operations, which are WAY FASTER.
         --chams = {enabled = false, throughWalls = false},  -- purged due to limitation of 31 objects. NOT GOOD.
-        box = {enabled = false, healthbar = false, dynamic = false},
-        tracers = {enabled = false, maxdistance = 200, thickness = 4},
+        box = {enabled = true, healthbar = false, dynamic = false},
+        tracers = {enabled = true, maxdistance = 200, thickness = 4},
         data = {
             name = {enabled = false, displayname = false}
         },
