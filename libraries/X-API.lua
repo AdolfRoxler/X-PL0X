@@ -10,7 +10,7 @@ local CFN = CFrame.new
 local WTVP = Camera.WorldToViewportPoint
 local WorldToViewport = function(...) return WTVP(Camera, ...) end
 local Mouse = User:GetMouse()
-local Resolution = Ve2n(Mouse.ViewSizeX,Mouse.ViewSizeY)
+local Resolution = V2N(Mouse.ViewSizeX,Mouse.ViewSizeY)
 local PlayerList = {}
 local Random = Random.new(tick())
 local Draw = Drawing.new
@@ -222,7 +222,7 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 	game:GetService("RunService").RenderStepped:connect(function(d)
 		rDELTA = d
 		Camera = workspace.CurrentCamera -- fix for penis rcl game that deletes camera
-		Resolution = Ve2n(Mouse.ViewSizeX,Mouse.ViewSizeY)
+		Resolution = V2N(Mouse.ViewSizeX,Mouse.ViewSizeY)
 		FovDelta = (70/Camera.FieldOfView)
 		for _,N in pairs(PlayerList) do
 			if REFRESHING then continue end
@@ -271,10 +271,10 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 			DL,V3 = WorldToViewport(Pos*(V3N(-Size.X,-Size.Y,0)))
 			DR,V4 = WorldToViewport(Pos*(V3N(Size.X,-Size.Y,0)))
 
-			Box.PointA = Ve2n(UR.X,UR.Y)
-			Box.PointB = Ve2n(UL.X,UL.Y)
-			Box.PointC = Ve2n(DL.X,DL.Y)
-			Box.PointD = Ve2n(DR.X,DR.Y)
+			Box.PointA = V2N(UR.X,UR.Y)
+			Box.PointB = V2N(UL.X,UL.Y)
+			Box.PointC = V2N(DL.X,DL.Y)
+			Box.PointD = V2N(DR.X,DR.Y)
 			Box.Filled = false
 			Box.Transparency = 1
 			Box.Thickness = standard
@@ -299,20 +299,20 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 				Healthbar[2].Color = c
 			end
 
-			Healthbar[1].PointA = Ve2n(BUR.X,BUR.Y)
-			Healthbar[1].PointB = Ve2n(UL.X,UL.Y)
-			Healthbar[1].PointC = Ve2n(DL.X,DL.Y)
-			Healthbar[1].PointD = Ve2n(BDR.X,BDR.Y)
+			Healthbar[1].PointA = V2N(BUR.X,BUR.Y)
+			Healthbar[1].PointB = V2N(UL.X,UL.Y)
+			Healthbar[1].PointC = V2N(DL.X,DL.Y)
+			Healthbar[1].PointD = V2N(BDR.X,BDR.Y)
 
-			Healthbar[2].PointA = Ve2n(H1.X,H1.Y)
-			Healthbar[2].PointB = Ve2n(H2.X,H2.Y)
-			Healthbar[2].PointC = Ve2n(DL.X,DL.Y)
-			Healthbar[2].PointD = Ve2n(BDR.X,BDR.Y)
+			Healthbar[2].PointA = V2N(H1.X,H1.Y)
+			Healthbar[2].PointB = V2N(H2.X,H2.Y)
+			Healthbar[2].PointC = V2N(DL.X,DL.Y)
+			Healthbar[2].PointD = V2N(BDR.X,BDR.Y)
 
-			Healthbar[3].PointA = Ve2n(BUR.X,BUR.Y)
-			Healthbar[3].PointB = Ve2n(UL.X,UL.Y)
-			Healthbar[3].PointC = Ve2n(DL.X,DL.Y)
-			Healthbar[3].PointD = Ve2n(BDR.X,BDR.Y)
+			Healthbar[3].PointA = V2N(BUR.X,BUR.Y)
+			Healthbar[3].PointB = V2N(UL.X,UL.Y)
+			Healthbar[3].PointC = V2N(DL.X,DL.Y)
+			Healthbar[3].PointD = V2N(BDR.X,BDR.Y)
 
 
 			Healthbar[1].Filled = false
@@ -342,9 +342,9 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 				Tracer.Thickness = standard
 				Tracer.Color = TeamColor
 				Tracer.Transparency = 1-(Pos.p-Camera.CFrame.p).Magnitude*(1/Config.esp.tracers.maxdistance)
-				Tracer.From = Ve2n(Resolution.X*.5,Resolution.Y*.985)
+				Tracer.From = V2N(Resolution.X*.5,Resolution.Y*.985)
 				Tracer.ZIndex = zindex
-				Tracer.To = Ve2n(TT.X,TT.Y)  
+				Tracer.To = V2N(TT.X,TT.Y)  
 			end
 
 			local avghead,HPV
@@ -352,7 +352,7 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 				avghead = (Head.Size.X+Head.Size.Y+Head.Size.Z)/3
 				HPV,HPV2 = WorldToViewport(Head.CFrame.p) 
 				HeadE.Transparency = (Head.CFrame.p-Camera.CFrame.p).Magnitude-1
-				HeadE.Position = Ve2n(HPV.X,HPV.Y)
+				HeadE.Position = V2N(HPV.X,HPV.Y)
 				local m = (((Resolution.Y*0.4*avghead)/HPV.Z))*FovDelta
 				HeadE.Radius = m
 				HeadE.Thickness = m*0.45
@@ -376,30 +376,30 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 		local nNn = BV and Config.ESP.Nametag.Enabled
 		NBOX = V3N(NBOX.X,NBOX.Y-n*.5,NBOX.Z)
 
-		NametagBox.PointA = Ve2n(NBOX.X+n,NBOX.Y+n*.5)
-		NametagBox.PointB = Ve2n(NBOX.X-n,NBOX.Y+n*.5)
-		NametagBox.PointC = Ve2n(NBOX.X-n,NBOX.Y)
-		NametagBox.PointD = Ve2n(NBOX.X+n,NBOX.Y)
+		NametagBox.PointA = V2N(NBOX.X+n,NBOX.Y+n*.5)
+		NametagBox.PointB = V2N(NBOX.X-n,NBOX.Y+n*.5)
+		NametagBox.PointC = V2N(NBOX.X-n,NBOX.Y)
+		NametagBox.PointD = V2N(NBOX.X+n,NBOX.Y)
 		NametagBox.Filled = true
 		NametagBox.Transparency = Config.ESP.Nametag.Customization.Base.Opacity
 		NametagBox.Visible = nNn
 		NametagBox.Color = Config.ESP.Nametag.Customization.Base.Color
 
-		Avatar.Size = Ve2n(n*.5,n*.5)
+		Avatar.Size = V2N(n*.5,n*.5)
 		Avatar.Position = Vector2.new(NBOX.X-n*1.5,NBOX.Y)
 		Avatar.Visible = nNn and Config.ESP.Nametag.DisplayAvatar
 
-		AvatarFrame.PointA = Ve2n(NBOX.X-n,NBOX.Y+n*.5)
-		AvatarFrame.PointB = Ve2n(NBOX.X-n*1.5,NBOX.Y+n*.5)
-		AvatarFrame.PointC = Ve2n(NBOX.X-n*1.5,NBOX.Y)
-		AvatarFrame.PointD = Ve2n(NBOX.X-n,NBOX.Y)
+		AvatarFrame.PointA = V2N(NBOX.X-n,NBOX.Y+n*.5)
+		AvatarFrame.PointB = V2N(NBOX.X-n*1.5,NBOX.Y+n*.5)
+		AvatarFrame.PointC = V2N(NBOX.X-n*1.5,NBOX.Y)
+		AvatarFrame.PointD = V2N(NBOX.X-n,NBOX.Y)
 		AvatarFrame.Visible = nNn and Config.ESP.Nametag.DisplayAvatar
 		AvatarFrame.Filled = true
 		AvatarFrame.Transparency = Config.ESP.Nametag.Customization.SecondaryRight.Opacity
 		AvatarFrame.Color = Config.ESP.Nametag.Customization.SecondaryRight.Color
 
-		NameBar.From =  Ve2n(NBOX.X-n,NBOX.Y+n*.5-standard*.5)
-		NameBar.To = Ve2n(NBOX.X-n+(n*2*health),NBOX.Y+n*.5-standard*.5)
+		NameBar.From =  V2N(NBOX.X-n,NBOX.Y+n*.5-standard*.5)
+		NameBar.To = V2N(NBOX.X-n+(n*2*health),NBOX.Y+n*.5-standard*.5)
 		NameBar.Thickness = standard
 		NameBar.Visible = nNn and Config.ESP.Nametag.DisplayHealth
 		NameBar.Transparency = 1
@@ -413,15 +413,15 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 
 		NameTag.Size = n*8/(clamp(string.len(NameTag.Text),7,inf)*2)
 		--n/((string.len(NameTag.Text)*.5)/(#string.split(NameTag.Text,"\n")))
-		NameTag.Position = Ve2n(NBOX.X,NBOX.Y-NameTag.TextBounds.Y+n*.5)
+		NameTag.Position = V2N(NBOX.X,NBOX.Y-NameTag.TextBounds.Y+n*.5)
 		NameTag.Visible = nNn and Config.ESP.Nametag.DisplayName
 		NameTag.Color = WHITE
 		NameTag.Center = true
 
-		DistanceFrame.PointA = Ve2n(NBOX.X-n,NBOX.Y+n*.5)
-		DistanceFrame.PointB = Ve2n(NBOX.X-n*1.75,NBOX.Y+n*.5)
-		DistanceFrame.PointC = Ve2n(NBOX.X-n*1.75,NBOX.Y)
-		DistanceFrame.PointD = Ve2n(NBOX.X-n,NBOX.Y)
+		DistanceFrame.PointA = V2N(NBOX.X-n,NBOX.Y+n*.5)
+		DistanceFrame.PointB = V2N(NBOX.X-n*1.75,NBOX.Y+n*.5)
+		DistanceFrame.PointC = V2N(NBOX.X-n*1.75,NBOX.Y)
+		DistanceFrame.PointD = V2N(NBOX.X-n,NBOX.Y)
 		DistanceFrame.Visible = nNn and Config.ESP.Nametag.DisplayDistance
 		DistanceFrame.Filled = true
 		DistanceFrame.Transparency = Config.ESP.Nametag.Customization.SecondaryLeft.Opacity
@@ -430,7 +430,7 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 		Distance.Text = tostring(floor(User:DistanceFromCharacter(Pos.p)*.28)).."m"
 		Distance.Visible = nNn and Config.ESP.Nametag.DisplayDistance
 		Distance.Size = n*2.5/(clamp(string.len(Distance.Text),3,inf)*2)
-		Distance.Position = Ve2n(NBOX.X-n*1.375,NBOX.Y-Distance.TextBounds.Y+n*.5)
+		Distance.Position = V2N(NBOX.X-n*1.375,NBOX.Y-Distance.TextBounds.Y+n*.5)
 		Distance.Color = WHITE
 		Distance.Center = true
 
