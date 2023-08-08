@@ -316,14 +316,17 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 
 
 			if Config.esp.tracers then
-			local TT = WorldToViewport(Pos*Ve3n(0,-Size.Y,0))
-			Tracer.Thickness = clamp(standard,0,(Resolution.Y*0.004))
-			Tracer.Color = TeamColor
-			Tracer.Transparency = clamp(1-(Pos.p-Camera.CFrame.p).Magnitude*.00025,.2,1)
-			Tracer.From = Ve2n(Resolution.X*.5,Resolution.Y*.985)
-			Tracer.ZIndex = zindex
-			if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*Ve3n(0,-Size.Y,0)) end 
-			Tracer.To = Ve2n(TT.X,TT.Y)  end
+				local TT = WorldToViewport(Pos*Ve3n(0,-Size.Y,0))
+				if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*Ve3n(0,-Size.Y,0)) end 
+
+
+				Tracer.Thickness = clamp(standard,0,(Resolution.Y*0.004))
+				Tracer.Color = TeamColor
+				Tracer.Transparency = clamp(1-(Pos.p-Camera.CFrame.p).Magnitude*.00025,.2,.5)
+				Tracer.From = Ve2n(Resolution.X*.5,Resolution.Y*.985)
+				Tracer.ZIndex = zindex
+				Tracer.To = Ve2n(TT.X,TT.Y)  
+			end
 
 			local avghead,HPV
 			if Head then
