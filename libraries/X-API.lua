@@ -242,7 +242,7 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 		CR2.Visible = Config.render.ui.crosshair.enabled
 		CR1.Thickness = Resolution.Y*(Config.render.ui.crosshair.thickness/1000)
 		CR2.Thickness = Resolution.Y*(Config.render.ui.crosshair.thickness/1000)
-		CrosshairLength = Resolition.Y*(Config.render.ui.crosshair.length/1000)
+		CrosshairLength = Resolution.Y*(Config.render.ui.crosshair.length/1000)
 
 
 
