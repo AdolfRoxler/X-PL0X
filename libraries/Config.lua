@@ -18,7 +18,7 @@ return {
 
     },
         ui = {
-            crosshair = {enabled = true, length = 10, thickness = 3, rgb = false, color = {r = 255, g = 255, b = 255}}
+            crosshair = {enabled = true, length = 15, thickness = 3, rgb = false, color = {r = 255, g = 255, b = 255}}
         }
 
 
