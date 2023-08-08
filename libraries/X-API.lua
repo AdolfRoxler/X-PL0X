@@ -322,7 +322,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 
 				Tracer.Thickness = clamp(standard,0,(Resolution.Y*0.004))
 				Tracer.Color = TeamColor
-				Tracer.Transparency = clamp(1-(Pos.p-Camera.CFrame.p).Magnitude*.00025,.2,1)
+				Tracer.Transparency = 1-(Pos.p-Camera.CFrame.p).Magnitude*(1/Config.esp.tracers.maxdistance)
 				Tracer.From = Ve2n(Resolution.X*.5,Resolution.Y*.985)
 				Tracer.ZIndex = zindex
 				Tracer.To = Ve2n(TT.X,TT.Y)  
@@ -332,7 +332,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			if Head then
 				avghead = (Head.Size.X+Head.Size.Y+Head.Size.Z)/3
 				HPV,HPV2 = WorldToViewport(Head.CFrame.p) 
-				HeadE.Transparency = clamp((Head.CFrame.p-Camera.CFrame.p).Magnitude-1,0,1)
+				HeadE.Transparency = Head.CFrame.p-Camera.CFrame.p).Magnitude-1
 				HeadE.Position = Ve2n(HPV.X,HPV.Y)
 				local m = (((Resolution.Y*0.4*avghead)/HPV.Z))*FovDelta
 				HeadE.Radius = m
