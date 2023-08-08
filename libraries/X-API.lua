@@ -334,7 +334,6 @@ local rshift = function(a,b,p) return p==true and rshift(a,b) or a*(.5^b) end
 				avghead = (Head.Size.X+Head.Size.Y+Head.Size.Z)/3
 				HPV,HPV2 = WorldToViewport(Head.CFrame.p) 
 				HeadE.Transparency = (Head.CFrame.p-Camera.CFrame.p).Magnitude-1
-				print(HeadE.Transparency)
 				HeadE.Position = Ve2n(HPV.X,HPV.Y)
 				local m = (((Resolution.Y*0.4*avghead)/HPV.Z))*FovDelta
 				HeadE.Radius = m
