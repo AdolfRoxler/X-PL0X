@@ -38,6 +38,8 @@ local AIMSTATUS = Draw("Text")
 ---
 
 local DELTA = 1
+local FovDelta = 1
+local WHITE = Color3.new(1,1,1)
 
 --- Debounces
 
@@ -210,11 +212,11 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a/(b+1) end
 			local Tracer = N.Tracer
 			local Healthbar = N.Healthbar
 			local HeadE = N.Circle
-			local TeamColor = _.TeamColor.Color:Lerp(Color3.new(1,1,1),.5) or Color3.new(1,1,1)
+			local TeamColor = _.TeamColor.Color:Lerp(WHITE,.5) or WHITE
 			local zindex = lowvalue+100
-			local Pos,Size,IsFocused = CFN(),Ve3n(),true
+			Pos,Size,IsFocused;
 			local sx15 = Ve3n()
-			local FovDelta = (70/Camera.FieldOfView)
+			FovDelta = (70/Camera.FieldOfView)
 
 		--[[ -- Not needed
 		local NametagBox = N.Tag.Background
@@ -239,7 +241,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a/(b+1) end
 			--[[Chams.Adornee = Char or nil
 			Chams.FillColor = TeamColor
 			Chams.FillTransparency = .43
-			Chams.OutlineColor = Color3.new(1,1,1)
+			Chams.OutlineColor = WHITE
 			Chams.OutlineTransparency = 0
 			Chams.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 			Chams.Enabled = false --standardcheck
@@ -389,7 +391,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a/(b+1) end
 		--n/((string.len(NameTag.Text)*.5)/(#string.split(NameTag.Text,"\n")))
 		NameTag.Position = Ve2n(NBOX.X,NBOX.Y-NameTag.TextBounds.Y+n*.5)
 		NameTag.Visible = nNn and Config.ESP.Nametag.DisplayName
-		NameTag.Color = Color3.new(1,1,1)
+		NameTag.Color = WHITE
 		NameTag.Center = true
 
 		DistanceFrame.PointA = Ve2n(NBOX.X-n,NBOX.Y+n*.5)
@@ -405,7 +407,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a/(b+1) end
 		Distance.Visible = nNn and Config.ESP.Nametag.DisplayDistance
 		Distance.Size = n*2.5/(clamp(string.len(Distance.Text),3,inf)*2)
 		Distance.Position = Ve2n(NBOX.X-n*1.375,NBOX.Y-Distance.TextBounds.Y+n*.5)
-		Distance.Color = Color3.new(1,1,1)
+		Distance.Color = WHITE
 		Distance.Center = true
 
 		]]
