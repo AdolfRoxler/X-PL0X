@@ -56,7 +56,7 @@ local Teleporting = false
 local REFRESHING = false
 ---
 --- make math faster cuh!
-local clamp = math:clamp ---- math.clamp no worky real
+local clamp = math.clamp ---- math.clamp no worky real
 local inf = math.huge
 local abs = math.abs
 local floor = math.floor
