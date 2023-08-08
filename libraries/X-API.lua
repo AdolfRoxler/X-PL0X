@@ -224,6 +224,8 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 		end
 	end
 
+	local function zigzag(X) return math.acos(math.cos(X*math.pi))/math.pi end
+
 	game:GetService("Players").PlayerAdded:Connect(function() RefreshPlayers() end)
 	game:GetService("Players").PlayerRemoving:Connect(RefreshPlayers)
 	RefreshPlayers()
@@ -254,7 +256,7 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 		CR2.To = V2N(Mouse.X,Mouse.y+inset+CrosshairLength)
 
 		local H,S,V = RGB(Config.render.ui.crosshair.color.r,Config.render.ui.crosshair.color.g,Config.render.ui.crosshair.color.b):ToHSV()
-		N = Config.render.ui.crosshair.rgb and N+d or 0
+		N = Config.render.ui.crosshair.rgb and zigzag(N+d) or 0
 		local K = HSV(H+N,not Config.render.ui.crosshair.rgb and S or 1,not Config.render.ui.crosshair.rgb and V or 1)
 
 		CR1.Color = K
