@@ -7,12 +7,15 @@ local GuiService = game:GetService("GuiService")
 local V3N = Vector3.new
 local V2N = Vector2.new
 local CFN = CFrame.new
+local HSV = Color3.fromHSV
+local RGB = Color3.fromRGB
 local WTVP = Camera.WorldToViewportPoint
 local WorldToViewport = function(...) return WTVP(Camera, ...) end
 local Mouse = User:GetMouse()
 local Resolution = V2N(Mouse.ViewSizeX,Mouse.ViewSizeY)
 local PlayerList = {}
 local Random = Random.new(tick())
+local time = os.clock
 local Draw = Drawing.new
 --local SafeFolder = Instance.new("Folder",game.CoreGui) SafeFolder.Name = "GhettoSmosh"
 local lowvalue = -(2^31-1)
@@ -30,19 +33,21 @@ local wget = devmode and loadstring(game:HttpGet('https://raw.githubusercontent.
 --local spoofer = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/metatableMANIPULATOR.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/metatableMANIPULATOR.lua')()
 
 --- Crosshair objects
+local WHITE = Color3.new(1,1,1)
+
 
 local CR1 = Draw("Line")
 local CR2 = Draw("Line")
 local AIMSTATUS = Draw("Text")
 local CrosshairLength = 0
 local inset = 36
-
+CR1.Color = WHITE
+CR2.Color = WHITE
 ---
 
 local rDELTA = 1
 local pDELTA = 1
 local FovDelta = 1
-local WHITE = Color3.new(1,1,1)
 local zindex = lowvalue+100
 local NaN = math.huge-math.huge
 
@@ -245,6 +250,17 @@ local rshift = function(a,b,p) return p==true and bitrshift(a,b) or a*(.5^b) end
 		CR1.Thickness = Resolution.Y*(Config.render.ui.crosshair.thickness/1000)
 		CR2.Thickness = Resolution.Y*(Config.render.ui.crosshair.thickness/1000)
 		CrosshairLength = Resolution.Y*(Config.render.ui.crosshair.length/1000)
+
+		local H,S,V = RGB(Config.render.ui.crosshair.color.r,
+		Config.render.ui.crosshair.color.g,
+		Config.render.ui.crosshair.color.b,):ToHSV()
+		local N = Config.render.ui.crosshair.rgb and time() or 0
+
+		CR1.Color = HSV(H+N,S,V)
+		CR2.Color = HSV(H+N,S,V)
+		
+
+
 
 
 
