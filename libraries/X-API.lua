@@ -334,6 +334,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 				avghead = (Head.Size.X+Head.Size.Y+Head.Size.Z)/3
 				HPV,HPV2 = WorldToViewport(Head.CFrame.p) 
 				HeadE.Transparency = (Head.CFrame.p-Camera.CFrame.p).Magnitude-1
+				print(HeadE.Transparency)
 				HeadE.Position = Ve2n(HPV.X,HPV.Y)
 				local m = (((Resolution.Y*0.4*avghead)/HPV.Z))*FovDelta
 				HeadE.Radius = m
@@ -348,7 +349,6 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			Box.Visible = V1 and V2 and V3 and V4 and standardcheck and Config.esp.box.enabled
 			HeadE.Visible = HPV2 and Head and standardcheck and Config.esp.head
 			Tracer.Visible = standardcheck and Config.esp.tracers.enabled
-			print(Tracer.Visible)
 			Healthbar[1].Visible = hcheck
 			Healthbar[2].Visible = hcheck
 			Healthbar[3].Visible = hcheck
