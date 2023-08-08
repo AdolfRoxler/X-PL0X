@@ -326,58 +326,60 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			Box.Color = TeamColor
 			Box.ZIndex = zindex
 
-			local BUR,V19 = WorldToViewport(Pos*(V3N(-sx15.X,Size.y,0)))
-			local BDR,V22 = WorldToViewport(Pos*(V3N(-sx15.X,-Size.Y,0)))
-
-			local Hum = Char:FindFirstChildOfClass("Humanoid")
 			Head = Char:FindFirstChild("Head")
-			local H1,H2 = DL,DR
-			local barh,c,health;
+			if Config.render.esp.box.healthbar then
+				local Hum = Char:FindFirstChildOfClass("Humanoid")
+				local H1,H2 = DL,DR
+				local barh,c,health;
 
-			if Hum then
-				health = (Hum.Health/Hum.MaxHealth)
-				barh = -Size.Y+(Size.Y*health*2)
-				--c = Color3.fromHSV(health*.35,0.9,1) health = 0
-				c = Color3.fromHSV(health*.4,.9,.98)
-				H1 = WorldToViewport(Pos*(V3N(-sx15.X,barh,0)))
-				H2 = WorldToViewport(Pos*(V3N(-Size.X,barh,0)))
-				Healthbar[2].Color = c
+				if Hum then
+					health = (Hum.Health/Hum.MaxHealth)
+					barh = -Size.Y+(Size.Y*health*2)
+					--c = Color3.fromHSV(health*.35,0.9,1) health = 0
+					c = Color3.fromHSV(health*.4,.9,.98)
+					H1 = WorldToViewport(Pos*(V3N(-sx15.X,barh,0)))
+					H2 = WorldToViewport(Pos*(V3N(-Size.X,barh,0)))
+					Healthbar[2].Color = c
+				end
+
+				local BUR,V19 = WorldToViewport(Pos*(V3N(-sx15.X,Size.y,0)))
+				local BDR,V22 = WorldToViewport(Pos*(V3N(-sx15.X,-Size.Y,0)))
+
+				Healthbar[1].PointA = V2N(BUR.X,BUR.Y)
+				Healthbar[1].PointB = V2N(UL.X,UL.Y)
+				Healthbar[1].PointC = V2N(DL.X,DL.Y)
+				Healthbar[1].PointD = V2N(BDR.X,BDR.Y)
+
+				Healthbar[2].PointA = V2N(H1.X,H1.Y)
+				Healthbar[2].PointB = V2N(H2.X,H2.Y)
+				Healthbar[2].PointC = V2N(DL.X,DL.Y)
+				Healthbar[2].PointD = V2N(BDR.X,BDR.Y)
+
+				Healthbar[3].PointA = V2N(BUR.X,BUR.Y)
+				Healthbar[3].PointB = V2N(UL.X,UL.Y)
+				Healthbar[3].PointC = V2N(DL.X,DL.Y)
+				Healthbar[3].PointD = V2N(BDR.X,BDR.Y)
+
+
+				Healthbar[1].Filled = false
+				Healthbar[1].ZIndex = zindex
+				Healthbar[1].Color = TeamColor
+				Healthbar[1].Thickness = standard--Box.Thickness
+				local h,s,v = Healthbar[2].Color:ToHSV()
+				Healthbar[3].Filled = true
+				Healthbar[3].ZIndex = zindex-2
+				Healthbar[3].Color = Color3.fromHSV(h,s,.2)
+				Healthbar[3].Transparency = .75
+				Healthbar[3].Thickness = standard--Box.Thickness
+
+				Healthbar[2].Filled = true
+				Healthbar[2].ZIndex = zindex-1
+				Healthbar[2].Thickness = 0
+
+				hcheck = V2 and V3 and V19 and V22 and standardcheck and Config.render.esp.box.healthbar
+
 			end
-
-			Healthbar[1].PointA = V2N(BUR.X,BUR.Y)
-			Healthbar[1].PointB = V2N(UL.X,UL.Y)
-			Healthbar[1].PointC = V2N(DL.X,DL.Y)
-			Healthbar[1].PointD = V2N(BDR.X,BDR.Y)
-
-			Healthbar[2].PointA = V2N(H1.X,H1.Y)
-			Healthbar[2].PointB = V2N(H2.X,H2.Y)
-			Healthbar[2].PointC = V2N(DL.X,DL.Y)
-			Healthbar[2].PointD = V2N(BDR.X,BDR.Y)
-
-			Healthbar[3].PointA = V2N(BUR.X,BUR.Y)
-			Healthbar[3].PointB = V2N(UL.X,UL.Y)
-			Healthbar[3].PointC = V2N(DL.X,DL.Y)
-			Healthbar[3].PointD = V2N(BDR.X,BDR.Y)
-
-
-			Healthbar[1].Filled = false
-			Healthbar[1].ZIndex = zindex
-			Healthbar[1].Color = TeamColor
-			Healthbar[1].Thickness = standard--Box.Thickness
-			local h,s,v = Healthbar[2].Color:ToHSV()
-			Healthbar[3].Filled = true
-			Healthbar[3].ZIndex = zindex-2
-			Healthbar[3].Color = Color3.fromHSV(h,s,.2)
-			Healthbar[3].Transparency = .75
-			Healthbar[3].Thickness = standard--Box.Thickness
-
-			Healthbar[2].Filled = true
-			Healthbar[2].ZIndex = zindex-1
-			Healthbar[2].Thickness = 0
-
-			hcheck = V2 and V3 and V19 and V22 and standardcheck and Config.render.esp.box.healthbar
-
-
+			
 			if Config.render.esp.tracers.enabled then
 				local TT = WorldToViewport(Pos*V3N(0,-Size.Y,0))
 				if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*V3N(0,-Size.Y,0)) end 
