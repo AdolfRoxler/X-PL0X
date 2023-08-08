@@ -215,7 +215,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			local Healthbar = N.Healthbar
 			local HeadE = N.Circle
 			local TeamColor = _.TeamColor.Color:Lerp(WHITE,.5) or WHITE
-			local Pos,Size,IsFocused,sx15;
+			local Pos,Size,IsFocused,sx15,standardcheck,hcheck,Head,HPV2,V1,V2,V3,V4;
 
 		--[[ -- Not needed
 		local NametagBox = N.Tag.Background
@@ -231,11 +231,13 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 
 
 			if Char~=nil then Pos,Size = GetBoundingBox(Char,false,Config.esp.box.dynamic and Char:GetModelCFrame() or CFN(Char:GetModelCFrame().p)*Camera.CFrame.Rotation) IsFocused = Char:IsAncestorOf(Camera.CameraSubject)
+			local UR,UL,DR,DL;
+			
+			
 			sx15 = Size*.75
 			Size = Size*.5
 			local standard = (((0.07*Resolution.Y)/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
-
-			local standardcheck = IsFocused==false and Config.esp.enabled or false
+			standardcheck = IsFocused==false and Config.esp.enabled or false
 
 			--[[Chams.Adornee = Char or nil
 			Chams.FillColor = TeamColor
@@ -246,10 +248,10 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			Chams.Enabled = false --standardcheck
 			Chams.Parent = SafeFolder]]
 
-			local UR,V1 = WorldToViewport(Pos*(Ve3n(Size.X,Size.Y,0)))
-			local UL,V2 = WorldToViewport(Pos*(Ve3n(-Size.X,Size.Y,0)))
-			local DL,V3 = WorldToViewport(Pos*(Ve3n(-Size.X,-Size.Y,0)))
-			local DR,V4 = WorldToViewport(Pos*(Ve3n(Size.X,-Size.Y,0)))
+			UR,V1 = WorldToViewport(Pos*(Ve3n(Size.X,Size.Y,0)))
+			UL,V2 = WorldToViewport(Pos*(Ve3n(-Size.X,Size.Y,0)))
+			DL,V3 = WorldToViewport(Pos*(Ve3n(-Size.X,-Size.Y,0)))
+			DR,V4 = WorldToViewport(Pos*(Ve3n(Size.X,-Size.Y,0)))
 
 			Box.PointA = Ve2n(UR.X,UR.Y)
 			Box.PointB = Ve2n(UL.X,UL.Y)
@@ -267,7 +269,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			local Hum = Char:FindFirstChildOfClass("Humanoid")
 			local Head = Char:FindFirstChild("Head")
 			local H1,H2 = DL,DR
-			local barh,c,health = nil,Color3.new(0,0,1),0
+			local barh,c,health;
 
 			if Hum then
 				health = (Hum.Health/Hum.MaxHealth)
@@ -310,7 +312,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			Healthbar[2].ZIndex = zindex-1
 			Healthbar[2].Thickness = 0
 
-			local hcheck = V2 and V3 and V19 and V22 and standardcheck and Config.esp.box.healthbar
+			hcheck = V2 and V3 and V19 and V22 and standardcheck and Config.esp.box.healthbar
 
 
 			if Config.esp.tracers then
@@ -323,7 +325,7 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 			if TT.Z<0 then TT=math:InverseWorldToViewportPoint(Pos*Ve3n(0,-Size.Y,0)) end 
 			Tracer.To = Ve2n(TT.X,TT.Y)  end
 
-			local avghead,HPV,HPV2;
+			local avghead,HPV
 			if Head then
 				avghead = (Head.Size.X+Head.Size.Y+Head.Size.Z)/3
 				HPV,HPV2 = WorldToViewport(Head.CFrame.p) 
@@ -334,7 +336,6 @@ local rshift = function(a,b,p) return p and rshift(a,b) or a*(.5^b) end
 				HeadE.Thickness = m*0.45
 				HeadE.Color = TeamColor
 				HeadE.ZIndex = lowvalue+1
-				print("yo penis cock sex lol boob")
 			end
 			end
 
