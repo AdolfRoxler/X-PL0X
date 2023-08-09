@@ -336,7 +336,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 					health = (Hum.Health/Hum.MaxHealth)
 					barh = -Size.Y+(Size.Y*health*2)
 					--c = Color3.fromHSV(health*.35,0.9,1) health = 0
-					c = Color3.fromHSV(health*.4,.9,.98)
+					c = HSV(health*.4,.9,.98)
 					H1 = WorldToViewport(Pos*(V3N(-sx15.X,barh,0)))
 					H2 = WorldToViewport(Pos*(V3N(-Size.X,barh,0)))
 					Healthbar[2].Color = c
@@ -368,7 +368,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				local h,s,v = Healthbar[2].Color:ToHSV()
 				Healthbar[3].Filled = true
 				Healthbar[3].ZIndex = zindex-2
-				Healthbar[3].Color = Color3.fromHSV(h,s,.2)
+				Healthbar[3].Color = HSV(h,s,.2)
 				Healthbar[3].Transparency = .75
 				Healthbar[3].Thickness = standard--Box.Thickness
 
