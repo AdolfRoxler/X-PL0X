@@ -374,7 +374,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			
 			sx15 = Size*.75
 			Size = Size*.5
-			local standard = (((0.018*Resolution.Y*(Size.X+Size.Y+Size.Z))/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
+			local standard = (((0.018*Resolution.Y*(Size.X+Size.Y))/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
 			standardcheck = IsFocused==false and Config.render.esp.enabled or false
 
 			--[[Chams.Adornee = Char or nil
