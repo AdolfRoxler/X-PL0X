@@ -118,16 +118,14 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			spoofer:spoof(User,"Name",Config.spoof.manual.username,DEEP)
 			spoofer:spoof(User,"DisplayName",Config.spoof.manual.displayname,DEEP)
 			spoofer:spoof(User,"UserId",Config.spoof.manual.userid,DEEP)
-			return	
-		end
-		if Config.spoof.gameowner and GameOwnerID and GameOwnerName then
+		elseif Config.spoof.gameowner and GameOwnerID and GameOwnerName then
 			spoofer:spoof(User,"UserId",GameOwnerID,DEEP)
 			spoofer:spoof(User,"Name",GameOwnerName,DEEP)
-			return
+		else
+			spoofer:unspoof(User,"Name")
+			spoofer:unspoof(User,"DisplayName")
+			spoofer:unspoof(User,"UserId")
 		end
-		spoofer:spoof(User,"Name",User.Name,DEEP)
-		spoofer:spoof(User,"DisplayName",User.DisplayName,DEEP)
-		spoofer:spoof(User,"UserId",User.UserId,DEEP)
 	end
 
 	local function MovementInput(action: string, state: Enum.UserInputState, object: InputObject)
