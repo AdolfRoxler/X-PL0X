@@ -113,7 +113,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 	---
 
 	local function RefreshSpoof()
-		local DEEP = Config.spoof.ignoreexecutor
+		local DEEP = not Config.spoof.deep
 		if Config.spoof.manual.enabled then
 			spoofer:spoof(User,"Name",Config.spoof.manual.username,DEEP)
 			spoofer:spoof(User,"DisplayName",Config.spoof.manual.displayname,DEEP)
