@@ -21,6 +21,7 @@ local Draw = Drawing.new
 local lowvalue = -(2^31-1)
 local AvatarURL = "https://www.roblox.com/headshot-thumbnail/image?userId=ñ&width=512&height=512&format=png"
 local ControlModule = require(User:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule"):WaitForChild("ControlModule"))
+print(ControlModule)
 --syn.protect_gui(SafeFolder)
 
 --- Config initialization
@@ -506,6 +507,14 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 					SelfRoot.AssemblyLinearVelocity = Config.movement.walkspeed.allowinertia and SelfRoot.AssemblyLinearVelocity+HumVector.Unit*Config.movement.walkspeed.speed or HumVector.Unit*Config.movement.walkspeed.speed+V3N(0,SelfRoot.AssemblyLinearVelocity.Y,0)
 			end	
 		elseif Config.movement.flight.enabled and SelfRoot then
+			SelfRoot.AssemblyLinearVelocity = (Camera.CFrame.Rotation*ControlModule:GetMoveVector())*Config.movement.flight.speed
+		end
+
+	end)
+
+	game:GetService("RunService").Heartbeat:connect(function()
+	
+		if Config.movement.flight.enabled and SelfRoot then
 			SelfRoot.AssemblyLinearVelocity = (Camera.CFrame.Rotation*ControlModule:GetMoveVector())*Config.movement.flight.speed
 		end
 
