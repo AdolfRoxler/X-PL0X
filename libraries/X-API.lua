@@ -70,7 +70,7 @@ local REFRESHING = false
 ---
 --- Sppof stuff
 local GameOwnerID = game.CreatorType==Enum.CreatorType.User and game.CreatorId or game:GetService("GroupService"):GetGroupInfoAsync(game.CreatorId).Owner.Id
-local GameOwnerName = game:GetService("Players"):GetNameFromUserIdAsync(owner) 
+local GameOwnerName = game:GetService("Players"):GetNameFromUserIdAsync(GameOwnerID) 
 
 
 ---
