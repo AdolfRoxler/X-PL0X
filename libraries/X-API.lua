@@ -408,7 +408,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 			if Hum then
 					health = (Hum.Health/Hum.MaxHealth)
-					alive = not health=<0
+					alive = not (health==0 or health<0)
 			end
 			if Config.render.esp.box.healthbar then
 				local barh = -Size.Y+(Size.Y*health*2)
