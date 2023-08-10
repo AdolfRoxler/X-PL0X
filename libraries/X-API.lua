@@ -121,9 +121,8 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			return	
 		end
 		if Config.spoof.gameowner and GameOwnerID and GameOwnerName then
-			print(GameOwnerID)
 			spoofer:spoof(User,"UserId",GameOwnerID,DEEP)
-			spoofer:spoof(User,"UserId",GameOwnerName,DEEP)
+			spoofer:spoof(User,"Name",GameOwnerName,DEEP)
 			return
 		end
 		spoofer:spoof(User,"Name",User.Name,DEEP)
