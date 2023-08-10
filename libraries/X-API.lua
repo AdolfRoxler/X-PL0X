@@ -74,10 +74,11 @@ local SelfHum;
 local SelfRoot;
 local HumVector;
 local InputVector = V3N()
+local ZERO = V3N()
 local F,B,L,R = false,false,false,false
 
-local FRONT = V3N(0,0,1)
-local BACK = V3N(0,0,-1)
+local FRONT = V3N(0,0,-1)
+local BACK = V3N(0,0,1)
 
 local LEFT = V3N(-1,0,0)
 local RIGHT = V3N(1,0,0)
@@ -532,7 +533,8 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 					SelfRoot.AssemblyLinearVelocity = Config.movement.walkspeed.allowinertia and SelfRoot.AssemblyLinearVelocity+HumVector.Unit*Config.movement.walkspeed.speed or HumVector.Unit*Config.movement.walkspeed.speed+V3N(0,SelfRoot.AssemblyLinearVelocity.Y,0)
 			end	
 		elseif Config.movement.flight.enabled and SelfRoot then
-			SelfRoot.AssemblyLinearVelocity = (Camera.CFrame.Rotation*InputVector.Unit)*Config.movement.flight.speed
+			local InputVector = (InputVector.X>0 or InputVector.Z>0) and InputVector.Unit or ZERO
+			SelfRoot.AssemblyLinearVelocity = (Camera.CFrame.Rotation*InputVector)*Config.movement.flight.speed
 		end
 
 	end)
