@@ -4,6 +4,8 @@ local RunService = game:GetService("RunService")
 local Players = game:GetService("Players")
 local User = Players.LocalPlayer
 local GuiService = game:GetService("GuiService")
+local UIS = game:GetService("UserInputService")
+local CAS = game:GetService("ContextActionService")
 local V3N = Vector3.new
 local V2N = Vector2.new
 local CFN = CFrame.new
@@ -20,8 +22,6 @@ local Draw = Drawing.new
 --local SafeFolder = Instance.new("Folder",game.CoreGui) SafeFolder.Name = "GhettoSmosh"
 local lowvalue = -(2^31-1)
 local AvatarURL = "https://www.roblox.com/headshot-thumbnail/image?userId=ñ&width=512&height=512&format=png"
-local ControlModule = require(User:FindFirstChild("PlayerScripts"):FindFirstChild("PlayerModule"):FindFirstChild("ControlModule"))
-print(ControlModule)
 --syn.protect_gui(SafeFolder)
 
 --- Config initialization
@@ -73,7 +73,8 @@ local REFRESHING = false
 local SelfHum;
 local SelfRoot;
 local HumVector;
-local InputVector;
+local InputVector = V3N()
+local F,B,L,R = false,false,false,false
 
 local FRONT = V3N(0,0,1)
 local BACK = V3N(0,0,-1)
@@ -103,7 +104,30 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 	--local lshift = bit and Config.render.esp.precise and bit.lshift or and function(a,b) return a*(2^b) end
 	---
 
-	local function scaletotextbound(Text,Bounds,u)
+	local function MovementInput(action: string, state: Enum.UserInputState, object: InputObject)
+		if action == "F" and not F and state == Enum.UserInputState.Begin then InputVector+=FRONT F = true end
+		if action == "B" and not B and state == Enum.UserInputState.Begin then InputVector+=BACK B = true end
+		if action == "L" and not L and state == Enum.UserInputState.Begin then InputVector+=LEFT L = true end
+		if action == "R" and not R and state == Enum.UserInputState.Begin then InputVector+=RIGHT R = true end
+
+		if action == "F" and F and state == Enum.UserInputState.End then InputVector-=FRONT F = false end
+		if action == "B" and B and state == Enum.UserInputState.End then InputVector-=BACK B = false end
+		if action == "L" and L and state == Enum.UserInputState.End then InputVector-=LEFT L = false end
+		if action == "R" and R and state == Enum.UserInputState.End then InputVector-=RIGHT R = falseend
+	end
+
+	CAS:BindAction("F", MovementInput, false Enum.PlayerActions.CharacterForward)
+	CAS:BindAction("B", MovementInput, false Enum.PlayerActions.CharacterBackward)
+	CAS:BindAction("L", MovementInput, false Enum.PlayerActions.CharacterLeft
+	CAS:BindAction("R", MovementInput, false Enum.PlayerActions.CharacterRight)
+
+	UIS.InputChanged:connect(function(input, gameProcessed)
+		if gameProcessed then
+
+		end
+	end)
+
+	local function scaletotextbound(Text: string,Bounds,u)
 		if Text.TextBounds.XB>Bounds.X or Text.TextBounds.Y>Bounds.Y then repeat Text.Size -= u until Text.TextBounds.X == Bounds.X and Text.TextBounds.Y == Bounds.Y 
 		elseif Text.TextBounds.X<Bounds.X or Text.TextBounds.Y<Bounds.Y then repeat Text.Size += u until Text.TextBounds.X == Bounds.X and Text.TextBounds.Y == Bounds.Y end 
 	end
@@ -498,7 +522,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 		pDELTA = d
 		if User.Character then
 			SelfHum = User.Character:FindFirstChildOfClass("Humanoid")
-			SelfRoot = User.Character:FindFirstChild("HumanoidRootPart")
+			SelfRoot = User.Character:FindFirstChild("HumanoidRootPart") or User.Character.PrimaryPart
 			HumVector = SelfHum.MoveDirection 
 		end
 
@@ -506,8 +530,8 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			if Config.movement.walkspeed.enabled then
 					SelfRoot.AssemblyLinearVelocity = Config.movement.walkspeed.allowinertia and SelfRoot.AssemblyLinearVelocity+HumVector.Unit*Config.movement.walkspeed.speed or HumVector.Unit*Config.movement.walkspeed.speed+V3N(0,SelfRoot.AssemblyLinearVelocity.Y,0)
 			end	
-		elseif ControlModule and Config.movement.flight.enabled and SelfRoot then
-			SelfRoot.AssemblyLinearVelocity = (Camera.CFrame.Rotation*ControlModule:GetMoveVector())*Config.movement.flight.speed
+		elseif Config.movement.flight.enabled and SelfRoot then
+			SelfRoot.AssemblyLinearVelocity = (Camera.CFrame.Rotation*InputVector)*Config.movement.flight.speed
 		end
 
 	end)
