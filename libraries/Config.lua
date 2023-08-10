@@ -32,7 +32,7 @@ return {
     },
     spoof = {
         deep = false,
-        manual = {username = "Roblox",displayname = "Roblox",userid = 1, enabled = false}
+        manual = {username = "Roblox",displayname = "Roblox",userid = 1, enabled = false},
 
         gameowner = false,
         rank = false,
