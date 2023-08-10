@@ -113,17 +113,18 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 		if action == "F" and F and state == Enum.UserInputState.End then InputVector-=FRONT F = false end
 		if action == "B" and B and state == Enum.UserInputState.End then InputVector-=BACK B = false end
 		if action == "L" and L and state == Enum.UserInputState.End then InputVector-=LEFT L = false end
-		if action == "R" and R and state == Enum.UserInputState.End then InputVector-=RIGHT R = falseend
+		if action == "R" and R and state == Enum.UserInputState.End then InputVector-=RIGHT R = false end
 	end
 
-	CAS:BindAction("F", MovementInput, false Enum.PlayerActions.CharacterForward)
-	CAS:BindAction("B", MovementInput, false Enum.PlayerActions.CharacterBackward)
-	CAS:BindAction("L", MovementInput, false Enum.PlayerActions.CharacterLeft)
-	CAS:BindAction("R", MovementInput, false Enum.PlayerActions.CharacterRight)
+	CAS:BindAction("F", MovementInput, false, Enum.PlayerActions.CharacterForward)
+	CAS:BindAction("B", MovementInput, false, Enum.PlayerActions.CharacterBackward)
+	CAS:BindAction("L", MovementInput, false, Enum.PlayerActions.CharacterLeft)
+	CAS:BindAction("R", MovementInput, false, Enum.PlayerActions.CharacterRight)
 
 	UIS.InputChanged:connect(function(input, gameProcessed)
 		if gameProcessed then
-
+			InputVector = V3N()
+			F,B,L,R = false,false,false,false
 		end
 	end)
 
@@ -531,7 +532,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 					SelfRoot.AssemblyLinearVelocity = Config.movement.walkspeed.allowinertia and SelfRoot.AssemblyLinearVelocity+HumVector.Unit*Config.movement.walkspeed.speed or HumVector.Unit*Config.movement.walkspeed.speed+V3N(0,SelfRoot.AssemblyLinearVelocity.Y,0)
 			end	
 		elseif Config.movement.flight.enabled and SelfRoot then
-			SelfRoot.AssemblyLinearVelocity = (Camera.CFrame.Rotation*InputVector)*Config.movement.flight.speed
+			SelfRoot.AssemblyLinearVelocity = (Camera.CFrame.Rotation*InputVector.Unit)*Config.movement.flight.speed
 		end
 
 	end)
