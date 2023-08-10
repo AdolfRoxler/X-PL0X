@@ -16,11 +16,10 @@ return {
                   },
              },]]
 
-    },
+        },
         ui = {
             crosshair = {enabled = true, length = 15, thickness = 3, rgb = false, color = {r = 255, g = 255, b = 255}}
-        }
-
+        },
 
     },
 
@@ -31,5 +30,12 @@ return {
         flight = {enabled = false, speed = 32},
 
     },
+    spoof = {
+        deep = false,
+        manual = {username = "Roblox",displayname = "Roblox",userid = 1, enabled = false}
 
+        gameowner = false,
+        rank = false,
+        assets = false,
+    },
 }

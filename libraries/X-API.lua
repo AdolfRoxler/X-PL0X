@@ -32,7 +32,7 @@ local Config = devmode and loadstring(game:HttpGet('https://raw.githubuserconten
 local math = devmode and loadstring(game:HttpGet('https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/arbitrarymath.lua',true))() or loadstring(game:HttpGet('https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/arbitrarymath.lua',true))()
 local wget = devmode and loadstring(game:HttpGet('https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/Lget.lua',true))() or loadstring(game:HttpGet('https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/Lget.lua',true))()
 --local Phys = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/physicsMANIPULATOR.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/physicsMANIPULATOR.lua')()
---local spoofer = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/metatableMANIPULATOR.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/metatableMANIPULATOR.lua')()
+local spoofer = devmode and loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/dev/libraries/metatableMANIPULATOR.lua')() or loadstring(game:HttpGet'https://raw.githubusercontent.com/AdolfRoxler/X-PL0X/main/libraries/metatableMANIPULATOR.lua')()
 
 --- Crosshair objects
 local WHITE = Color3.new(1,1,1)
@@ -68,6 +68,13 @@ local Teleporting = false
 local REFRESHING = false
 
 ---
+--- Sppof stuff
+local GameOwnerID = game.CreatorType==Enum.CreatorType.User and game.CreatorId or game:GetService("GroupService"):GetGroupInfoAsync(game.CreatorId).Owner.Id
+local GameOwnerName = game:GetService("Players"):GetNameFromUserIdAsync(owner) 
+
+
+---
+
 --- Character stuff
 
 local SelfHum;
@@ -104,6 +111,24 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 	--local lshift = bit and Config.render.esp.precise and bit.lshift or and function(a,b) return a*(2^b) end
 	---
+
+	local function RefreshSpoof()
+		local DEEP = Config.spoof.deep
+		if Config.spoof.manual.enabled then
+			spoofer:spoof(User,"Name",Config.spoof.manual.username,DEEP)
+			spoofer:spoof(User,"DisplayName",Config.spoof.manual.displayname,DEEP)
+			spoofer:spoof(User,"UserId",Config.spoof.manual.userid,DEEP)
+			return	
+		end
+		if Config.spoof.gameowner then
+			spoofer:spoof(User,"UserId",GameOwnerID,DEEP)
+			spoofer:spoof(User,"UserId",GameOwnerName,DEEP)
+			return
+		end
+		spoofer:spoof(User,"Name",User.Name,DEEP)
+		spoofer:spoof(User,"DisplayName",User.DisplayName,DEEP)
+		spoofer:spoof(User,"UserId",User.UserId,DEEP)
+	end
 
 	local function MovementInput(action: string, state: Enum.UserInputState, object: InputObject)
 		if action == "F" and not F and state == Enum.UserInputState.Begin then InputVector+=FRONT F = true end
@@ -268,10 +293,28 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 
 	game:GetService("RunService").RenderStepped:connect(function(d)
+
+
+		RefreshSpoof()
+
+
+
+
+
+
+
 		rDELTA = d
 		Camera = workspace.CurrentCamera -- fix for penis rcl game that deletes camera
 		Resolution = V2N(Mouse.ViewSizeX,Mouse.ViewSizeY)
 		FovDelta = (70/Camera.FieldOfView)
+
+
+
+
+
+
+
+
 
 		CR1.Visible = Config.render.ui.crosshair.enabled
 		CR2.Visible = Config.render.ui.crosshair.enabled
