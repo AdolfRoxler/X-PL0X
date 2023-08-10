@@ -402,21 +402,21 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			Box.ZIndex = zindex
 
 			Head = Char:FindFirstChild("Head")
-			if Config.render.esp.box.healthbar then
-				local Hum = Char:FindFirstChildOfClass("Humanoid")
-				local H1,H2 = DL,DR
-				local barh,c,health;
+			local Hum = Char:FindFirstChildOfClass("Humanoid")
+			local H1,H2 = DL,DR
+			local health,c;
 
-				if Hum then
+			if Hum then
 					health = (Hum.Health/Hum.MaxHealth)
 					alive = not health=<0
-					barh = -Size.Y+(Size.Y*health*2)
-					--c = Color3.fromHSV(health*.35,0.9,1) health = 0
-					c = HSV(health*.4,.9,.98)
-					H1 = WorldToViewport(Pos*(V3N(-sx15.X,barh,0)))
-					H2 = WorldToViewport(Pos*(V3N(-Size.X,barh,0)))
-					Healthbar[2].Color = c
-				end
+			end
+			if Config.render.esp.box.healthbar then
+				local barh = -Size.Y+(Size.Y*health*2)
+				--c = Color3.fromHSV(health*.35,0.9,1) health = 0
+				c = HSV(health*.4,.9,.98)
+				H1 = WorldToViewport(Pos*(V3N(-sx15.X,barh,0)))
+				H2 = WorldToViewport(Pos*(V3N(-Size.X,barh,0)))
+				Healthbar[2].Color = c
 
 				local BUR,V19 = WorldToViewport(Pos*(V3N(-sx15.X,Size.y,0)))
 				local BDR,V22 = WorldToViewport(Pos*(V3N(-sx15.X,-Size.Y,0)))
