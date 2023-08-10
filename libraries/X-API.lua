@@ -512,12 +512,4 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 	end)
 
-	game:GetService("RunService").Heartbeat:connect(function()
-	
-		if Config.movement.flight.enabled and SelfRoot then
-			SelfRoot.AssemblyLinearVelocity = (Camera.CFrame.Rotation*ControlModule:GetMoveVector())*Config.movement.flight.speed
-		end
-
-	end)
-
 	return Config
