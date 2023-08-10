@@ -52,7 +52,7 @@ local function changeData(tabl,pathArray) --- stolen from devforum | Source: htt
 			if tabl[path]==nil then
 				break
 			end
-			if typeof(tabl[path]) == typeof(template[path]) and tabl[path]~=nil and template[path]~=nil then
+			if typeof(tabl[path]) == typeof(template[path]) and typeof(tabl[path])=="table" then
 				tabl = tabl[path] 
 				template = template[path] 
 				else break end
