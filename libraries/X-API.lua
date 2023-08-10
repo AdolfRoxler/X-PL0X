@@ -528,12 +528,12 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			HumVector = SelfHum.MoveDirection 
 		end
 
-		if not Config.movement.flight.enabled and SelfHum and (HumVector.X>0 or HumVector.Z>0) then
+		if not Config.movement.flight.enabled and SelfHum and (HumVector.X~=0 or HumVector.Z~=0) then
 			if Config.movement.walkspeed.enabled then
 					SelfRoot.AssemblyLinearVelocity = Config.movement.walkspeed.allowinertia and SelfRoot.AssemblyLinearVelocity+HumVector.Unit*Config.movement.walkspeed.speed or HumVector.Unit*Config.movement.walkspeed.speed+V3N(0,SelfRoot.AssemblyLinearVelocity.Y,0)
 			end	
 		elseif Config.movement.flight.enabled and SelfRoot then
-			local InputVector = (InputVector.X>0 or InputVector.Z>0) and InputVector.Unit or ZERO
+			local InputVector = (InputVector.X~=0 or InputVector.Z~=0) and InputVector.Unit or ZERO
 			SelfRoot.AssemblyLinearVelocity = (Camera.CFrame.Rotation*InputVector)*Config.movement.flight.speed
 		end
 
