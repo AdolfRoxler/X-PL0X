@@ -497,8 +497,8 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 	game:GetService("RunService").Stepped:connect(function(d)
 		pDELTA = d
 		if User.Character then
-			SelfHum = SelfHum or User.Character:FindFirstChildOfClass("Humanoid")
-			SelfRoot = SelfRoot or User.Character:FindFirstChild("HumanoidRootPart")
+			SelfHum = User.Character:FindFirstChildOfClass("Humanoid")
+			SelfRoot = User.Character:FindFirstChild("HumanoidRootPart")
 			HumVector = SelfHum.MoveDirection 
 		end
 
