@@ -31,7 +31,7 @@ return {
 
     },
     spoof = {
-        deep = false,
+        ignoreexecutor = false,
         manual = {username = "Roblox",displayname = "Roblox",userid = 1, enabled = false},
 
         gameowner = false,
