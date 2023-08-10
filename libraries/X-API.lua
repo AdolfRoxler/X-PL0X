@@ -506,7 +506,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			if Config.movement.walkspeed.enabled then
 					SelfRoot.AssemblyLinearVelocity = Config.movement.walkspeed.allowinertia and SelfRoot.AssemblyLinearVelocity+HumVector.Unit*Config.movement.walkspeed.speed or HumVector.Unit*Config.movement.walkspeed.speed+V3N(0,SelfRoot.AssemblyLinearVelocity.Y,0)
 			end	
-		elseif Config.movement.flight.enabled and SelfRoot then
+		elseif ControlModule and Config.movement.flight.enabled and SelfRoot then
 			SelfRoot.AssemblyLinearVelocity = (Camera.CFrame.Rotation*ControlModule:GetMoveVector())*Config.movement.flight.speed
 		end
 
