@@ -41,7 +41,7 @@ local function TranslateValue(str)
 end
 
 
---[[
+
 local function changeData(tabl,pathArray) --- stolen from devforum | Source: https://devforum.roblox.com/t/how-to-make-equivalent-of-instancegetfullname-for-tables/1114061
 	--send pathArray to client
 	local template = ConfigTemplate
@@ -58,7 +58,7 @@ local function changeData(tabl,pathArray) --- stolen from devforum | Source: htt
 				else break end
 		end
 	end
-end]]
+end
 
 local function getconfig()
 	if readfile then
