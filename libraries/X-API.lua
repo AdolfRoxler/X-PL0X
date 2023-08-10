@@ -353,7 +353,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			local Healthbar = N.Healthbar
 			local HeadE = N.Circle
 			local TeamColor = _.TeamColor.Color:Lerp(WHITE,.5) or WHITE
-			local HPV2,Pos,Size,IsFocused,sx15,standardcheck,hcheck,Head,V1,V2,V3,V4 = false;
+			local HPV2,alive,Pos,Size,IsFocused,sx15,standardcheck,hcheck,Head,V1,V2,V3,V4 = false,true;
 
 		--[[ -- Not needed
 		local NametagBox = N.Tag.Background
@@ -409,6 +409,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 				if Hum then
 					health = (Hum.Health/Hum.MaxHealth)
+					alive = not health=<0
 					barh = -Size.Y+(Size.Y*health*2)
 					--c = Color3.fromHSV(health*.35,0.9,1) health = 0
 					c = HSV(health*.4,.9,.98)
@@ -471,7 +472,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 			local avghead,HPV
 			if Head then
-				avghead = (Head.Size.X+Head.Size.Y+Head.Size.Z)/3
+				avghead = (Head.Size.X+Head.Size.Y+Head.Size.Z)*.3
 				HPV,HPV2 = WorldToViewport(Head.CFrame.p) 
 				HeadE.Transparency = (Head.CFrame.p-Camera.CFrame.p).Magnitude-1
 				HeadE.Position = V2N(HPV.X,HPV.Y)
@@ -483,14 +484,14 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			end
 			end
 
+			local isalive = ((alive and Config.render.esp.ignorecorpses) or not Config.render.esp.ignorecorpses) 
 
-
-			Box.Visible = V1 and V2 and V3 and V4 and standardcheck and Config.render.esp.box.enabled
-			HeadE.Visible = HPV2 and Head and standardcheck and Config.render.esp.head
-			Tracer.Visible = standardcheck and Config.render.esp.tracers.enabled
-			Healthbar[1].Visible = hcheck
-			Healthbar[2].Visible = hcheck
-			Healthbar[3].Visible = hcheck
+			Box.Visible = V1 and V2 and V3 and V4 and standardcheck and Config.render.esp.box.enabled and isalive
+			HeadE.Visible = HPV2 and Head and standardcheck and Config.render.esp.head and isalive
+			Tracer.Visible = standardcheck and Config.render.esp.tracers.enabled and isalive
+			Healthbar[1].Visible = hcheck and isalive
+			Healthbar[2].Visible = hcheck and isalive
+			Healthbar[3].Visible = hcheck and isalive
 			-- May complete later
 		--[[
 		local NBOX,BV = WorldToViewport(Pos*V3N(0,Size.Y*2.5,0))
