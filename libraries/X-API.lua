@@ -488,15 +488,24 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 	game:GetService("RunService").Stepped:connect(function(d)
 		pDELTA = d
-		if Config.movement.walkspeed.enabled and User.Character then
+		if User.Character then
 			SelfHum = SelfHum or User.Character:FindFirstChildOfClass("Humanoid")
 			SelfRoot = SelfRoot or User.Character:FindFirstChild("HumanoidRootPart")
-			HumVector = SelfHum.MoveDirection
-
-			if SelfHum and HumVector.Magnitude>0 then
-				SelfRoot.AssemblyLinearVelocity = Config.movement.walkspeed.allowinertia and SelfRoot.AssemblyLinearVelocity+HumVector.Unit*Config.movement.walkspeed.speed or HumVector.Unit*Config.movement.walkspeed.speed+V3N(0,SelfRoot.AssemblyLinearVelocity.Y,0)
-			end
+			HumVector = SelfHum.MoveDirection 
 		end
+
+		if SelfHum then
+
+			if Config.movement.flight.enabled then
+					SelfRoot.AssemblyLinearVelocity = (Camera.CFrame.Rotation*HumVector.Unit)*Config.movement.flight.speed
+			end
+
+			if Config.movement.walkspeed.enabled and not Config.movement.flight.enabled then
+					SelfRoot.AssemblyLinearVelocity = Config.movement.walkspeed.allowinertia and SelfRoot.AssemblyLinearVelocity+HumVector.Unit*Config.movement.walkspeed.speed or HumVector.Unit*Config.movement.walkspeed.speed+V3N(0,SelfRoot.AssemblyLinearVelocity.Y,0)
+			end
+			
+		end
+
 	end)
 
 	return Config
