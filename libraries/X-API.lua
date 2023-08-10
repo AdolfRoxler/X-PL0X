@@ -20,6 +20,7 @@ local Draw = Drawing.new
 --local SafeFolder = Instance.new("Folder",game.CoreGui) SafeFolder.Name = "GhettoSmosh"
 local lowvalue = -(2^31-1)
 local AvatarURL = "https://www.roblox.com/headshot-thumbnail/image?userId=ñ&width=512&height=512&format=png"
+local ControlModule = require(User:WaitForChild("PlayerScripts"):WaitForChild("PlayerModule"):WaitForChild("ControlModule"))
 --syn.protect_gui(SafeFolder)
 
 --- Config initialization
@@ -72,6 +73,12 @@ local SelfHum;
 local SelfRoot;
 local HumVector;
 local InputVector;
+
+local FRONT = V3N(0,0,1)
+local BACK = V3N(0,0,-1)
+
+local LEFT = V3N(-1,0,0)
+local RIGHT = V3N(1,0,0)
 
 ---
 
@@ -494,16 +501,12 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			HumVector = SelfHum.MoveDirection 
 		end
 
-		if SelfHum then
-
-			if Config.movement.flight.enabled then
-					SelfRoot.AssemblyLinearVelocity = (Camera.CFrame.Rotation*HumVector.Unit)*Config.movement.flight.speed
-			end
-
-			if Config.movement.walkspeed.enabled and not Config.movement.flight.enabled then
+		if not Config.movement.flight.enabled and SelfHum and (HumVector.X>0 or HumVector.Z>0) then
+			if Config.movement.walkspeed.enabled then
 					SelfRoot.AssemblyLinearVelocity = Config.movement.walkspeed.allowinertia and SelfRoot.AssemblyLinearVelocity+HumVector.Unit*Config.movement.walkspeed.speed or HumVector.Unit*Config.movement.walkspeed.speed+V3N(0,SelfRoot.AssemblyLinearVelocity.Y,0)
-			end
-			
+			end	
+		elseif Config.movement.flight.enabled and SelfRoot then
+			SelfRoot.AssemblyLinearVelocity = (Camera.CFrame.Rotation*CM:GetMoveVector())*Config.movement.flight.speed
 		end
 
 	end)
