@@ -118,7 +118,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 	CAS:BindAction("F", MovementInput, false Enum.PlayerActions.CharacterForward)
 	CAS:BindAction("B", MovementInput, false Enum.PlayerActions.CharacterBackward)
-	CAS:BindAction("L", MovementInput, false Enum.PlayerActions.CharacterLeft
+	CAS:BindAction("L", MovementInput, false Enum.PlayerActions.CharacterLeft)
 	CAS:BindAction("R", MovementInput, false Enum.PlayerActions.CharacterRight)
 
 	UIS.InputChanged:connect(function(input, gameProcessed)
