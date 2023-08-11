@@ -405,7 +405,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			Head = Char:FindFirstChild("Head")
 			local Hum = Char:FindFirstChildOfClass("Humanoid")
 			local H1,H2 = DL,DR
-			local health,c = 0,
+			local health,c = 0,BLACK
 
 			if Hum then
 					health = (Hum.Health/Hum.MaxHealth)
