@@ -82,6 +82,7 @@ local SelfRoot;
 local HumVector;
 local InputVector = V3N()
 local ZERO = V3N()
+local BLACK = RGB()
 local F,B,L,R = false,false,false,false
 
 local FRONT = V3N(0,0,-1)
@@ -404,7 +405,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			Head = Char:FindFirstChild("Head")
 			local Hum = Char:FindFirstChildOfClass("Humanoid")
 			local H1,H2 = DL,DR
-			local health,c;
+			local health,c = 0,
 
 			if Hum then
 					health = (Hum.Health/Hum.MaxHealth)
@@ -441,7 +442,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				Healthbar[1].ZIndex = zindex
 				Healthbar[1].Color = TeamColor
 				Healthbar[1].Thickness = standard--Box.Thickness
-				local h,s,v = Healthbar[2].Color:ToHSV()
+				local h,s = c:ToHSV()
 				Healthbar[3].Filled = true
 				Healthbar[3].ZIndex = zindex-2
 				Healthbar[3].Color = HSV(h,s,.2)
