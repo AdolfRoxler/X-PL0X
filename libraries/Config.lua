@@ -23,13 +23,22 @@ return {
 
     },
 
-
+    skill = {
+        aimbot = {
+            enabled = false,
+            team = true,
+            silent = false,
+            autoshoot = true,
+            fov = {enabled = false, fov = 35},
+        },
+    },
 
     movement = {
         walkspeed = {enabled = false, speed = 32, allowinertia = false},
         flight = {enabled = false, speed = 32},
 
     },
+
     spoof = {
         deep = false,
         manual = {username = "Roblox",displayname = "Roblox",userid = 1, enabled = false},
