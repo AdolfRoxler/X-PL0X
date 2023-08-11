@@ -472,11 +472,11 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 			local avghead,HPV
 			if Head then
-				avghead = (Head.Size.X+Head.Size.Y+Head.Size.Z)*.3
+
 				HPV,HPV2 = WorldToViewport(Head.CFrame.p) 
 				HeadE.Transparency = (Head.CFrame.p-Camera.CFrame.p).Magnitude-1
 				HeadE.Position = V2N(HPV.X,HPV.Y)
-				local m = (((Resolution.Y*0.4*avghead)/HPV.Z))*FovDelta
+				local m = (((Resolution.Y*0.12*(Head.Size.X+Head.Size.Y+Head.Size.Z))/HPV.Z))*FovDelta
 				HeadE.Radius = m
 				HeadE.Thickness = m*0.45
 				HeadE.Color = TeamColor
