@@ -19,7 +19,7 @@ local PlayerList = {}
 local Random = Random.new(tick())
 local time = os.clock
 local Draw = Drawing.new
---local SafeFolder = Instance.new("Folder",game.CoreGui) SafeFolder.Name = "GhettoSmosh"
+local SafeFolder = Instance.new("Folder",game.CoreGui) SafeFolder.Name = "GhettoSmosh"
 local lowvalue = -(2^31-1)
 local AvatarURL = "https://www.roblox.com/headshot-thumbnail/image?userId=ñ&width=512&height=512&format=png"
 --syn.protect_gui(SafeFolder)
