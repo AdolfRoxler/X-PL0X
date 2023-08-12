@@ -12,6 +12,7 @@ local CFN = CFrame.new
 local HSV = Color3.fromHSV
 local RGB = Color3.fromRGB
 local WTVP = Camera.WorldToViewportPoint
+local NewInstance = Instance.new
 local WorldToViewport = function(...) return WTVP(Camera, ...) end
 local Mouse = User:GetMouse()
 local Resolution = V2N(Mouse.ViewSizeX,Mouse.ViewSizeY)
@@ -19,7 +20,7 @@ local PlayerList = {}
 local Random = Random.new(tick())
 local time = os.clock
 local Draw = Drawing.new
-local SafeFolder = Instance.new("Folder",game.CoreGui) SafeFolder.Name = "GhettoSmosh"
+local SafeFolder = NewInstance("Folder",game.CoreGui); SafeFolder.Name = "GhettoSmosh"
 local lowvalue = -(2^31-1)
 local AvatarURL = "https://www.roblox.com/headshot-thumbnail/image?userId=ñ&width=512&height=512&format=png"
 --syn.protect_gui(SafeFolder)
@@ -176,7 +177,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 		for _,N in pairs(Players:GetPlayers()) do 
 			if N.Parent~=nil and N~=User then 
 				PlayerList[N] = PlayerList[N] or {}
-				PlayerList[N].CheapChams = PlayerList[N].CheapChams or Instance.new("Highlight")
+				PlayerList[N].CheapChams = PlayerList[N].CheapChams or NewInstance("Highlight")
 				PlayerList[N].Box = PlayerList[N].Box or Draw("Quad")
 				PlayerList[N].Skeleton = PlayerList[N].Skeleton or {}
 				PlayerList[N].Circle = PlayerList[N].Circle or Draw("Circle")
