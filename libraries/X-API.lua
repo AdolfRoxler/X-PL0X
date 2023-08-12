@@ -378,14 +378,13 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			local standard = (((0.018*Resolution.Y*(Size.X+Size.Y))/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
 			standardcheck = IsFocused==false and Config.render.esp.enabled or false
 
-			--[[Chams.Adornee = Char or nil
+			Chams.Adornee = Char or nil
 			Chams.FillColor = TeamColor
 			Chams.FillTransparency = .43
 			Chams.OutlineColor = WHITE
 			Chams.OutlineTransparency = 0
-			Chams.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-			Chams.Enabled = false --standardcheck
-			Chams.Parent = SafeFolder]]
+			Chams.DepthMode = Config.render.esp.chams.throughWalls and 0 or 1
+			Chams.Parent = SafeFolder
 
 			UR,V1 = WorldToViewport(Pos*(V3N(Size.X,Size.Y,0)))
 			UL,V2 = WorldToViewport(Pos*(V3N(-Size.X,Size.Y,0)))
@@ -487,6 +486,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 			local isalive = ((alive and Config.render.esp.ignorecorpses) or not Config.render.esp.ignorecorpses) 
 
+			Chams.Enabled = Config.render.esp.chams.enabled and isalive
 			Box.Visible = V1 and V2 and V3 and V4 and standardcheck and Config.render.esp.box.enabled and isalive
 			HeadE.Visible = HPV2 and Head and standardcheck and Config.render.esp.head and isalive
 			Tracer.Visible = standardcheck and Config.render.esp.tracers.enabled and isalive
