@@ -163,6 +163,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 		if Remove and PlayerList[Remove] then
 			REFRESHING = true
 			if PlayerList[Remove].Tag then for _,N in pairs(PlayerList[Remove].Tag) do warn(_,N) N:Remove() end PlayerList[Remove].Tag = nil end
+			PlayerList[Remove].CheapChams:Remove()
 			PlayerList[Remove].Healthbar[1]:Remove()
 			PlayerList[Remove].Healthbar[2]:Remove()
 			PlayerList[Remove].Healthbar[3]:Remove()
@@ -175,7 +176,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 		for _,N in pairs(Players:GetPlayers()) do 
 			if N.Parent~=nil and N~=User then 
 				PlayerList[N] = PlayerList[N] or {}
-				--PlayerList[N].CheapChams = PlayerList[N].CheapChams or Instance.new("Highlight")
+				PlayerList[N].CheapChams = PlayerList[N].CheapChams or Instance.new("Highlight")
 				PlayerList[N].Box = PlayerList[N].Box or Draw("Quad")
 				PlayerList[N].Skeleton = PlayerList[N].Skeleton or {}
 				PlayerList[N].Circle = PlayerList[N].Circle or Draw("Circle")
@@ -348,7 +349,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 		for _,N in pairs(PlayerList) do
 			if REFRESHING then continue end
 			local Char = _.Character
-			--local Chams = N.CheapChams
+			local Chams = N.CheapChams
 			local Box = N.Box
 			local Tracer = N.Tracer
 			local Healthbar = N.Healthbar
@@ -378,7 +379,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			local standard = (((0.018*Resolution.Y*(Size.X+Size.Y))/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
 			standardcheck = IsFocused==false and Config.render.esp.enabled or false
 
-			Chams.Adornee = Char or nil
+			Chams.Adornee = Char
 			Chams.FillColor = TeamColor
 			Chams.FillTransparency = .43
 			Chams.OutlineColor = WHITE
