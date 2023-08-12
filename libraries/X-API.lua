@@ -569,8 +569,8 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 		pDELTA = d
 		if User.Character then
 			SelfHum = User.Character:FindFirstChildOfClass("Humanoid")
+			HumVector = SelfHum and SelfHum.MoveDirection or HumVector
 			SelfRoot = User.Character:FindFirstChild("HumanoidRootPart") or User.Character.PrimaryPart
-			HumVector = SelfHum.MoveDirection 
 		end
 
 		if not Config.movement.flight.enabled and SelfHum and (HumVector.X~=0 or HumVector.Z~=0) then
