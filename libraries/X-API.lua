@@ -84,13 +84,17 @@ local HumVector;
 local InputVector = V3N()
 local ZERO = V3N()
 local BLACK = RGB()
-local F,B,L,R = false,false,false,false
+local F,B,L,R,U = false,false,false,false,false
+local BEGIN = Enum.UserInputState.Begin
+local END = Enum.UserInputState.End
 
 local FRONT = V3N(0,0,-1)
 local BACK = V3N(0,0,1)
 
 local LEFT = V3N(-1,0,0)
 local RIGHT = V3N(1,0,0)
+
+local UP = V3N(0,1,0)
 
 ---
 
@@ -131,26 +135,29 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 	end
 
 	local function MovementInput(action: string, state: Enum.UserInputState, object: InputObject)
-		if action == "F" and not F and state == Enum.UserInputState.Begin then InputVector+=FRONT F = true end
-		if action == "B" and not B and state == Enum.UserInputState.Begin then InputVector+=BACK B = true end
-		if action == "L" and not L and state == Enum.UserInputState.Begin then InputVector+=LEFT L = true end
-		if action == "R" and not R and state == Enum.UserInputState.Begin then InputVector+=RIGHT R = true end
+		if action == "F" and not F and state == BEGIN then InputVector+=FRONT	F = true end
+		if action == "B" and not B and state == BEGIN then InputVector+=BACK	B = true end
+		if action == "L" and not L and state == BEGIN then InputVector+=LEFT	L = true end
+		if action == "R" and not R and state == BEGIN then InputVector+=RIGHT	R = true end
+		if action == "U" and not U and state == BEGIN then InputVector+=UP		U = true end
 
-		if action == "F" and F and state == Enum.UserInputState.End then InputVector-=FRONT F = false end
-		if action == "B" and B and state == Enum.UserInputState.End then InputVector-=BACK B = false end
-		if action == "L" and L and state == Enum.UserInputState.End then InputVector-=LEFT L = false end
-		if action == "R" and R and state == Enum.UserInputState.End then InputVector-=RIGHT R = false end
+		if action == "F" and F and state == END then InputVector-=FRONT			F = false end
+		if action == "B" and B and state == END then InputVector-=BACK			B = false end
+		if action == "L" and L and state == END then InputVector-=LEFT			L = false end
+		if action == "R" and R and state == END then InputVector-=RIGHT			R = false end
+		if action == "U" and U and state == END then InputVector-=UP			U = false end
 	end
 
 	CAS:BindAction("F", MovementInput, false, Enum.PlayerActions.CharacterForward)
 	CAS:BindAction("B", MovementInput, false, Enum.PlayerActions.CharacterBackward)
 	CAS:BindAction("L", MovementInput, false, Enum.PlayerActions.CharacterLeft)
 	CAS:BindAction("R", MovementInput, false, Enum.PlayerActions.CharacterRight)
+	CAS:BindAction("U", MovementInput, false, Enum.PlayerActions.CharacterJump)
 
 	UIS.InputChanged:connect(function(input, gameProcessed)
 		if gameProcessed then
 			InputVector = V3N()
-			F,B,L,R = false,false,false,false
+			F,B,L,R,U = false,false,false,false,false
 		end
 	end)
 
