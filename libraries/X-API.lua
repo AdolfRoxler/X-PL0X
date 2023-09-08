@@ -616,8 +616,8 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 					Line2.PointA = PB-V2N*TB
 					Line2.PointB = PB+V2N*TB
 
-					Line[2].PointC = PC+V2N*TC
-					Line[2].PointD = PC-V2N*TC	
+					Line2.PointC = PC+V2N*TC
+					Line2.PointD = PC-V2N*TC	
 
 				end
 			else if SkeletonDebounce == false then
