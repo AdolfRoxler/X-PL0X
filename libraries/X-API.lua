@@ -191,6 +191,28 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				PlayerList[N].Healthbar = PlayerList[N].Healthbar or {Draw("Quad"),Draw("Quad"),Draw("Quad")}
 				PlayerList[N].Tracer = PlayerList[N].Tracer or Draw("Quad")
 
+				local Box = PlayerList[N].Box
+				Box.ZIndex = zindex
+				Box.Filled = false
+				Box.Transparency = 1
+				local HeadE = PlayerList[N].Circle
+				HeadE.ZIndex = lowvalue+1
+				local Healthbar = PlayerList[N].Healthbar
+				Healthbar[1].Filled = false
+				Healthbar[1].ZIndex = zindex
+
+				Healthbar[3].Filled = true
+				Healthbar[3].ZIndex = zindex-2
+				Healthbar[3].Transparency = .75
+
+				Healthbar[2].Filled = true
+				Healthbar[2].ZIndex = zindex-1
+				Healthbar[2].Thickness = 0
+				local Tracer = PlayerList[N].Tracer
+				Tracer.Filled = true
+				Tracer.Thickness = 0
+				Tracer.ZIndex = zindex
+
 			--[[
 			PlayerList[N].Tag = PlayerList[N].Tag or {}
 			PlayerList[N].Tag.Background = PlayerList[N].Tag.Background or Draw("Quad")
@@ -404,11 +426,8 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			Box.PointB = V2N(UL.X,UL.Y)
 			Box.PointC = V2N(DL.X,DL.Y)
 			Box.PointD = V2N(DR.X,DR.Y)
-			Box.Filled = false
-			Box.Transparency = 1
 			Box.Thickness = standard
 			Box.Color = TeamColor
-			Box.ZIndex = zindex
 
 			Head = Char:FindFirstChild("Head")
 			local Hum = Char:FindFirstChildOfClass("Humanoid")
@@ -483,10 +502,6 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				Tracer.PointB = From
 				Tracer.PointC = To+VN*standard
 				Tracer.PointD = To-VN*standard
-				Tracer.Filled = true
-				Tracer.Thickness = 0
-
-				Tracer.ZIndex = zindex
 			end
 
 			local avghead,HPV
@@ -499,7 +514,6 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				HeadE.Radius = m
 				HeadE.Thickness = m*0.45
 				HeadE.Color = TeamColor
-				HeadE.ZIndex = lowvalue+1
 			end
 			end
 
