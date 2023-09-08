@@ -186,7 +186,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				PlayerList[N] = PlayerList[N] or {}
 				PlayerList[N].CheapChams = PlayerList[N].CheapChams or NewInstance("Highlight")
 				PlayerList[N].Box = PlayerList[N].Box or Draw("Quad")
-				PlayerList[N].Skeleton = PlayerList[N].Skeleton or {}
+				PlayerList[N].Skeleton = PlayerList[N].Skeleton or {Instances = {}, Transform = {}}
 				PlayerList[N].Circle = PlayerList[N].Circle or Draw("Circle")
 				PlayerList[N].Healthbar = PlayerList[N].Healthbar or {Draw("Quad"),Draw("Quad"),Draw("Quad")}
 				PlayerList[N].Tracer = PlayerList[N].Tracer or Draw("Quad")
@@ -218,9 +218,9 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				Chams.OutlineTransparency = 0
 				Chams.Parent = SafeFolder
 				local Skeleton = PlayerList[N].Skeleton
-				for _,N in pairs(N.Character:GetDescendants()) do if N.ClassName=="Motor6D" then Skeleton[N] = true end end
-				N.Character.DescendantAdded:connect(function(I) if I.ClassName=="Motor6D" then Skeleton[I] = true end end)
-				N.Character.DescendantRemoving:connect(function(I) if I.ClassName=="Motor6D" then Skeleton[I] = nil end end)
+				for _,N in pairs(N.Character:GetDescendants()) do if N.ClassName=="Motor6D" then Skeleton.Instances[N] = true end end
+				N.Character.DescendantAdded:connect(function(I) if I.ClassName=="Motor6D" then Skeleton.Instances[I] = true end end)
+				N.Character.DescendantRemoving:connect(function(I) if I.ClassName=="Motor6D" then Skeleton.Instances[I] = nil end end)
 			--[[
 			PlayerList[N].Tag = PlayerList[N].Tag or {}
 			PlayerList[N].Tag.Background = PlayerList[N].Tag.Background or Draw("Quad")
