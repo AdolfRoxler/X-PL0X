@@ -212,6 +212,11 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				Tracer.Filled = true
 				Tracer.Thickness = 0
 				Tracer.ZIndex = zindex
+				local Chams = PlayerList[N].CheapChams
+				Chams.FillTransparency = .43
+				Chams.OutlineColor = WHITE
+				Chams.OutlineTransparency = 0
+				Chams.Parent = SafeFolder
 
 			--[[
 			PlayerList[N].Tag = PlayerList[N].Tag or {}
@@ -411,11 +416,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 			Chams.Adornee = Char
 			Chams.FillColor = TeamColor
-			Chams.FillTransparency = .43
-			Chams.OutlineColor = WHITE
-			Chams.OutlineTransparency = 0
 			Chams.DepthMode = Config.render.esp.chams.throughWalls and 0 or 1
-			Chams.Parent = SafeFolder
 
 			UR,V1 = WorldToViewport(Pos*(V3N(Size.X,Size.Y,0)))
 			UL,V2 = WorldToViewport(Pos*(V3N(-Size.X,Size.Y,0)))
@@ -465,20 +466,11 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				Healthbar[3].PointD = V2N(BDR.X,BDR.Y)
 
 
-				Healthbar[1].Filled = false
-				Healthbar[1].ZIndex = zindex
 				Healthbar[1].Color = TeamColor
 				Healthbar[1].Thickness = standard--Box.Thickness
 				local h,s = c:ToHSV()
-				Healthbar[3].Filled = true
-				Healthbar[3].ZIndex = zindex-2
 				Healthbar[3].Color = HSV(h,s,.2)
-				Healthbar[3].Transparency = .75
 				Healthbar[3].Thickness = standard--Box.Thickness
-
-				Healthbar[2].Filled = true
-				Healthbar[2].ZIndex = zindex-1
-				Healthbar[2].Thickness = 0
 
 				hcheck = V2 and V3 and V19 and V22 and standardcheck and Config.render.esp.box.healthbar
 
