@@ -475,14 +475,14 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				local From = V2N(Resolution.X*.5,Resolution.Y*.985)
 				local To = V2N(TT.X,TT.Y)
 				local V = To-From
-				local VN = V2N(V.Y,-V.X)/V.Magnitude
+				local VN = (V2N(V.Y,-V.X)/V.Magnitude)*.5
 				Tracer.Color = TeamColor
 				Tracer.Transparency = 1-(Pos.p-Camera.CFrame.p).Magnitude*(1/Config.render.esp.tracers.maxdistance)
 				--Tracer.From = V2N(Resolution.X*.5,Resolution.Y*.985)
 				Tracer.PointA = From
 				Tracer.PointB = From
-				Tracer.PointC = To
-				Tracer.PointD = To
+				Tracer.PointC = To+VN*standard
+				Tracer.PointD = To-VN*standard
 				Tracer.Filled = true
 				Tracer.Thickness = 0
 
