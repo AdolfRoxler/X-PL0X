@@ -416,7 +416,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 			Chams.Adornee = Char
 			Chams.FillColor = TeamColor
-			Chams.DepthMode = Config.render.esp.chams.throughWalls and 0 or 1
+			Chams.DepthMode = Config.render.esp.chams.throughwalls and 0 or 1
 
 			UR,V1 = WorldToViewport(Pos*(V3N(Size.X,Size.Y,0)))
 			UL,V2 = WorldToViewport(Pos*(V3N(-Size.X,Size.Y,0)))

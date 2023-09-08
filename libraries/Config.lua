@@ -2,7 +2,7 @@ return {
     render = {
         esp = {
             enabled = true, precise = false, head = false, ignorecorpses = true, -- If precise is set to false it'll use bitwise operations, which are WAY FASTER.
-            chams = {enabled = false, throughWalls = false},  -- purged due to limitation of 31 objects. NOT GOOD.
+            chams = {enabled = false, throughwalls = false},  -- purged due to limitation of 31 objects. NOT GOOD.
               box = {enabled = true, healthbar = false, dynamic = false},
                tracers = {enabled = false, maxdistance = 200},
              data = {
