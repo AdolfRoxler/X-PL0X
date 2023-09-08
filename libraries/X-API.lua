@@ -12,7 +12,6 @@ local CFN = CFrame.new
 local HSV = Color3.fromHSV
 local RGB = Color3.fromRGB
 local WTVP = Camera.WorldToViewportPoint
-local EmptyTable = {}
 local NewInstance = Instance.new
 local WorldToViewport = function(...) return WTVP(Camera, ...) end
 local Mouse = User:GetMouse()
@@ -177,7 +176,9 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			PlayerList[Remove].Healthbar[2]:Remove()
 			PlayerList[Remove].Healthbar[3]:Remove()
 			PlayerList[Remove].Healthbar = nil
+			if PlayerList[Remove].Skeleton~=nil then for _,N in pairs(PlayerList[Remove].Skeleton.Instances) do if N~=nil then N[1]:Remove() N[2]:Remove() N[3]:Remove() N[4]:Remove() Skeleton.Instances[_] = nil end end end
 			PlayerList[Remove].Skeleton = nil
+			PlayerList[Remove].Connections = nil
 			for _,N in pairs(PlayerList[Remove]) do if N~=nil then N:Remove() end end 
 			PlayerList[Remove] = nil
 			REFRESHING = false
@@ -187,10 +188,11 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				PlayerList[N] = PlayerList[N] or {}
 				PlayerList[N].CheapChams = PlayerList[N].CheapChams or NewInstance("Highlight")
 				PlayerList[N].Box = PlayerList[N].Box or Draw("Quad")
-				PlayerList[N].Skeleton = PlayerList[N].Skeleton or {Instances = {}, Transform = {}, Debounce = false}
+				PlayerList[N].Skeleton = PlayerList[N].Skeleton or {Instances = {}, Transform = {}, Visibility = {}, Debounce = false, Initialized = false}
 				PlayerList[N].Circle = PlayerList[N].Circle or Draw("Circle")
 				PlayerList[N].Healthbar = PlayerList[N].Healthbar or {Draw("Quad"),Draw("Quad"),Draw("Quad")}
 				PlayerList[N].Tracer = PlayerList[N].Tracer or Draw("Quad")
+				PlayerList[N].Connections = PlayerList[N].Connections or {}
 
 				local Box = PlayerList[N].Box
 				Box.ZIndex = zindex
@@ -219,12 +221,20 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				Chams.OutlineTransparency = 0
 				Chams.Parent = SafeFolder
 				local Skeleton = PlayerList[N].Skeleton
-				N.CharacterAdded:connect(function(char)
-					PlayerList[N].Skeleton = {Instances = {}, Transform = {}}
-					for _,N in pairs(char:GetDescendants()) do if N.ClassName=="Motor6D" then Skeleton.Instances[N] = Draw("Line") end end
-					char.DescendantAdded:connect(function(I) if I.ClassName=="Motor6D" then Skeleton.Instances[I] = Draw("Line") end end)
-					char.DescendantRemoving:connect(function(I) if I.ClassName=="Motor6D" then Skeleton.Instances[I]:Remove() end end)
+				if N.Character and not Skeleton.Initialized then for _,N in pairs(N.Character:GetDescendants()) do if N.ClassName=="Motor6D" then Skeleton.Instances[N] = {Draw("Quad"),Draw("Quad"),Draw("Circle"),Draw("Circle")} end end end
+				
+				PlayerList[N].Connections.SkeletonMaker = PlayerList[N].Connections.SkeletonMaker or N.CharacterAdded:connect(function(char)
+					for _,N in pairs(Skeleton.Instances) do if N~=nil then N[1]:Remove() N[2]:Remove() Skeleton.Instances[_] = nil end end
+
+					for _,N in pairs(char:GetDescendants()) do if N.ClassName=="Motor6D" then Skeleton.Instances[N] = {Draw("Quad"),Draw("Quad"),Draw("Circle"),Draw("Circle")} end end
+					char.DescendantAdded:connect(function(I) if I.ClassName=="Motor6D" then Skeleton.Instances[I] = {Draw("Quad"),Draw("Quad"),Draw("Circle"),Draw("Circle")} end end)
+
+					char.DescendantRemoving:connect(function(I) if I.ClassName=="Motor6D" and Skeleton.Instances[I]~=nil then Skeleton.Instances[I][1]:Remove() Skeleton.Instances[I][2]:Remove() Skeleton.Instances[I][3]:Remove() Skeleton.Instances[I][4]:Remove() Skeleton.Instances[I] = nil end end)
 				end)
+				PlayerList[N].Connections.SkeletonRaper = PlayerList[N].Connections.SkeletonRaper or N.CharacterRemoving:connect(function(char)
+					for _,N in pairs(Skeleton.Instances) do if N~=nil then N[1]:Remove() N[2]:Remove() N[3]:Remove() N[4]:Remove() Skeleton.Instances[_] = nil end end
+				end)
+				Skeleton.Initialized = true
 			--[[
 			PlayerList[N].Tag = PlayerList[N].Tag or {}
 			PlayerList[N].Tag.Background = PlayerList[N].Tag.Background or Draw("Quad")
@@ -397,10 +407,12 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			local HeadE = N.Circle
 			local TeamColor = _.TeamColor.Color:Lerp(WHITE,.5) or WHITE
 			local Skeleton = N.Skeleton
-			local SkeletonTransform = Skeleton.Transform; SkeletonTransform = EmptyTable
+			local SkeletonTransform = Skeleton.Transform; SkeletonTransform = {}
+			local SkeletonVisibility = Skeleton.Visibility; SkeletonVisibility = {}
 			local SkeletonInstances = Skeleton.Instances
 			local SkeletonDebounce = Skeleton.Debounce
 			local HPV2,alive,Pos,Size,IsFocused,sx15,standardcheck,hcheck,Head,V1,V2,V3,V4 = false,true;
+			local Size;
 
 		--[[ -- Not needed
 		local NametagBox = N.Tag.Background
@@ -421,7 +433,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			
 			sx15 = Size*.75
 			Size = Size*.5
-			local standard = (((0.018*Resolution.Y*(Size.X+Size.Y))/(Camera.CFrame.p-Pos.p).Magnitude))*FovDelta 
+			local standard = ((((0.018*Resolution.Y*(Size.X+Size.Y))/(Camera.CFrame.p-Pos.p).Magnitude)))*FovDelta 
 			standardcheck = IsFocused==false and Config.render.esp.enabled or false
 
 			Chams.Adornee = Char
@@ -520,27 +532,100 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			end
 			local isalive = ((alive and Config.render.esp.ignorecorpses) or not Config.render.esp.ignorecorpses) 
 
-			if Config.render.esp.skeleton then
+			if Config.render.esp.skeleton and standardcheck then
 				--PlayerList[N].Skeleton = {Instances = {}, Transform = {}}
 				--WorldToViewport
 				SkeletonDebounce = false
 				for Instance, Line in pairs(SkeletonInstances) do
+					SkeletonVisibility[Instance] = SkeletonVisibility[Instance] or {C0 = {}}
+					SkeletonTransform[Instance] = SkeletonTransform[Instance] or {C0 = {}}
+					SkeletonVisibility = SkeletonVisibility[Instance]
+					SkeletonTransform = SkeletonTransform[Instance]
 					local A,B = Instance.Part0,Instance.Part1
-					SkeletonTransform[A] = SkeletonTransform[A] or WorldToViewport(A.CFrame.p)
-					A = SkeletonTransform[A]
-					SkeletonTransform[B] = SkeletonTransform[B] or WorldToViewport(B.CFrame.p)
-					B = SkeletonTransform[B]
-					local Visibility = isalive and A.Visible and B.Visible
-					if Visibility then else continue end
-					Line.Color = c
-					Line.From = A
-					Line.To = B
+					if A and B then else continue end
+					local ZA,ZC,ZB;
+					if SkeletonTransform[A] then
+					else 
+						 local Transform1,Vis1 = WorldToViewport(A.CFrame.p)
+						 local Transform2,Vis2 = WorldToViewport((A.CFrame*Instance.C0).p)
+						 SkeletonVisibility[A] = Vis2 and Transform1.Z>=0
+						 SkeletonTransform[A] = V2N(Transform1.X,Transform1.Y)
+						 SkeletonVisibility.C0[A] = Vis1 and Transform2.Z>=0
+						 SkeletonTransform.C0[A] = V2N(Transform2.X,Transform2.Y)
+						 ZA = Transform1.Z
+						 ZC = Transform2.Z
+					end
+					if SkeletonTransform[B] then
+					else 
+						 local Transform1,Vis1 = WorldToViewport(B.CFrame.p)
+						 --local Transform2,Vis2 = WorldToViewport((B.CFrame*Instance.C1).p)
+						 SkeletonVisibility[B] = Vis1 and Transform1.Z>=0
+						 SkeletonTransform[B] = V2N(Transform1.X,Transform1.Y)
+						 ZB = Transform1.Z
+						 --SkeletonVisibility.C1[B] = Vis2 and Transform2.Z>=0
+						 --SkeletonTransform.C1[B] = V2N(Transform2.X,Transform2.Y) -- Saves on resources. C1 depends on C0.
+					end
+					if isalive and (SkeletonVisibility[A] or SkeletonVisibility[B] or SkeletonVisibility.C0[A]) then else Line[1].Visible = false Line[2].Visible = false Line[3].Visible = false Line[4].Visible = false continue end
+					local V1  = SkeletonTransform.C0[A]-SkeletonTransform[A]
+					local V1N = (V2N(V1.Y,-V1.X)/V1.Magnitude)*.5
+					local V2  = SkeletonTransform.C0[A]-SkeletonTransform[B]
+					local V2N = (V2N(V2.Y,-V2.X)/V2.Magnitude)*.5
+
+					local PA,PC,PB = SkeletonTransform[A],SkeletonTransform.C0[A],SkeletonTransform[B]
+
+					local Common = 0.02*Resolution.Y*(Size.X+Size.Y)
+
+					local TA = (Common/ZA)*FovDelta
+					local TC = (Common/ZC)*FovDelta
+					local TB = (Common/ZB)*FovDelta
+
+					local Line1 = Line[1]
+					local Line2 = Line[2]
+					local Circle1 = Line[3]
+					local Circle2 = Line[4]
+
+					Line1.Color = TeamColor
+					Line1.Visible = true
+					Line1.Transparency = 1
+					Line1.Filled = true
+
+					Line1.PointA = PA-V1N*TA
+					Line1.PointB = PA+V1N*TA
+
+					Line1.PointC = PC+V1N*TC
+					Line1.PointD = PC-V1N*TC
+
+					Circle1.Radius = TA*.5
+					Circle1.Position = PA
+					Circle1.Filled = true
+					Circle1.Visible = true
+					Circle1.Color = TeamColor
+
+					Circle2.Radius = TC*.5
+					Circle2.Position = PC
+					Circle2.Filled = true
+					Circle2.Visible = true
+					Circle2.Color = TeamColor
+
+
+					Line2.Color = TeamColor
+					Line2.Visible = true
+					Line2.Transparency = 1
+					Line2.Filled = true
+
+					Line2.PointA = PB-V2N*TB
+					Line2.PointB = PB+V2N*TB
+
+					Line[2].PointC = PC+V2N*TC
+					Line[2].PointD = PC-V2N*TC	
+
 				end
-			elseif SkeletonDebounce == false then
+			else if SkeletonDebounce == false then
 				SkeletonDebounce = true
 				for Instance, Line in pairs(SkeletonInstances) do
-					Line.Visible = false
-				end
+					Line[1].Visible = false
+					Line[2].Visible = false
+				end end
 			end
 
 			Chams.Enabled = Config.render.esp.chams.enabled and isalive
@@ -639,4 +724,4 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 	end)
 
-	return Config
+return Config
