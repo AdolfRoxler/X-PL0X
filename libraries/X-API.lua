@@ -569,10 +569,13 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 					end
 					if isalive and (SkeletonVisibility[A] or SkeletonVisibility[B] or SkeletonVisibility.C0[A]) then else Line[1].Visible = false Line[2].Visible = false Line[3].Visible = false Line[4].Visible = false continue end
 
+
 					local V1  = SkeletonTransform.C0[A]-SkeletonTransform[A]
 					local V1N = (V2N(V1.Y,-V1.X)/V1.Magnitude)
 					local V2  = SkeletonTransform.C0[A]-SkeletonTransform[B]
 					local V2N = (V2N(V2.Y,-V2.X)/V2.Magnitude)
+
+					local Common = 0.01*Resolution.Y*(Size.X+Size.Y)
 
 					local TA = ((Common/ZA)*FovDelta)*V1N
 					local TC = (Common/ZC)*FovDelta
@@ -580,7 +583,6 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 					local PA,PC,PB = SkeletonTransform[A],SkeletonTransform.C0[A],SkeletonTransform[B]
 
-					local Common = 0.01*Resolution.Y*(Size.X+Size.Y)
 
 
 					local Line1 = Line[1]
