@@ -407,8 +407,8 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			local HeadE = N.Circle
 			local TeamColor = _.TeamColor.Color:Lerp(WHITE,.5) or WHITE
 			local Skeleton = N.Skeleton
-			local SkeletonTransform = Skeleton.Transform; SkeletonTransform = {}
-			local SkeletonVisibility = Skeleton.Visibility; SkeletonVisibility = {}
+			local SkeletonTransform = Skeleton.Transform
+			local SkeletonVisibility = Skeleton.Visibility 
 			local SkeletonInstances = Skeleton.Instances
 			local SkeletonDebounce = Skeleton.Debounce
 			local HPV2,alive,Pos,Size,IsFocused,sx15,standardcheck,hcheck,Head,V1,V2,V3,V4 = false,true;
@@ -536,6 +536,8 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				--PlayerList[N].Skeleton = {Instances = {}, Transform = {}}
 				--WorldToViewport
 				SkeletonDebounce = false
+				SkeletonVisibility = {}
+				SkeletonTransform = {}
 				for Instance, Line in pairs(SkeletonInstances) do
 					SkeletonVisibility[Instance] = SkeletonVisibility[Instance] or {C0 = {}}
 					SkeletonTransform[Instance] = SkeletonTransform[Instance] or {C0 = {}}
@@ -566,18 +568,20 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 						 --SkeletonTransform.C1[B] = V2N(Transform2.X,Transform2.Y) -- Saves on resources. C1 depends on C0.
 					end
 					if isalive and (SkeletonVisibility[A] or SkeletonVisibility[B] or SkeletonVisibility.C0[A]) then else Line[1].Visible = false Line[2].Visible = false Line[3].Visible = false Line[4].Visible = false continue end
+
 					local V1  = SkeletonTransform.C0[A]-SkeletonTransform[A]
 					local V1N = (V2N(V1.Y,-V1.X)/V1.Magnitude)
 					local V2  = SkeletonTransform.C0[A]-SkeletonTransform[B]
 					local V2N = (V2N(V2.Y,-V2.X)/V2.Magnitude)
 
+					local TA = ((Common/ZA)*FovDelta)*V1N
+					local TC = (Common/ZC)*FovDelta
+					local TB = ((Common/ZB)*FovDelta))*V2N
+
 					local PA,PC,PB = SkeletonTransform[A],SkeletonTransform.C0[A],SkeletonTransform[B]
 
 					local Common = 0.01*Resolution.Y*(Size.X+Size.Y)
 
-					local TA = (Common/ZA)*FovDelta
-					local TC = (Common/ZC)*FovDelta
-					local TB = (Common/ZB)*FovDelta
 
 					local Line1 = Line[1]
 					local Line2 = Line[2]
@@ -589,8 +593,8 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 					Line1.Transparency = 1
 					Line1.Filled = true
 
-					Line1.PointA = PA-V1N*TA
-					Line1.PointB = PA+V1N*TA
+					Line1.PointA = PA-TA
+					Line1.PointB = PA+TA
 
 					Line1.PointC = PC+V1N*TC
 					Line1.PointD = PC-V1N*TC
@@ -613,8 +617,8 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 					Line2.Transparency = 1
 					Line2.Filled = true
 
-					Line2.PointA = PB-V2N*TB
-					Line2.PointB = PB+V2N*TB
+					Line2.PointA = PB-TB
+					Line2.PointB = PB+TB
 
 					Line2.PointC = PC+V2N*TC
 					Line2.PointD = PC-V2N*TC	
