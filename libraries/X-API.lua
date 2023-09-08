@@ -576,7 +576,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 					local TA = ((Common/ZA)*FovDelta)*V1N
 					local TC = (Common/ZC)*FovDelta
-					local TB = ((Common/ZB)*FovDelta))*V2N
+					local TB = ((Common/ZB)*FovDelta)*V2N
 
 					local PA,PC,PB = SkeletonTransform[A],SkeletonTransform.C0[A],SkeletonTransform[B]
 
