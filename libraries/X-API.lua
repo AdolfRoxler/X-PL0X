@@ -220,9 +220,9 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				local Skeleton = PlayerList[N].Skeleton
 				N.CharacterAdded:connect(function(char)
 					PlayerList[N].Skeleton = {Instances = {}, Transform = {}}
-					for _,N in pairs(char:GetDescendants()) do if N.ClassName=="Motor6D" then Skeleton.Instances[N] = true end end
-					char.DescendantAdded:connect(function(I) if I.ClassName=="Motor6D" then Skeleton.Instances[I] = true end end)
-					char.DescendantRemoving:connect(function(I) if I.ClassName=="Motor6D" then Skeleton.Instances[I] = nil end end)
+					for _,N in pairs(char:GetDescendants()) do if N.ClassName=="Motor6D" then Skeleton.Instances[N] = Draw("Line") end end
+					char.DescendantAdded:connect(function(I) if I.ClassName=="Motor6D" then Skeleton.Instances[I] = Draw("Line") end end)
+					char.DescendantRemoving:connect(function(I) if I.ClassName=="Motor6D" then Skeleton.Instances[I]:Remove() end end)
 				end)
 			--[[
 			PlayerList[N].Tag = PlayerList[N].Tag or {}
@@ -447,6 +447,9 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			if Hum then
 					health = (Hum.Health/Hum.MaxHealth)
 					alive = not (health==0 or health<0)
+			end
+			if Config.render.esp.skeleton then
+				--PlayerList[N].Skeleton = {Instances = {}, Transform = {}}
 			end
 			if Config.render.esp.box.healthbar then
 				local barh = -Size.Y+(Size.Y*health*2)
