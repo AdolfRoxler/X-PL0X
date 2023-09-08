@@ -539,12 +539,13 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				SkeletonVisibility = {}
 				SkeletonTransform = {}
 				for Instance, Line in pairs(SkeletonInstances) do
+					local A,B = Instance.Part0,Instance.Part1
+					if A and B then else continue end
+
 					SkeletonVisibility[Instance] = SkeletonVisibility[Instance] or {C0 = {}}
 					SkeletonTransform[Instance] = SkeletonTransform[Instance] or {C0 = {}}
 					SkeletonVisibility = SkeletonVisibility[Instance]
 					SkeletonTransform = SkeletonTransform[Instance]
-					local A,B = Instance.Part0,Instance.Part1
-					if A and B then else continue end
 					local ZA,ZC,ZB;
 					if SkeletonTransform[A] then
 					else 
@@ -567,19 +568,19 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 						 --SkeletonVisibility.C1[B] = Vis2 and Transform2.Z>=0
 						 --SkeletonTransform.C1[B] = V2N(Transform2.X,Transform2.Y) -- Saves on resources. C1 depends on C0.
 					end
-					if isalive and (SkeletonVisibility[A] or SkeletonVisibility[B] or SkeletonVisibility.C0[A]) then else Line[1].Visible = false Line[2].Visible = false Line[3].Visible = false Line[4].Visible = false continue end
-
+					if isalive and SkeletonVisibility.C0[A] and (SkeletonVisibility[A] or SkeletonVisibility[B]) then else Line[1].Visible = false Line[2].Visible = false Line[3].Visible = false Line[4].Visible = false continue end
 
 					local V1  = SkeletonTransform.C0[A]-SkeletonTransform[A]
 					local V1N = (V2N(V1.Y,-V1.X)/V1.Magnitude)
 					local V2  = SkeletonTransform.C0[A]-SkeletonTransform[B]
 					local V2N = (V2N(V2.Y,-V2.X)/V2.Magnitude)
 
-					local Common = 0.01*Resolution.Y*(Size.X+Size.Y)
+					local Common = 0.01*Resolution.Y*(Size.X+Size.Y)*FovDelta
 
-					local TA = ((Common/ZA)*FovDelta)*V1N
-					local TC = (Common/ZC)*FovDelta
-					local TB = ((Common/ZB)*FovDelta)*V2N
+
+					local TA = (Common/ZA)*V1N
+					local TC = (Common/ZC)
+					local TB = (Common/ZB)*V2N
 
 					local PA,PC,PB = SkeletonTransform[A],SkeletonTransform.C0[A],SkeletonTransform[B]
 
