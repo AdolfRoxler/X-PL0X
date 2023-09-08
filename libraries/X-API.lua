@@ -218,7 +218,9 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				Chams.OutlineTransparency = 0
 				Chams.Parent = SafeFolder
 				local Skeleton = PlayerList[N].Skeleton
-				for _,N in pairs(N.Character:GetDescendants()) do if N.ClassName=="Motor6D" then Skeleton[#Skeleton+1] = N end end
+				for _,N in pairs(N.Character:GetDescendants()) do if N.ClassName=="Motor6D" then Skeleton[N] = true end end
+				N.Character.DescendantAdded:connect(function(I) if I.ClassName=="Motor6D" then Skeleton[I] = true end end)
+				N.Character.DescendantRemoving:connect(function(I) if I.ClassName=="Motor6D" then Skeleton[I] = nil end end)
 			--[[
 			PlayerList[N].Tag = PlayerList[N].Tag or {}
 			PlayerList[N].Tag.Background = PlayerList[N].Tag.Background or Draw("Quad")
