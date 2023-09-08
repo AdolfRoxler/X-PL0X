@@ -41,6 +41,8 @@ local WHITE = Color3.new(1,1,1)
 
 local CR1 = Draw("Line")
 local CR2 = Draw("Line")
+CR1.ZIndex = zindex
+CR2.ZIndex = zindex
 local AIMSTATUS = Draw("Text")
 local CrosshairLength = 0
 local CrosshairThickness = 0
