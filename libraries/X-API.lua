@@ -483,7 +483,9 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				Tracer.PointB = From
 				Tracer.PointC = To
 				Tracer.PointD = To
-				
+				Tracer.Filled = true
+				Tracer.Thickness = 0
+
 				Tracer.ZIndex = zindex
 			end
 
