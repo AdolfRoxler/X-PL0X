@@ -12,6 +12,7 @@ local CFN = CFrame.new
 local HSV = Color3.fromHSV
 local RGB = Color3.fromRGB
 local WTVP = Camera.WorldToViewportPoint
+local EmptyTable = {}
 local NewInstance = Instance.new
 local WorldToViewport = function(...) return WTVP(Camera, ...) end
 local Mouse = User:GetMouse()
@@ -186,7 +187,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				PlayerList[N] = PlayerList[N] or {}
 				PlayerList[N].CheapChams = PlayerList[N].CheapChams or NewInstance("Highlight")
 				PlayerList[N].Box = PlayerList[N].Box or Draw("Quad")
-				PlayerList[N].Skeleton = PlayerList[N].Skeleton or {Instances = {}, Transform = {}}
+				PlayerList[N].Skeleton = PlayerList[N].Skeleton or {Instances = {}, Transform = {}, Debounce = false}
 				PlayerList[N].Circle = PlayerList[N].Circle or Draw("Circle")
 				PlayerList[N].Healthbar = PlayerList[N].Healthbar or {Draw("Quad"),Draw("Quad"),Draw("Quad")}
 				PlayerList[N].Tracer = PlayerList[N].Tracer or Draw("Quad")
@@ -335,7 +336,6 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 	game:GetService("RunService").RenderStepped:connect(function(d)
 
-
 		RefreshSpoof()
 
 
@@ -397,8 +397,9 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			local HeadE = N.Circle
 			local TeamColor = _.TeamColor.Color:Lerp(WHITE,.5) or WHITE
 			local Skeleton = N.Skeleton
-			local SkeletonTransform = Skeleton.Transform
-			local SkeletonParts = Skeleton.Instances
+			local SkeletonTransform = Skeleton.Transform; SkeletonTransform = EmptyTable
+			local SkeletonInstances = Skeleton.Instances
+			local SkeletonDebounce = Skeleton.Debounce
 			local HPV2,alive,Pos,Size,IsFocused,sx15,standardcheck,hcheck,Head,V1,V2,V3,V4 = false,true;
 
 		--[[ -- Not needed
@@ -447,9 +448,6 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			if Hum then
 					health = (Hum.Health/Hum.MaxHealth)
 					alive = not (health==0 or health<0)
-			end
-			if Config.render.esp.skeleton then
-				--PlayerList[N].Skeleton = {Instances = {}, Transform = {}}
 			end
 			if Config.render.esp.box.healthbar then
 				local barh = -Size.Y+(Size.Y*health*2)
@@ -520,8 +518,30 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				HeadE.Color = TeamColor
 			end
 			end
-
 			local isalive = ((alive and Config.render.esp.ignorecorpses) or not Config.render.esp.ignorecorpses) 
+
+			if Config.render.esp.skeleton then
+				--PlayerList[N].Skeleton = {Instances = {}, Transform = {}}
+				--WorldToViewport
+				SkeletonDebounce = false
+				for Instance, Line in pairs(SkeletonInstances) do
+					local A,B = Instance.Part0,Instance.Part1
+					SkeletonTransform[A] = SkeletonTransform[A] or WorldToViewport(A.CFrame.p)
+					A = SkeletonTransform[A]
+					SkeletonTransform[B] = SkeletonTransform[B] or WorldToViewport(B.CFrame.p)
+					B = SkeletonTransform[B]
+					local Visibility = isalive and A.Visible and B.Visible
+					if Visibility then else continue end
+					Line.Color = c
+					Line.From = A
+					Line.To = B
+				end
+			elseif SkeletonDebounce == false then
+				SkeletonDebounce = true
+				for Instance, Line in pairs(SkeletonInstances) do
+					Line.Visible = false
+				end
+			end
 
 			Chams.Enabled = Config.render.esp.chams.enabled and isalive
 			Box.Visible = V1 and V2 and V3 and V4 and standardcheck and Config.render.esp.box.enabled and isalive
