@@ -1,13 +1,11 @@
 return {
     render = {
         esp = {
-            enabled = true, precise = false, head = false, ignorecorpses = true, -- If precise is set to false it'll use bitwise operations, which are WAY FASTER.
+            enabled = true, precise = false, head = false, ignorecorpses = true, skeleton = false -- If precise is set to false it'll use bitwise operations, which are WAY FASTER.
             chams = {enabled = false, throughwalls = false},  -- purged due to limitation of 31 objects. NOT GOOD.
-              box = {enabled = true, healthbar = false, dynamic = false},
-               tracers = {enabled = false, maxdistance = 200},
-             data = {
-               name = {enabled = false, displayname = false}
-              },
+            box = {enabled = true, healthbar = false, dynamic = false},
+            tracers = {enabled = false, maxdistance = 200},
+            data = {    name = {enabled = false, displayname = false}   },
               --[[nametag = {enabled = false, displayname = false, displayhealth = false, displayavatar = false, displaydistance = false,
                    customization = {
                        base = {color = {R=0,G=0,B=0}, opacity=1},

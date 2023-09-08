@@ -396,6 +396,9 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			local Healthbar = N.Healthbar
 			local HeadE = N.Circle
 			local TeamColor = _.TeamColor.Color:Lerp(WHITE,.5) or WHITE
+			local Skeleton = N.Skeleton
+			local SkeletonTransform = Skeleton.Transform
+			local SkeletonParts = Skeleton.Instances
 			local HPV2,alive,Pos,Size,IsFocused,sx15,standardcheck,hcheck,Head,V1,V2,V3,V4 = false,true;
 
 		--[[ -- Not needed
