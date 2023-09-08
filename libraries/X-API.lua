@@ -219,6 +219,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				Chams.Parent = SafeFolder
 				local Skeleton = PlayerList[N].Skeleton
 				N.CharacterAdded:connect(function(char)
+					PlayerList[N].Skeleton = {Instances = {}, Transform = {}}
 					for _,N in pairs(char:GetDescendants()) do if N.ClassName=="Motor6D" then Skeleton.Instances[N] = true end end
 					char.DescendantAdded:connect(function(I) if I.ClassName=="Motor6D" then Skeleton.Instances[I] = true end end)
 					char.DescendantRemoving:connect(function(I) if I.ClassName=="Motor6D" then Skeleton.Instances[I] = nil end end)
