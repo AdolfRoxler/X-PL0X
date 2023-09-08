@@ -189,7 +189,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				PlayerList[N].Skeleton = PlayerList[N].Skeleton or {}
 				PlayerList[N].Circle = PlayerList[N].Circle or Draw("Circle")
 				PlayerList[N].Healthbar = PlayerList[N].Healthbar or {Draw("Quad"),Draw("Quad"),Draw("Quad")}
-				PlayerList[N].Tracer = PlayerList[N].Tracer or Draw("Line")
+				PlayerList[N].Tracer = PlayerList[N].Tracer or Draw("Quad")
 
 			--[[
 			PlayerList[N].Tag = PlayerList[N].Tag or {}
@@ -471,12 +471,20 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 
 				--Tracer.Thickness = clamp(standard,0,(Resolution.Y*0.004))
-				Tracer.Thickness = standard
+				--Tracer.Thickness = standard
+				local From = V2N(Resolution.X*.5,Resolution.Y*.985)
+				local To = V2N(TT.X,TT.Y)
+				local V = To-From
+				local VN = V2N(V.Y,-V.X)/V.Magnitude
 				Tracer.Color = TeamColor
 				Tracer.Transparency = 1-(Pos.p-Camera.CFrame.p).Magnitude*(1/Config.render.esp.tracers.maxdistance)
-				Tracer.From = V2N(Resolution.X*.5,Resolution.Y*.985)
+				--Tracer.From = V2N(Resolution.X*.5,Resolution.Y*.985)
+				Tracer.PointA = From
+				Tracer.PointB = From
+				Tracer.PointC = To
+				Tracer.PointD = To
+				
 				Tracer.ZIndex = zindex
-				Tracer.To = V2N(TT.X,TT.Y)  
 			end
 
 			local avghead,HPV
