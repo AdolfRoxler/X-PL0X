@@ -540,6 +540,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				SkeletonDebounce = false
 				SkeletonVisibility = {}
 				SkeletonTransform = {}
+				local Common = 0.01*Resolution.Y*(Size.X+Size.Y)*FovDelta
 				for Instance, Line in pairs(SkeletonInstances) do
 					local A,B = Instance.Part0,Instance.Part1
 					if A and B then else continue end
@@ -555,6 +556,8 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 						 local Transform2,Vis2 = WorldToViewport((A.CFrame*Instance.C0).p)
 						 SkeletonVisibility[A] = Vis2 and Transform1.Z>=0
 						 SkeletonTransform[A] = V2N(Transform1.X,Transform1.Y)
+						 SkeletonTransform[A]
+
 						 SkeletonVisibility.C0[A] = Vis1 and Transform2.Z>=0
 						 SkeletonTransform.C0[A] = V2N(Transform2.X,Transform2.Y)
 						 ZA = Transform1.Z
@@ -576,8 +579,6 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 					local V1N = (V2N(V1.Y,-V1.X)/V1.Magnitude)
 					local V2  = SkeletonTransform.C0[A]-SkeletonTransform[B]
 					local V2N = (V2N(V2.Y,-V2.X)/V2.Magnitude)
-
-					local Common = 0.01*Resolution.Y*(Size.X+Size.Y)*FovDelta
 
 
 					local TA = (Common/ZA)*V1N
