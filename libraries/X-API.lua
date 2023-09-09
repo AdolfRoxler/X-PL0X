@@ -223,7 +223,13 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				Chams.OutlineTransparency = 0
 				Chams.Parent = SafeFolder
 				local Skeleton = PlayerList[N].Skeleton
-				if N.Character and not Skeleton.Initialized then for _,N in pairs(N.Character:GetDescendants()) do if N.ClassName=="Motor6D" then Skeleton.Instances[N] = {Draw("Quad"),Draw("Quad"),Draw("Circle"),Draw("Circle")} end end end
+
+				if N.Character and not Skeleton.Initialized then 
+					for _,N in pairs(N.Character:GetDescendants()) do 
+						if N.ClassName=="Motor6D" then Skeleton.Instances[N] = {Draw("Quad"),Draw("Quad"),Draw("Circle"),Draw("Circle")} 
+						end 
+					end 
+				end
 				
 				PlayerList[N].Connections.SkeletonMaker = PlayerList[N].Connections.SkeletonMaker or N.CharacterAdded:connect(function(char)
 					for _,N in pairs(Skeleton.Instances) do if N~=nil then N[1]:Remove() N[2]:Remove() Skeleton.Instances[_] = nil end end
@@ -543,7 +549,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 				SkeletonTransform = {}
 				for Instance, Line in pairs(SkeletonInstances) do
 					local A,B = Instance.Part0,Instance.Part1
-					if A and B then else continue end
+					if A and B then else Line[1].Visible = false Line[2].Visible = false Line[3].Visible = false Line[4].Visible = false continue end
 					local Transform,Vis;
 					if SkeletonTransform[Instance] then else
 						 Transform,Vis = WorldToViewport((A.CFrame*Instance.C0).p)
