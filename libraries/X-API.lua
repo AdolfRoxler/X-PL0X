@@ -515,7 +515,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 				--Tracer.Thickness = clamp(standard,0,(Resolution.Y*0.004))
 				--Tracer.Thickness = standard
-				local From = V2N(Resolution.X*.5,Resolution.Y*.985)
+				local From = V2N(rshift(Resolution.X,1),Resolution.Y*.985)
 				local To = V2N(TT.X,TT.Y)
 				local V = To-From
 				local VN = (V2N(V.Y,-V.X)/V.Magnitude)*.5
