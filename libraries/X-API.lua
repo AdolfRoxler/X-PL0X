@@ -421,6 +421,7 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			local SkeletonDebounce = Skeleton.Debounce
 			local HPV2,alive,Pos,Size,IsFocused,sx15,standardcheck,hcheck,Head,V1,V2,V3,V4 = false,true;
 			local Size;
+			local standard;
 
 		--[[ -- Not needed
 		local NametagBox = N.Tag.Background
@@ -441,7 +442,8 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			
 			sx15 = Size*.75
 			Size = Size*.5
-			local standard = ((((0.018*Resolution.Y*(Size.X+Size.Y))/(Camera.CFrame.p-Pos.p).Magnitude)))*FovDelta 
+			standard = (0.018*Resolution.Y*(Size.X+Size.Y)*FovDelta)
+			local standard = standard/(Camera.CFrame.p-Pos.p).Magnitude
 			standardcheck = IsFocused==false and Config.render.esp.enabled or false
 
 			Chams.Adornee = Char
@@ -543,7 +545,6 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			if Config.render.esp.skeleton and standardcheck then
 				--PlayerList[N].Skeleton = {Instances = {}, Transform = {}}
 				--WorldToViewport
-				local Common = 0.01*Resolution.Y*(Size.X+Size.Y)*FovDelta
 				SkeletonDebounce = false
 				SkeletonVisibility = {}
 				SkeletonTransform = {}
