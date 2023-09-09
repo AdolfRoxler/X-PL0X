@@ -579,9 +579,9 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 
 
 
-					local TA = (Common/VA)*V1N
-					local TC = (Common/VC)
-					local TB = (Common/VB)*V2N
+					local TA = (standard/VA)*V1N
+					local TC = (standard/VC)
+					local TB = (standard/VB)*V2N
 
 
 
