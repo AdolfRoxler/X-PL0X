@@ -537,55 +537,44 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 			if Config.render.esp.skeleton and standardcheck then
 				--PlayerList[N].Skeleton = {Instances = {}, Transform = {}}
 				--WorldToViewport
+				local Common = 0.01*Resolution.Y*(Size.X+Size.Y)*FovDelta
 				SkeletonDebounce = false
 				SkeletonVisibility = {}
 				SkeletonTransform = {}
-				local Common = 0.01*Resolution.Y*(Size.X+Size.Y)*FovDelta
 				for Instance, Line in pairs(SkeletonInstances) do
 					local A,B = Instance.Part0,Instance.Part1
 					if A and B then else continue end
-
-					SkeletonVisibility[Instance] = SkeletonVisibility[Instance] or {C0 = {}}
-					SkeletonTransform[Instance] = SkeletonTransform[Instance] or {C0 = {}}
-					SkeletonVisibility = SkeletonVisibility[Instance]
-					SkeletonTransform = SkeletonTransform[Instance]
-					local ZA,ZC,ZB;
-					if SkeletonTransform[A] then
-					else 
-						 local Transform1,Vis1 = WorldToViewport(A.CFrame.p)
-						 local Transform2,Vis2 = WorldToViewport((A.CFrame*Instance.C0).p)
-						 SkeletonVisibility[A] = Vis2 and Transform1.Z>=0
-						 SkeletonTransform[A] = V2N(Transform1.X,Transform1.Y)
-						 SkeletonTransform[A]
-
-						 SkeletonVisibility.C0[A] = Vis1 and Transform2.Z>=0
-						 SkeletonTransform.C0[A] = V2N(Transform2.X,Transform2.Y)
-						 ZA = Transform1.Z
-						 ZC = Transform2.Z
+					local Transform,Vis;
+					if SkeletonTransform[Instance] then else
+						 Transform,Vis = WorldToViewport((A.CFrame*Instance.C0).p)
+						 SkeletonVisibility[Instance] = Vis and Transform.Z>=0 and Transform.Z or false
+						 SkeletonTransform[Instance] = V2N(Transform.X,Transform.Y)
+					end 
+					if SkeletonTransform[A] then else
+						 Transform,Vis = WorldToViewport(A.CFrame.p)
+						 SkeletonVisibility[A] = Vis and Transform.Z>=0 and Transform.Z or false
+						 SkeletonTransform[A] = V2N(Transform.X,Transform.Y)
 					end
-					if SkeletonTransform[B] then
-					else 
-						 local Transform1,Vis1 = WorldToViewport(B.CFrame.p)
-						 --local Transform2,Vis2 = WorldToViewport((B.CFrame*Instance.C1).p)
-						 SkeletonVisibility[B] = Vis1 and Transform1.Z>=0
-						 SkeletonTransform[B] = V2N(Transform1.X,Transform1.Y)
-						 ZB = Transform1.Z
-						 --SkeletonVisibility.C1[B] = Vis2 and Transform2.Z>=0
-						 --SkeletonTransform.C1[B] = V2N(Transform2.X,Transform2.Y) -- Saves on resources. C1 depends on C0.
+					if SkeletonTransform[B] then else
+						 Transform,Vis = WorldToViewport(B.CFrame.p)
+						 SkeletonVisibility[B] = Vis and Transform.Z>=0 and Transform.Z or false
+						 SkeletonTransform[B] = V2N(Transform.X,Transform.Y)
 					end
-					if isalive and SkeletonVisibility.C0[A] and (SkeletonVisibility[A] or SkeletonVisibility[B]) then else Line[1].Visible = false Line[2].Visible = false Line[3].Visible = false Line[4].Visible = false continue end
 
-					local V1  = SkeletonTransform.C0[A]-SkeletonTransform[A]
+					if isalive and SkeletonVisibility[Instance] and SkeletonVisibility[A] and SkeletonVisibility[B] then else Line[1].Visible = false Line[2].Visible = false Line[3].Visible = false Line[4].Visible = false continue end
+
+					local V1  = SkeletonTransform[Instance]-SkeletonTransform[A]
 					local V1N = (V2N(V1.Y,-V1.X)/V1.Magnitude)
-					local V2  = SkeletonTransform.C0[A]-SkeletonTransform[B]
+					local V2  = SkeletonTransform[Instance]-SkeletonTransform[B]
 					local V2N = (V2N(V2.Y,-V2.X)/V2.Magnitude)
 
 
-					local TA = (Common/ZA)*V1N
-					local TC = (Common/ZC)
-					local TB = (Common/ZB)*V2N
 
-					local PA,PC,PB = SkeletonTransform[A],SkeletonTransform.C0[A],SkeletonTransform[B]
+					local TA = (Common/SkeletonVisibility[A])*V1N
+					local TC = (Common/SkeletonVisibility[Instance])
+					local TB = (Common/SkeletonVisibility[B])*V2N
+
+					local PA,PC,PB = SkeletonTransform[A],SkeletonTransform[Instance],SkeletonTransform[B]
 
 
 
