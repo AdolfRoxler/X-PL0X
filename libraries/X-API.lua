@@ -561,20 +561,21 @@ local rshift = function(a,b,p) return not p and bitrshift(a,b) or a*(.5^b) end
 						 SkeletonTransform[B] = V2N(Transform.X,Transform.Y)
 					end
 
-					if isalive and SkeletonVisibility[Instance] and SkeletonVisibility[A] and SkeletonVisibility[B] then else Line[1].Visible = false Line[2].Visible = false Line[3].Visible = false Line[4].Visible = false continue end
+					local VA,VB,VC = SkeletonVisibility[A],SkeletonVisibility[B],SkeletonVisibility[Instance]
+					if isalive and VA and VB and VC then else Line[1].Visible = false Line[2].Visible = false Line[3].Visible = false Line[4].Visible = false continue end
+					local PA,PB,PC = SkeletonTransform[A],SkeletonTransform[B],SkeletonTransform[Instance]
 
-					local V1  = SkeletonTransform[Instance]-SkeletonTransform[A]
+					local V1  = PC-PA
 					local V1N = (V2N(V1.Y,-V1.X)/V1.Magnitude)
-					local V2  = SkeletonTransform[Instance]-SkeletonTransform[B]
+					local V2  = PC-PB
 					local V2N = (V2N(V2.Y,-V2.X)/V2.Magnitude)
 
 
 
-					local TA = (Common/SkeletonVisibility[A])*V1N
-					local TC = (Common/SkeletonVisibility[Instance])
-					local TB = (Common/SkeletonVisibility[B])*V2N
+					local TA = (Common/VA)*V1N
+					local TC = (Common/VC)
+					local TB = (Common/VB)*V2N
 
-					local PA,PC,PB = SkeletonTransform[A],SkeletonTransform[Instance],SkeletonTransform[B]
 
 
 
