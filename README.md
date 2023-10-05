@@ -1,5 +1,5 @@
 # X-PL0X
 
-This product is a tool used in the platform "Roblox" to stress test current anti-cheat solutions in the various games offered.
+Due to Micro$oft wanting my phone number for no reason, I decided to migrate to gitlab.
 
-Discord invite: eCtE2ukNVV
+Be so kind and decode this (Base64): aHR0cHM6Ly9naXRsYWIuY29tL2xlZ28tc2NyaXB0cy9YLVBMMFg=
